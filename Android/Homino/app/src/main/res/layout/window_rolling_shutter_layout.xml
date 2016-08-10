@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/windowRollingShutterPlate"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="N/A"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/shutterIconView"
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/window_roller_shutter"
+            android:scaleType="fitXY"/>
+
+
+        <TextView
+            android:id="@+id/percentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/shutterIconView"
+            android:layout_below="@+id/shutterIconView"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/shutterIconView"
+            android:text="0%"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="30dp"
+            android:textStyle="bold"/>
+
+
+        <ImageButton
+            android:id="@+id/upButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignTop="@+id/shutterIconView"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/white"
+            android:src="@drawable/ic_action_arrow_top"
+            android:scaleType="fitCenter"/>
+
+
+        <ImageButton
+            android:id="@+id/stopButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/upButton"
+            android:layout_alignStart="@+id/upButton"
+            android:layout_below="@+id/upButton"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:src="@drawable/ic_action_cancel"
+            android:scaleType="fitCenter"/>
+
+        <ImageButton
+            android:id="@+id/downButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/stopButton"
+            android:layout_alignStart="@+id/stopButton"
+            android:layout_below="@+id/stopButton"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:src="@drawable/ic_action_arrow_bottom"
+            android:scaleType="fitCenter"/>
+
+
+        <ImageButton
+            android:id="@+id/gridButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            android:layout_alignTop="@+id/upButton"
+            android:layout_toLeftOf="@+id/upButton"
+            android:background="@android:color/white"
+            android:src="@drawable/ic_grid_on"
+            android:scaleType="fitCenter"/>
+
+
+        <ImageButton
+            android:id="@+id/halfButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/stopButton"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/stopButton"
+            android:background="@android:color/white"
+            android:src="@drawable/window_shutter_half"
+            android:scaleType="fitCenter"/>
+
+
+        <ImageButton
+            android:id="@+id/quarterButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/downButton"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/downButton"
+            android:background="@android:color/white"
+            android:src="@drawable/window_shutter_quarter"
+            android:scaleType="fitCenter"/>
+
+    </RelativeLayout>
+</LinearLayout>

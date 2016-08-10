@@ -1,0 +1,3 @@
+
+RTSP in VLC
+http://stackoverflow.com/questions/20937322/is-it-possible-to-add-a-network-address-shortcut-on-android
