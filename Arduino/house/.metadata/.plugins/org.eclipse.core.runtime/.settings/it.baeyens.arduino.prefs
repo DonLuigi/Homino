@@ -1,0 +1,22 @@
+714=25
+Automatically\ import\ libraries=true
+Board=Arduino/Genuino Mega or Mega 2560
+Board\ Custom\ Option\ Selections=Processor\=ATmega2560 (Mega 2560)
+Build\ before\ upload\ option=YES
+FmStatus=26
+FuStatub=612
+FuStatus=251
+JANTJE.TEMPLATE_FOLDER=
+JANTJE.TEMPLATE_USE_DEFAULT=1
+Last\ used\ Examples=
+Open\ serial\ connections\ with\ the\ monitor=true
+Private\ Library\ Path=C\:\\SHARE\\ARDUINO\\PROGRAMMING\\ARDUINO\\libraries
+Private\ hardware\ Path=C\:/Users/Administrator/Arduino/hardware
+Serial\ Monitor\ Last\ Used\ Line\ Ending\ index=0
+Serial\ Monitor\ Last\ Used\ auto\ scroll\ setting=true
+Serial\ monitor\ last\ selected\ Port=COM4
+Serial\ monitor\ last\ selected\ rate=115200
+boards\ file=C\:\\WORK\\ARDUINO\\Eclipse\\win64.2016-03-07_15-24-47\\arduinoPlugin\\packages\\arduino\\hardware\\avr\\1.6.8\\boards.txt
+eclipse.preferences.version=1
+lFsStatus=841
+upload\ Port=COM4

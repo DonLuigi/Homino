@@ -1,0 +1,55 @@
+18:42:09 **** Incremental Build of configuration Release for project TestButton ****
+"C:\\WORK\\ARDUINO\\Eclipse\\win64.2016-03-07_15-24-47\\arduinoPlugin\\tools\\make\\make" all 
+'Building file: ../TestButton.cpp'
+'Starting C++ compile'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-g++" -c -g -Os -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -mmcu=atmega2560 -DF_CPU=16000000L -DARDUINO=10606 -DARDUINO_AVR_MEGA2560 -DARDUINO_ARCH_AVR     -I"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\packages\arduino\hardware\avr\1.6.8\cores\arduino" -I"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\packages\arduino\hardware\avr\1.6.8\variants\mega" -I"C:\SHARE\ARDUINO\PROGRAMMING\ARDUINO\libraries\Bounce2" -I"C:\SHARE\ARDUINO\PROGRAMMING\ARDUINO\libraries\COA" -I"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\packages\arduino\hardware\avr\1.6.8\libraries\Wire" -I"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\packages\arduino\hardware\avr\1.6.8\libraries\Wire\utility" -I"C:\SHARE\ARDUINO\PROGRAMMING\ARDUINO\libraries\DHT" -I"C:\SHARE\ARDUINO\PROGRAMMING\ARDUINO\libraries\LiquidCrystal_I2C" -I"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\libraries\Ethernet\1.1.1" -I"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\libraries\Ethernet\1.1.1\src" -I"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\packages\arduino\hardware\avr\1.6.8\libraries\SPI" -MMD -MP -MF"TestButton.cpp.d" -MT"TestButton.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../TestButton.cpp"  -o  "TestButton.cpp.o"   -Wall
+In file included from C:\SHARE\ARDUINO\PROGRAMMING\ARDUINO\libraries\COA/ButtonComponent.h:4:0,
+                 from ../TestButton.cpp:2:
+C:\SHARE\ARDUINO\PROGRAMMING\ARDUINO\libraries\COA/Component.h:10:2: warning: #warning "Debugging enabled!" [-Wcpp]
+ #warning "Debugging enabled!"
+  ^
+In file included from C:\SHARE\ARDUINO\PROGRAMMING\ARDUINO\libraries\COA/ButtonComponent.h:5:0,
+                 from ../TestButton.cpp:2:
+C:\SHARE\ARDUINO\PROGRAMMING\ARDUINO\libraries\Bounce2/Bounce2.h: In constructor 'Bounce::Bounce(uint8_t, long unsigned int)':
+C:\SHARE\ARDUINO\PROGRAMMING\ARDUINO\libraries\Bounce2/Bounce2.h:76:66: warning: delegating constructors only available with -std=c++11 or -std=gnu++11 [enabled by default]
+     Bounce(uint8_t pin, unsigned long interval_millis ) : Bounce() {
+                                                                  ^
+'Finished building: ../TestButton.cpp'
+' '
+'Starting combiner'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-gcc" -Os -Wl,--gc-sections,--relax -mmcu=atmega2560  -o "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestButton/Release/TestButton.elf"    ./TestButton.cpp.o  ./libraries/Wire/utility/twi.c.o  ./libraries/Wire/Wire.cpp.o  ./libraries/SPI/SPI.cpp.o  ./libraries/LiquidCrystal_I2C/LiquidCrystal_I2C.cpp.o  ./libraries/Ethernet/src/utility/socket.cpp.o ./libraries/Ethernet/src/utility/w5100.cpp.o  ./libraries/Ethernet/src/Dhcp.cpp.o ./libraries/Ethernet/src/Dns.cpp.o ./libraries/Ethernet/src/Ethernet.cpp.o ./libraries/Ethernet/src/EthernetClient.cpp.o ./libraries/Ethernet/src/EthernetServer.cpp.o ./libraries/Ethernet/src/EthernetUdp.cpp.o  ./libraries/DHT/DHT.cpp.o  ./libraries/COA/ButtonComponent.cpp.o ./libraries/COA/Command.cpp.o ./libraries/COA/Component.cpp.o ./libraries/COA/DhtTemperatureComponent.cpp.o ./libraries/COA/EEPROMValueComponent.cpp.o ./libraries/COA/EthernetW5100Component.cpp.o ./libraries/COA/HardwareSerialComponent.cpp.o ./libraries/COA/LiquidCrystalI2CComponent.cpp.o ./libraries/COA/Message.cpp.o ./libraries/COA/MotionRangeComponent.cpp.o ./libraries/COA/PinComponent.cpp.o ./libraries/COA/RelayComponent.cpp.o ./libraries/COA/Shell.cpp.o ./libraries/COA/ShutterComponent.cpp.o ./libraries/COA/TimedRelayComponent.cpp.o ./libraries/COA/Timer.cpp.o  ./libraries/Bounce2/Bounce2.cpp.o   arduino.ar     "-LC:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestButton/Release" -lm
+'Finished building: TestButton.elf'
+' '
+'Create eeprom image'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-objcopy" -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0  "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestButton/Release/TestButton.elf" "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestButton/Release/TestButton.eep"
+'Finished building: TestButton.eep'
+' '
+'Create Flash image (ihex format)'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-objcopy" -O ihex -R .eeprom  "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestButton/Release/TestButton.elf" "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestButton/Release/TestButton.hex"
+'Finished building: TestButton.hex'
+' '
+'Building target: TestButton'
+'Printing size:'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-size" -A "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestButton/Release/TestButton.elf"
+C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestButton/Release/TestButton.elf  :
+section            size      addr
+.data               214   8389120
+.text              5340         0
+.bss                589   8389334
+.comment             17         0
+.debug_aranges     5008         0
+.debug_info      197727         0
+.debug_abbrev     35545         0
+.debug_line       41847         0
+.debug_frame      18268         0
+.debug_str        32990         0
+.debug_loc        92887         0
+.debug_ranges      5760         0
+Total            436192
+
+
+'Finished building target: TestButton'
+' '
+
+18:42:13 Build Finished (took 4s.422ms)
+

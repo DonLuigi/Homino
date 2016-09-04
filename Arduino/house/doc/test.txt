@@ -1,0 +1,16 @@
+drDr,READ;asdasda;brUr,XLOW
+
+MGCK\00\1bdrDr,READ;asdasda;brUr,XLOW
+
+
+
+drDr,READ;
+
+
+WrsKitchE,MV,92,0;
+WrsKitchE,STATUS;
+
+WlsLivingS,STATUS;
+WlsLivingS,MV,-1,50;
+
+Corroded relays: 22, 28

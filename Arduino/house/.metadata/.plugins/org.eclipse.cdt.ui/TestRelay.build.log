@@ -1,0 +1,44 @@
+01:33:52 **** Incremental Build of configuration Release for project TestRelay ****
+"C:\\WORK\\ARDUINO\\Eclipse\\win64.2016-03-07_15-24-47\\arduinoPlugin\\tools\\make\\make" all 
+'Building file: ../TestRelay.cpp'
+'Starting C++ compile'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-g++" -c -g -Os -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -mmcu=atmega2560 -DF_CPU=16000000L -DARDUINO=10606 -DARDUINO_AVR_MEGA2560 -DARDUINO_ARCH_AVR     -I"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\packages\arduino\hardware\avr\1.6.8\cores\arduino" -I"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\packages\arduino\hardware\avr\1.6.8\variants\mega" -MMD -MP -MF"TestRelay.cpp.d" -MT"TestRelay.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../TestRelay.cpp"  -o  "TestRelay.cpp.o"   -Wall
+'Finished building: ../TestRelay.cpp'
+' '
+'Starting combiner'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-gcc" -Os -Wl,--gc-sections,--relax -mmcu=atmega2560  -o "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestRelay/Release/TestRelay.elf"    ./TestRelay.cpp.o   arduino.ar     "-LC:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestRelay/Release" -lm
+'Finished building: TestRelay.elf'
+' '
+'Create eeprom image'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-objcopy" -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0  "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestRelay/Release/TestRelay.elf" "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestRelay/Release/TestRelay.eep"
+'Finished building: TestRelay.eep'
+' '
+'Create Flash image (ihex format)'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-objcopy" -O ihex -R .eeprom  "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestRelay/Release/TestRelay.elf" "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestRelay/Release/TestRelay.hex"
+'Finished building: TestRelay.hex'
+' '
+'Building target: TestRelay'
+'Printing size:'
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-size" -A "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestRelay/Release/TestRelay.elf"
+C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/TestRelay/Release/TestRelay.elf  :
+section            size      addr
+.data                24   8389120
+.text              2910         0
+.bss                168   8389144
+.comment             17         0
+.debug_aranges     1536         0
+.debug_info       56120         0
+.debug_abbrev      7074         0
+.debug_line        9875         0
+.debug_frame       5284         0
+.debug_str         8321         0
+.debug_loc        32149         0
+.debug_ranges      1656         0
+Total            125134
+
+
+'Finished building target: TestRelay'
+' '
+
+01:33:54 Build Finished (took 2s.895ms)
+

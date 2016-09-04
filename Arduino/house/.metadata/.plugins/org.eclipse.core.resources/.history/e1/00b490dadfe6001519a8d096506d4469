@@ -1,0 +1,139 @@
+#include <Arduino.h>
+#include "LiquidCrystalI2CComponent.h"
+
+///////////////////
+//
+// Component
+//
+///////////////////
+
+LiquidCrystalI2CComponent::LiquidCrystalI2CComponent (uint8_t i2cAddres, uint8_t columns, uint8_t rows, unsigned long activityTimeoutMillis, unsigned long flashIntervalMillis,
+    unsigned long refreshRateMillis, char* name, bool report) :
+    Component (name, report), LiquidCrystal_I2C (i2cAddres, columns, rows)
+{
+    this->activityTimeoutMillis = activityTimeoutMillis;
+    this->flashIntervalMillis = flashIntervalMillis;
+    this->refreshRateMillis = refreshRateMillis;
+    this->columns = columns;
+    this->rows = rows;
+    flashIsOn = false;
+    backlightIsOn = false;
+    lastActivityMillis = 0;
+}
+
+void LiquidCrystalI2CComponent::setup ()
+{
+    init ();
+    touch ();
+}
+
+void LiquidCrystalI2CComponent::read (Message* message)
+{
+    unsigned long currentMillis = millis ();
+    unsigned long delta = currentMillis - lastActivityMillis;
+    if (!flashIsOn)
+    {
+        // normal mode
+        if (delta > activityTimeoutMillis)
+        {
+            noBacklight ();
+            backlightIsOn = false;
+        }
+    }
+    else
+    {
+        // flash mode
+        if (delta > flashIntervalMillis)
+        {
+            backlightIsOn = !backlightIsOn;
+            backlightIsOn ? backlight () : noBacklight ();
+            lastActivityMillis = currentMillis;
+        }
+    }
+}
+
+void LiquidCrystalI2CComponent::write (Message* message)
+{
+    char** parts = message->getParts ();
+    switch (toupper (parts[0][0]))
+    {
+        case 'P':
+            if (parts[1] != NULL)
+            {
+                print (parts[1]);
+                touch ();
+            }
+            break;
+
+        case '0':
+            setCursor (0, 0);
+            break;
+
+        case '1':
+            setCursor (0, 1);
+            break;
+
+        case 'B':
+            backlight ();
+            break;
+
+        case 'N':
+            noBacklight ();
+            break;
+    }
+}
+
+///////////////////
+//
+// API
+//
+///////////////////
+void LiquidCrystalI2CComponent::write (char* buffer, uint8_t size)
+{
+    delay (10);
+    for (int i = 0; i < size; i++)
+    {
+        LiquidCrystal_I2C::write (buffer[i]);
+    }
+}
+
+void LiquidCrystalI2CComponent::touch ()
+{
+    if (!backlightIsOn)
+    {
+        backlight ();
+        backlightIsOn = true;
+    }
+    lastActivityMillis = millis ();
+}
+
+void LiquidCrystalI2CComponent::flash (bool on)
+{
+    this->flashIsOn = on;
+}
+
+void LiquidCrystalI2CComponent::printFullLine (char* text)
+{
+    int size = strlen (text);
+    char* buffer = (char*) calloc (columns + 1, 1);
+    strncpy (buffer, text, columns);
+
+    if (size < columns)
+    {
+        buffer[columns] = '\0';
+        memset (buffer + size, columns - size, ' ');
+    }
+    print (text);
+}
+
+bool LiquidCrystalI2CComponent::isInactive ()
+{
+    unsigned long currentMillis = millis ();
+    unsigned long delta = currentMillis - lastActivityMillis;
+    return (flashIsOn || delta > activityTimeoutMillis);
+}
+
+bool LiquidCrystalI2CComponent::shouldRefresh ()
+{
+    return (millis () - lastActivityMillis > refreshRateMillis);
+}

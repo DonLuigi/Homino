@@ -1,0 +1,53 @@
+#include <Arduino.h>
+#include <ButtonComponent.h>
+
+ButtonComponent buttonOtroskaRoletaGor (45, 50, "otrRolGor");
+ButtonComponent buttonOtroskaRoletaDol (39, 50, "otrRolDol");
+
+ButtonComponent buttonKidsRoomSouthUp (43, 50, "otrZalGor");
+ButtonComponent buttonOtroskaZaluzijaDol (41, 50, "otrZalDol");
+
+ButtonComponent buttonGalleryUp (44, 50, "galGor");
+ButtonComponent buttonGalleryDown (42, 50, "galDol");
+
+ButtonComponent buttonSpalnicaGor (40, 50, "spalnicaGor");
+ButtonComponent buttonSpalnicaDol (38, 50, "spalnicaDol");
+
+ButtonComponent* buttons[] =
+{ &buttonOtroskaRoletaGor, &buttonKidsRoomSouthUp, &buttonOtroskaZaluzijaDol, &buttonOtroskaRoletaDol, &buttonGalleryDown, &buttonGalleryUp, &buttonSpalnicaGor, &buttonSpalnicaDol, NULL };
+
+void setup ()
+{
+
+    Serial.begin (115200);
+    Serial.println ("BEGIN");
+
+    for (int i = 0; i < 8 * 4; i++)
+    {
+        pinMode (i, OUTPUT);
+        digitalWrite (i, HIGH);
+    }
+}
+
+void loop ()
+{
+    for (int i = 0; buttons[i] != NULL; i++)
+    {
+        if (buttons[i]->onPress ())
+        {
+            Serial.print (millis () / 1000);
+            Serial.print (" PRESSED: ");
+            Serial.println (buttons[i]->name);
+        }
+        uint32_t duration = buttons[i]->onRelease ();
+        if (duration > 0)
+        {
+            Serial.print (millis () / 1000);
+            Serial.print (" RELEASED: ");
+            Serial.print (duration);
+            Serial.print (": ");
+            Serial.println (buttons[i]->name);
+        }
+    }
+}
+

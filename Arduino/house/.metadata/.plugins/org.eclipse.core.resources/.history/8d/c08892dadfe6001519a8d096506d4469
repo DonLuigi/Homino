@@ -1,0 +1,25 @@
+#include <HardwareSerialComponent.h>
+
+HardwareSerialComponent::HardwareSerialComponent (HardwareSerial* serial, char* name, bool report) :
+    Component (name)
+{
+    this->serial = serial;
+}
+
+void HardwareSerialComponent::read (Message* message)
+{
+    if (message->getSize () == 0 && serial->available ())
+    {
+        int size = serial->readBytesUntil ('\r', message->getBuffer (), message->getCapacity ());
+        message->parse (size);
+    }
+}
+
+void HardwareSerialComponent::write (Message* message)
+{
+    if (message->getSize () > 0)
+    {
+        serial->write (message->getBuffer (), message->getSize ());
+        message->clear ();
+    }
+}

@@ -1,0 +1,26 @@
+#ifndef ETHERNET_W5100_COMPONENT_H
+#define ETHERNET_W5100_COMPONENT_H
+
+#include <Ethernet.h>
+#include <Component.h>
+
+class EthernetW5100Component: public Component
+{
+    public:
+        EthernetW5100Component (byte* mac, IPAddress* ipAddress, uint16_t serverPort, char* name = NULL, bool report = false);
+        void setup ();
+        void read (Message* message);
+        void write (Message* message);
+
+    private:
+        IPAddress* ipAddress;
+        byte* mac;
+        uint16_t serverPort;
+        EthernetServer tcpServer;
+        EthernetClient* tcpClient;
+
+        // static
+        static const char* messageMagicCookie;
+};
+
+#endif
