@@ -134,6 +134,10 @@ ShutterComponent staircase (&staircaseHeightMotion, NULL, NULL, NULL, "WrsStairs
 // shutter bathroom 1st floor
 //
 ///////////////////
+// buttons
+ButtonComponent bathroom1UpButton (48, 50, "BR1UB");
+ButtonComponent bathroom1DownButton (47, 50, "BR1DB");
+
 // relays
 RelayComponent bathroom1UpRelay (34, LOW, true, "BR1UR");
 RelayComponent bathroom1DownRelay (36, LOW, true, "BR1DR");
@@ -142,7 +146,7 @@ RelayComponent bathroom1DownRelay (36, LOW, true, "BR1DR");
 MotionRangeComponent bathroom1HeightMotion (12500, 100, &bathroom1UpRelay, &bathroom1DownRelay, NULL, "BR1HM");
 
 // shutter
-ShutterComponent bathroom1 (&bathroom1HeightMotion, NULL, NULL, NULL, "WrsBathroom1", reportMillis);
+ShutterComponent bathroom1 (&bathroom1HeightMotion, NULL, &bathroom1UpButton, &bathroom1DownButton, "WrsBathroom1", reportMillis);
 
 ///////////////////
 //
@@ -231,7 +235,10 @@ ShutterComponent gallery (&galleryHeightMotion, &galleryRotationMotion, &gallery
 // hot water recirculation pump
 //
 ///////////////////
-TimedRelayComponent hotWaterRecirculationPump (21, LOW, true, "HWPump", reportMillis);
+// button
+ButtonComponent hotWaterPumpButton (46, 50, "HWPB");
+
+TimedRelayComponent hotWaterRecirculationPump (21, LOW, true, 60 * 1000L, &hotWaterPumpButton, "HWPump", reportMillis);
 
 ///////////////////
 //

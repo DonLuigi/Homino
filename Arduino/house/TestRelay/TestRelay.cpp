@@ -1,8 +1,8 @@
 #include <arduino.h>
 #include <limits.h>
 
-int minPin = 22;
-int maxPin = minPin + 32 - 1;
+int minPin = 21;
+int maxPin = 21;
 
 void setup ()
 {
@@ -20,17 +20,17 @@ void loop ()
 {
     if (1)
     {
-        for (int pin = 52; pin <= 52; pin++)
+        for (int pin = minPin; pin <= maxPin; pin++)
         {
             digitalWrite (pin, LOW);
         }
-        delay (1500);
+        delay (2500);
 
-        for (int pin = 52; pin <= 52; pin++)
+        for (int pin = minPin; pin <= maxPin; pin++)
         {
             digitalWrite (pin, HIGH);
         }
-        delay (1500);
+        delay (2500);
     }
 
     if (0)

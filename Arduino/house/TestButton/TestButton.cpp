@@ -13,8 +13,14 @@ ButtonComponent galleryDownButton (42, 50, "galDol");
 ButtonComponent bedroomUpButton (40, 50, "spalnicaGor");
 ButtonComponent bedroomDownButton (38, 50, "spalnicaDol");
 
+ButtonComponent hotWaterPumpButton (46, 50, "hwp");
+ButtonComponent bathroom1DownButton (47, 50, "bath1Down");
+ButtonComponent bathroom1UpButton (48, 50, "bath1Up");
+ButtonComponent test4 (49, 50, "test4");
+
 ButtonComponent* buttons[] =
-{ &kidsRoomEastUpButton, &kidsRoomSouthUpButton, &buttonKidsRoomSouthDown, &kidsRoomEastDownButton, &galleryDownButton, &galleryUpButton, &bedroomUpButton, &bedroomDownButton, NULL };
+{ &kidsRoomEastUpButton, &kidsRoomSouthUpButton, &buttonKidsRoomSouthDown, &kidsRoomEastDownButton, &galleryDownButton, &galleryUpButton, &bedroomUpButton, &bedroomDownButton, &hotWaterPumpButton,
+    &bathroom1DownButton, &bathroom1UpButton, &test4, NULL };
 
 void setup ()
 {

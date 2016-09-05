@@ -1,27 +1,27 @@
-20:13:57 **** Incremental Build of configuration Release for project HouseLivingRoom ****
+22:43:28 **** Incremental Build of configuration Release for project HouseLivingRoom ****
 "C:\\WORK\\ARDUINO\\Eclipse\\win64.2016-03-07_15-24-47\\arduinoPlugin\\tools\\make\\make" all 
 'Building target: HouseLivingRoom'
 'Printing size:'
-"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-size" -A "C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/HouseLivingRoom/Release/HouseLivingRoom.elf"
-C:/SHARE/ARDUINO/PROGRAMMING/ARDUINO/house/HouseLivingRoom/Release/HouseLivingRoom.elf  :
+"C:\WORK\ARDUINO\Eclipse\win64.2016-03-07_15-24-47\arduinoPlugin\tools\arduino\avr-gcc\4.8.1-arduino5/bin/avr-size" -A "C:/SHARE/ARDUINO/PROGRAMMING/Arduino/house/HouseLivingRoom/Release/HouseLivingRoom.elf"
+C:/SHARE/ARDUINO/PROGRAMMING/Arduino/house/HouseLivingRoom/Release/HouseLivingRoom.elf  :
 section            size      addr
-.data               918   8389120
-.text             24786         0
-.bss               3304   8390038
+.data               934   8389120
+.text             25006         0
+.bss               3376   8390054
 .comment             17         0
-.debug_aranges     5000         0
-.debug_info      214234         0
-.debug_abbrev     36018         0
-.debug_line       41797         0
-.debug_frame      17544         0
-.debug_str        34192         0
-.debug_loc        92055         0
-.debug_ranges      5664         0
-Total            475529
+.debug_aranges     5008         0
+.debug_info      214819         0
+.debug_abbrev     36047         0
+.debug_line       41876         0
+.debug_frame      17644         0
+.debug_str        34404         0
+.debug_loc        92467         0
+.debug_ranges      5672         0
+Total            477270
 
 
 'Finished building target: HouseLivingRoom'
 ' '
 
-20:13:59 Build Finished (took 1s.875ms)
+22:43:30 Build Finished (took 2s.450ms)
 

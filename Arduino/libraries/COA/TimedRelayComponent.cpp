@@ -5,11 +5,23 @@
 // Component
 //
 ///////////////////
-TimedRelayComponent::TimedRelayComponent (uint8_t pin, uint8_t initialState, bool inverted, const char* name, uint32_t reportMillis) :
+TimedRelayComponent::TimedRelayComponent (uint8_t pin, uint8_t initialState, bool inverted, uint32_t defaultDurationMillis, ButtonComponent* triggerButton, const char* name, uint32_t reportMillis) :
     RelayComponent (pin, initialState, inverted, name, reportMillis)
 {
     durationMillis = stopMillis = lastReportMillis = 0;
     forceReport = false;
+    this->defaultDurationMillis = defaultDurationMillis;
+    this->triggerButton = triggerButton;
+}
+
+void TimedRelayComponent::setup ()
+{
+    RelayComponent::setup ();
+
+    if (triggerButton != NULL)
+    {
+        triggerButton->setup ();
+    }
 }
 
 void TimedRelayComponent::writeToComponent (Command* command, Message* message, int subcomponent)
@@ -56,6 +68,13 @@ int TimedRelayComponent::readFromComponent (Message* message)
     // prologue
     uint32_t nowMillis = millis ();
 
+    // trigger button
+    if (triggerButton != NULL && triggerButton->onPress ())
+    {
+        COA_DEBUG ("START: %d, NOW:%d", defaultDurationMillis, nowMillis);
+        start (defaultDurationMillis);
+    }
+
     // stop
     if (durationMillis > 0 && stopMillis > 0 && nowMillis > stopMillis)
     {
@@ -90,7 +109,7 @@ void TimedRelayComponent::start (uint32_t durationMillis)
     this->durationMillis = durationMillis;
     stopMillis = millis () + durationMillis;
     forceReport = true;
-    COA_DEBUG ("FC4=%d", forceReport);
+    COA_DEBUG ("TR[%s]:START:STOP MILLIS=%d,DUR MILLIS=%d", name, stopMillis, durationMillis);
 }
 
 void TimedRelayComponent::stop ()
@@ -99,7 +118,7 @@ void TimedRelayComponent::stop ()
     stopMillis = millis ();
     durationMillis = 0;
     forceReport = true;
-    COA_DEBUG ("FC5=%d", forceReport);
+    COA_DEBUG ("TR[%s]:STOP", name);
 
 }
 

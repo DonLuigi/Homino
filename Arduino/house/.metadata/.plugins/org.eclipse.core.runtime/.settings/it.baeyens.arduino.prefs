@@ -1,11 +1,11 @@
-714=25
+714=26
 Automatically\ import\ libraries=true
 Board=Arduino/Genuino Mega or Mega 2560
 Board\ Custom\ Option\ Selections=Processor\=ATmega2560 (Mega 2560)
 Build\ before\ upload\ option=YES
-FmStatus=26
-FuStatub=612
-FuStatus=251
+FmStatus=27
+FuStatub=654
+FuStatus=270
 JANTJE.TEMPLATE_FOLDER=
 JANTJE.TEMPLATE_USE_DEFAULT=1
 Last\ used\ Examples=
@@ -18,5 +18,5 @@ Serial\ monitor\ last\ selected\ Port=COM4
 Serial\ monitor\ last\ selected\ rate=115200
 boards\ file=C\:\\WORK\\ARDUINO\\Eclipse\\win64.2016-03-07_15-24-47\\arduinoPlugin\\packages\\arduino\\hardware\\avr\\1.6.8\\boards.txt
 eclipse.preferences.version=1
-lFsStatus=841
+lFsStatus=892
 upload\ Port=COM4
