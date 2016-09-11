@@ -1,8 +1,8 @@
 #include <avr/eeprom.h>
 #include "EEPROMValueComponent.h"
 
-EEPROMValueComponent::EEPROMValueComponent (uint8_t address, uint8_t size) :
-    Component ()
+EEPROMValueComponent::EEPROMValueComponent (uint8_t address, uint8_t size, const char* name, bool report) :
+    Component (name, report)
 {
     this->address = address;
     this->size = size;

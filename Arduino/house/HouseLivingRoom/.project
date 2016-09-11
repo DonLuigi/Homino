@@ -57,9 +57,19 @@
 			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/DHT</location>
 		</link>
 		<link>
+			<name>libraries/DallasTemperature</name>
+			<type>2</type>
+			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/DallasTemperature</location>
+		</link>
+		<link>
 			<name>libraries/Ethernet</name>
 			<type>2</type>
 			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/libraries/Ethernet/1.1.1</location>
+		</link>
+		<link>
+			<name>libraries/Keypad</name>
+			<type>2</type>
+			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/Keypad</location>
 		</link>
 		<link>
 			<name>libraries/LiquidCrystal_I2C</name>
@@ -67,9 +77,19 @@
 			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/LiquidCrystal_I2C</location>
 		</link>
 		<link>
+			<name>libraries/OneWire</name>
+			<type>2</type>
+			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/OneWire</location>
+		</link>
+		<link>
 			<name>libraries/SPI</name>
 			<type>2</type>
 			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/libraries/SPI</location>
+		</link>
+		<link>
+			<name>libraries/U8glib</name>
+			<type>2</type>
+			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/U8glib</location>
 		</link>
 		<link>
 			<name>libraries/Wire</name>

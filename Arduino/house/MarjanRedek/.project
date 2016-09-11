@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>TestButton</name>
+	<name>MarjanRedek</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -62,9 +62,19 @@
 			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/DallasTemperature</location>
 		</link>
 		<link>
+			<name>libraries/EEPROM</name>
+			<type>2</type>
+			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/libraries/EEPROM</location>
+		</link>
+		<link>
 			<name>libraries/Ethernet</name>
 			<type>2</type>
 			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/libraries/Ethernet/1.1.1</location>
+		</link>
+		<link>
+			<name>libraries/Hysteresis</name>
+			<type>2</type>
+			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/Hysteresis</location>
 		</link>
 		<link>
 			<name>libraries/Keypad</name>
