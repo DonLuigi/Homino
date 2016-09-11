@@ -108,7 +108,7 @@ int ShutterComponent::readFromComponent (Message* message)
         }
 
         uint32_t releaseTime = downButton->onRelease ();
-        if (releaseTime > 0 && releaseTime < 1000 && moving && rotationMotionRange != NULL)
+        if (releaseTime > 0 && releaseTime < 1500 && moving && rotationMotionRange != NULL)
         {
             COA_DEBUG ("SHT[%s]:DOWN RELEASE:STOP", name);
             stop ();

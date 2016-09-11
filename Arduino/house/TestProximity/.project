@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>HouseLivingRoom</name>
+	<name>TestProximity</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -40,41 +40,6 @@
 			<name>core/variant</name>
 			<type>2</type>
 			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/variants/mega</location>
-		</link>
-		<link>
-			<name>libraries/Bounce2</name>
-			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/Bounce2</location>
-		</link>
-		<link>
-			<name>libraries/COA</name>
-			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/COA</location>
-		</link>
-		<link>
-			<name>libraries/DHT</name>
-			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/DHT</location>
-		</link>
-		<link>
-			<name>libraries/Ethernet</name>
-			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/libraries/Ethernet/1.1.1</location>
-		</link>
-		<link>
-			<name>libraries/LiquidCrystal_I2C</name>
-			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/LiquidCrystal_I2C</location>
-		</link>
-		<link>
-			<name>libraries/SPI</name>
-			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/libraries/SPI</location>
-		</link>
-		<link>
-			<name>libraries/Wire</name>
-			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/libraries/Wire</location>
 		</link>
 	</linkedResources>
 </projectDescription>
