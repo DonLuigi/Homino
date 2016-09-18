@@ -38,7 +38,7 @@ bool ButtonComponent::onPress ()
     bool fell = bounce.fell ();
     if (fell)
     {
-        COA_DEBUG ("BT[%s]:PRESS", name);
+        COA_DEBUG (F("BT[%s]:PRESS"), name);
         pressStartMillis = millis ();
     }
     return (fell);
@@ -50,7 +50,7 @@ uint32_t ButtonComponent::onRelease ()
     if (rose)
     {
         ret = millis () - pressStartMillis;
-        COA_DEBUG ("BT[%s]:RELEASE:%dMS", name, ret);
+        COA_DEBUG (F("BT[%s]:RELEASE:%dMS"), name, ret);
     }
 
     return (ret);

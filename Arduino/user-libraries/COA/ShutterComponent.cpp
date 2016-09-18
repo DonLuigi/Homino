@@ -73,12 +73,12 @@ int ShutterComponent::readFromComponent (Message* message)
         {
             if (moving)
             {
-                COA_DEBUG ("SHT[%s]:UP PRESS:STOP", name);
+                COA_DEBUG (F("SHT[%s]:UP PRESS:STOP"), name);
                 stop ();
             }
             else
             {
-                COA_DEBUG ("SHT[%s]:UP PRESS:MV 0,0", name);
+                COA_DEBUG (F("SHT[%s]:UP PRESS:MV 0,0"), name);
                 move (0, 0);
             }
         }
@@ -86,7 +86,7 @@ int ShutterComponent::readFromComponent (Message* message)
         uint32_t releaseTime = upButton->onRelease ();
         if (releaseTime > 0 && releaseTime < 1000 && moving && rotationMotionRange != NULL)
         {
-            COA_DEBUG ("SHT[%s]:UP RELEASE:STOP", name);
+            COA_DEBUG (F("SHT[%s]:UP RELEASE:STOP"), name);
             stop ();
         }
     }
@@ -97,12 +97,12 @@ int ShutterComponent::readFromComponent (Message* message)
         {
             if (moving)
             {
-                COA_DEBUG ("SHT[%s]:DOWN PRESS:STOP", name);
+                COA_DEBUG (F("SHT[%s]:DOWN PRESS:STOP"), name);
                 stop ();
             }
             else
             {
-                COA_DEBUG ("SHT[%s]:DOWN PRESS:MV 100,100", name);
+                COA_DEBUG (F("SHT[%s]:DOWN PRESS:MV 100,100"), name);
                 move (100, 100);
             }
         }
@@ -110,7 +110,7 @@ int ShutterComponent::readFromComponent (Message* message)
         uint32_t releaseTime = downButton->onRelease ();
         if (releaseTime > 0 && releaseTime < 1500 && moving && rotationMotionRange != NULL)
         {
-            COA_DEBUG ("SHT[%s]:DOWN RELEASE:STOP", name);
+            COA_DEBUG (F("SHT[%s]:DOWN RELEASE:STOP"), name);
             stop ();
         }
     }
@@ -176,7 +176,7 @@ uint8_t ShutterComponent::toString (char* buffer, uint8_t size, uint8_t customFo
 ///////////////////
 void ShutterComponent::move (int8_t heightPercent, int8_t rotationPercent)
 {
-    COA_DEBUG ("SHT[%s]:MV:%d:%d", name, heightPercent, rotationPercent);
+    COA_DEBUG (F("SHT[%s]:MV:%d:%d"), name, heightPercent, rotationPercent);
 
     // vertical motion
     if (heightMotionRange != NULL && heightPercent >= 0)
@@ -198,7 +198,7 @@ void ShutterComponent::move (int8_t heightPercent, int8_t rotationPercent)
             // direction of vertical travel determines starting point of rotation, once vertical travel stops, so override current position accordingly
             int8_t verticalDirection;
             heightMotionRange->getStatus (&verticalDirection, NULL);
-            COA_DEBUG ("SHT[%s]:VERT:DIR,%d", name, verticalDirection);
+            COA_DEBUG (F("SHT[%s]:VERT:DIR,%d"), name, verticalDirection);
 
             if (verticalDirection < 0)
             {
@@ -243,7 +243,7 @@ bool ShutterComponent::isMoving ()
 
 void ShutterComponent::stop ()
 {
-    COA_DEBUG ("SHT[%s]:STOP", name);
+    COA_DEBUG (F("SHT[%s]:STOP"), name);
     heightMotionRange->stop ();
     if (rotationMotionRange != NULL)
     {

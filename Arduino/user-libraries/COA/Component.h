@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <Command.h>
 
-#define COA_DEBUG_ENABLED 0
+#define COA_DEBUG_ENABLED 1
 
 #if COA_DEBUG_ENABLED
 #warning "Debugging enabled!"
@@ -27,7 +27,8 @@ class Component
 
         // debug
 #if COA_DEBUG_ENABLED
-        void debug (const char* format, ...);
+//        void debug (const char* format, ...);
+        void debug (const __FlashStringHelper* format, ...);
 #endif
 
         // fileds

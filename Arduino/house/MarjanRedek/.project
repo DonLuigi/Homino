@@ -34,77 +34,77 @@
 		<link>
 			<name>core/core</name>
 			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/cores/arduino</location>
+			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/cores/arduino</location>
 		</link>
 		<link>
 			<name>core/variant</name>
 			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/variants/mega</location>
+			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/variants/eightanaloginputs</location>
 		</link>
 		<link>
 			<name>libraries/Bounce2</name>
 			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/Bounce2</location>
+			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/Bounce2</location>
 		</link>
 		<link>
 			<name>libraries/COA</name>
 			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/COA</location>
+			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/COA</location>
 		</link>
 		<link>
 			<name>libraries/DHT</name>
 			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/DHT</location>
+			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/DHT</location>
 		</link>
 		<link>
 			<name>libraries/DallasTemperature</name>
 			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/DallasTemperature</location>
+			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/DallasTemperature</location>
 		</link>
 		<link>
 			<name>libraries/EEPROM</name>
 			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/libraries/EEPROM</location>
+			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/libraries/EEPROM</location>
 		</link>
 		<link>
 			<name>libraries/Ethernet</name>
 			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/libraries/Ethernet/1.1.1</location>
+			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/libraries/Ethernet/1.1.1</location>
 		</link>
 		<link>
 			<name>libraries/Hysteresis</name>
 			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/Hysteresis</location>
+			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/Hysteresis</location>
 		</link>
 		<link>
 			<name>libraries/Keypad</name>
 			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/Keypad</location>
+			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/Keypad</location>
 		</link>
 		<link>
 			<name>libraries/LiquidCrystal_I2C</name>
 			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/LiquidCrystal_I2C</location>
+			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/LiquidCrystal_I2C</location>
 		</link>
 		<link>
 			<name>libraries/OneWire</name>
 			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/OneWire</location>
+			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/OneWire</location>
 		</link>
 		<link>
 			<name>libraries/SPI</name>
 			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/libraries/SPI</location>
+			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/libraries/SPI</location>
 		</link>
 		<link>
 			<name>libraries/U8glib</name>
 			<type>2</type>
-			<location>C:/SHARE/ARDUINO/PROGRAMMING/Homino/Arduino/libraries/U8glib</location>
+			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/U8glib</location>
 		</link>
 		<link>
 			<name>libraries/Wire</name>
 			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.8/libraries/Wire</location>
+			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/libraries/Wire</location>
 		</link>
 	</linkedResources>
 </projectDescription>

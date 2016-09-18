@@ -30,7 +30,7 @@ int EthernetW5100Component::readFromComponent (Message* message)
         if (tcpClients[i] && !tcpClients[i].connected ())
         {
             tcpClients[i].stop ();
-            COA_DEBUG ("ETH[%s]:CLIENT[%d],DISCONNECT", name, i);
+            COA_DEBUG (F("ETH[%s]:CLIENT[%d],DISCONNECT"), name, i);
         }
     }
 
@@ -40,19 +40,19 @@ int EthernetW5100Component::readFromComponent (Message* message)
     {
         return (-1);
     }
-    COA_DEBUG ("ETH[%s]:CLIENT,SOCK=%d", name, activeTcpClient.getSocketNumber ());
+    COA_DEBUG (F("ETH[%s]:CLIENT,SOCK=%d"), name, activeTcpClient.getSocketNumber ());
 
     int availableSpot = -1;
     int clientIndex = -1;
     for (int i = 0; i < maxClients; i++)
     {
-        COA_DEBUG ("ETH[%s]:CLIENT[%d],SOCK=%d", name, i, tcpClients[i].getSocketNumber ());
+        COA_DEBUG (F("ETH[%s]:CLIENT[%d],SOCK=%d"), name, i, tcpClients[i].getSocketNumber ());
 
         if (tcpClients[i] == activeTcpClient)
         {
             clientIndex = i;
             activeTcpClient.flush ();
-            COA_DEBUG ("ETH[%s]:EXISTING[%d]", name, clientIndex);
+            COA_DEBUG (F("ETH[%s]:EXISTING[%d]"), name, clientIndex);
             break;
         }
         if (!tcpClients[i])
@@ -64,36 +64,36 @@ int EthernetW5100Component::readFromComponent (Message* message)
     {
         if (availableSpot < 0)
         {
-            COA_DEBUG ("ETH[%s]:ERR:NO_SPACE", name);
+            COA_DEBUG (F("ETH[%s]:ERR:NO_SPACE"), name);
             return (-1);
         }
         tcpClients[clientIndex = availableSpot] = activeTcpClient;
-        COA_DEBUG ("ETH[%s]:NEW[%d]", name, clientIndex);
+        COA_DEBUG (F("ETH[%s]:NEW[%d]"), name, clientIndex);
     }
 
     uint8_t byteRead;
     uint16_t available = activeTcpClient.available ();
     if (available > 0)
     {
-        COA_DEBUG ("ETH[%s]:RECV=%d", name, available);
+        COA_DEBUG (F("ETH[%s]:RECV=%d"), name, available);
         // magic cookie
         for (uint8_t i = 0; i < strlen (messageMagicCookie); i++)
         {
             byteRead = activeTcpClient.read ();
-            COA_DEBUG ("ETH[%s]:MAGIC[%d]=%d", name, i, byteRead);
+            COA_DEBUG (F("ETH[%s]:MAGIC[%d]=%d"), name, i, byteRead);
             if (byteRead != messageMagicCookie[i])
             {
                 message->append ("%s,ERR,ETH_MAGIC", name);
                 return (-1);
             }
         }
-        COA_DEBUG ("ETH[%s]:MAGIC_OK", name);
+        COA_DEBUG (F("ETH[%s]:MAGIC_OK"), name);
 
         // size
         uint16_t size = activeTcpClient.read () & 0xFF;
         byteRead = activeTcpClient.read ();
         size = (size << 8) + byteRead;
-        COA_DEBUG ("ETH[%s]:SIZE=%d", name, size);
+        COA_DEBUG (F("ETH[%s]:SIZE=%d"), name, size);
 
         if (size >= message->getCapacity ())
         {
@@ -106,11 +106,11 @@ int EthernetW5100Component::readFromComponent (Message* message)
         for (uint16_t i = 0; i < size; i++)
         {
             buffer[i] = activeTcpClient.read ();
-            // COA_DEBUG ("ETH[%s][%d]", name, buffer[i]);
+            // COA_DEBUG (F("ETH[%s][%d]"), name, buffer[i]);
         }
 
         message->setSize (size);
-        COA_DEBUG ("ETH[%s]:DONE", name);
+        COA_DEBUG (F("ETH[%s]:DONE"), name);
 
         return (clientIndex);
     }
@@ -121,7 +121,7 @@ void EthernetW5100Component::writeToComponent (Command* command, Message* messag
     int bufferSize = message->getSize ();
     if (bufferSize == 0)
     {
-        COA_DEBUG ("ETH[%s]:WRITE:EMPTY", name);
+        COA_DEBUG (F("ETH[%s]:WRITE:EMPTY"), name);
         return;
     }
 
@@ -141,26 +141,26 @@ void EthernetW5100Component::writeToComponent (Command* command, Message* messag
         }
 
         // magic cookie
-        COA_DEBUG ("ETH[%s]:WRITE[%d]:MAGIC", name, i);
+        COA_DEBUG (F("ETH[%s]:WRITE[%d]:MAGIC"), name, i);
         tcpClients[i].write (messageMagicCookie, strlen (messageMagicCookie));
 
         // size
-        COA_DEBUG ("ETH[%s]:WRITE[%d]:SIZE:%d", name, i, bufferSize);
+        COA_DEBUG (F("ETH[%s]:WRITE[%d]:SIZE:%d"), name, i, bufferSize);
         char* buffer = message->getBuffer ();
 
         tcpClients[i].write (bufferSize >> 8);
         tcpClients[i].write (bufferSize & 0xFF);
 
         // payload
-        COA_DEBUG ("ETH[%s]:WRITE[%d]:PAYLOAD", name, i);
+        COA_DEBUG (F("ETH[%s]:WRITE[%d]:PAYLOAD"), name, i);
         tcpClients[i].write (buffer, bufferSize);
 
-        COA_DEBUG ("ETH[%s]:WRITE[%d]:FLUSH", name, i);
+        COA_DEBUG (F("ETH[%s]:WRITE[%d]:FLUSH"), name, i);
         tcpClients[i].flush ();
     }
 
     // clear message
     message->clear ();
 
-    COA_DEBUG ("ETH[%s]:WRITE:DONE", name);
+    COA_DEBUG (F("ETH[%s]:WRITE:DONE"), name);
 }

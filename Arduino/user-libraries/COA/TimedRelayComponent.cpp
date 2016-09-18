@@ -54,7 +54,7 @@ void TimedRelayComponent::writeToComponent (Command* command, Message* message, 
     else if (strcasecmp (parts[0], "STATUS") == 0)
     {
         forceReport = true;
-        COA_DEBUG ("FC1=%d", forceReport);
+        COA_DEBUG (F("FC1=%d"), forceReport);
     }
 
     else
@@ -71,7 +71,7 @@ int TimedRelayComponent::readFromComponent (Message* message)
     // trigger button
     if (triggerButton != NULL && triggerButton->onPress ())
     {
-        COA_DEBUG ("START: %d, NOW:%d", defaultDurationMillis, nowMillis);
+        COA_DEBUG (F("START: %d, NOW:%d"), defaultDurationMillis, nowMillis);
         start (defaultDurationMillis);
     }
 
@@ -88,11 +88,11 @@ int TimedRelayComponent::readFromComponent (Message* message)
         (coveredTimePercent > 0 && lastReportMillis > 0 && (nowMillis - lastReportMillis) > reportMillis) || // running
         (coveredTimePercent == -1 && lastReportMillis < stopMillis)) // last report after stop
     {
-        COA_DEBUG ("FC2=%d,LRM=%ld,SM=%ld,P=%d,NM=%ld", forceReport, lastReportMillis, stopMillis, coveredTimePercent, nowMillis);
+        COA_DEBUG (F("FC2=%d,LRM=%ld,SM=%ld,P=%d,NM=%ld"), forceReport, lastReportMillis, stopMillis, coveredTimePercent, nowMillis);
         message->append ("%s,STATUS,%d", name, coveredTimePercent);
         lastReportMillis = nowMillis;
         forceReport = false;
-        COA_DEBUG ("FC3=%d", forceReport);
+        COA_DEBUG (F("FC3=%d"), forceReport);
     }
     return (Component::ALL_SUBCOMPONENTS);
 }
@@ -109,7 +109,7 @@ void TimedRelayComponent::start (uint32_t durationMillis)
     this->durationMillis = durationMillis;
     stopMillis = millis () + durationMillis;
     forceReport = true;
-    COA_DEBUG ("TR[%s]:START:STOP MILLIS=%d,DUR MILLIS=%d", name, stopMillis, durationMillis);
+    COA_DEBUG (F("TR[%s]:START:STOP MILLIS=%d,DUR MILLIS=%d"), name, stopMillis, durationMillis);
 }
 
 void TimedRelayComponent::stop ()
@@ -118,7 +118,7 @@ void TimedRelayComponent::stop ()
     stopMillis = millis ();
     durationMillis = 0;
     forceReport = true;
-    COA_DEBUG ("TR[%s]:STOP", name);
+    COA_DEBUG (F("TR[%s]:STOP"), name);
 
 }
 

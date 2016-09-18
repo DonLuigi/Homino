@@ -27,7 +27,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Ethernet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/COA}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/LiquidCrystal_I2C}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Wire/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/DHT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Bounce2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/U8glib}&quot;"/>
@@ -36,6 +35,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/DallasTemperature}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Keypad}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Keypad/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Wire/utility}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1730371489" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -49,7 +49,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Ethernet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/COA}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/LiquidCrystal_I2C}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Wire/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/DHT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Bounce2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/U8glib}&quot;"/>
@@ -58,6 +57,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/DallasTemperature}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Keypad}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Keypad/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/HouseLivingRoom/libraries/Wire/utility}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.2054186544" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>

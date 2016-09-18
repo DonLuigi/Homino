@@ -57,7 +57,7 @@ int ApplicationComponent::readFromComponent (Message* message)
     char currentKey = keypad->getKey ();
     if (keypad->keyStateChanged () && currentKey != NO_KEY)
     {
-        COA_DEBUG ("crrKey=%d,currPage=%d", currentKey, displayCurrentPage);
+        COA_DEBUG(F("crrKey=%d,currPage=%d"), currentKey, displayCurrentPage);
 
         switch (currentKey)
         {
@@ -66,7 +66,7 @@ int ApplicationComponent::readFromComponent (Message* message)
                 break;
 
             case 'C': // PAGE RIGHT
-                COA_DEBUG ("right");
+                COA_DEBUG(F("right"));
                 displayRefresh (DISPLAY_PAGE_RIGHT, OPTION_TOUCH);
                 break;
 
@@ -114,7 +114,6 @@ int ApplicationComponent::readFromComponent (Message* message)
 void ApplicationComponent::displayRefresh (DisplayPage newCurrentPage, int options)
 {
     lcd->clear (); // REMOVE
-
 
     // current page
     if (newCurrentPage != DISPLAY_PAGE_CURRENT)
@@ -174,7 +173,7 @@ void ApplicationComponent::displayRefresh (DisplayPage newCurrentPage, int optio
             snprintf (line2 + 8, DISPLAY_COLUMNS - 8 + 1, "%s=%s   ", tBojler->name, !isnan (tBojler->temperature) ? temperature : "ERR");
 
             return;
-            COA_DEBUG("LCD=%p", lcd);
+            COA_DEBUG(F("LCD=%p"), lcd);
             lcd->setCursor (0, 0); // no lcd clear
             lcd->print (line1);
             lcd->setCursor (0, 1);
@@ -215,19 +214,19 @@ void ApplicationComponent::logic ()
     // oljni gorilec
 
     bool cPecNaDrvaDela = tDrva->temperature > pCrpanjeZalogovnika->readAsUInt8 ();
-    COA_DEBUG ("cPecNaDrvaDela=%c", cPecNaDrvaDela ? 't' : 'f');
+    COA_DEBUG(F("cPecNaDrvaDela=%c"), cPecNaDrvaDela ? 't' : 'f');
     bool cZalogovnikPripravljen = tZalogovnikZgoraj->temperature > pCrpanjeZalogovnika->readAsUInt8 ();
-    COA_DEBUG ("cZalogovnikPripravljen=%c", cZalogovnikPripravljen ? 't' : 'f');
+    COA_DEBUG(F("cZalogovnikPripravljen=%c"), cZalogovnikPripravljen ? 't' : 'f');
     rOljniGorilec->write (!cZalogovnikPripravljen && !cPecNaDrvaDela); // normally closed
 
     // peèi ali zalogovnik
     boolean pec = cPecNaDrvaDela | !cZalogovnikPripravljen;
-    COA_DEBUG ("pec=%c", pec ? 't' : 'f');
+    COA_DEBUG(F("pec=%c"), pec ? 't' : 'f');
     rPecAliZalogovnik->write (!pec); // normally open -> invert
 
     // drva ali olje
     boolean drva = cPecNaDrvaDela;
-    COA_DEBUG ("drva=%c", drva ? 't' : 'f');
+    COA_DEBUG(F("drva=%c"), drva ? 't' : 'f');
     rDrvaAliOlje->write (!drva); // normally open -> invert
 
     // crpalka zalogovnika
@@ -236,14 +235,14 @@ void ApplicationComponent::logic ()
 
     // crpalka bojlerja
     bool cDrvaLahkoOgrevajoBojler = pec && (tDrva->temperature > tBojler->temperature + pRazlikaZaVklopCrpalkeBojlerja->readAsUInt8 ());
-    COA_DEBUG("cDrvaLahkoOgrevajoBojler=%c", cDrvaLahkoOgrevajoBojler ? 't' : 'f');
+    COA_DEBUG(F("cDrvaLahkoOgrevajoBojler=%c"), cDrvaLahkoOgrevajoBojler ? 't' : 'f');
     bool cZalogovnikLahkoOgrevaBojler = !pec && (tZalogovnikZgoraj->temperature > tBojler->temperature + pRazlikaZaVklopCrpalkeBojlerja->readAsUInt8 ());
-    COA_DEBUG("cZalogovnikLahkoOgrevaB=%c", cZalogovnikLahkoOgrevaBojler ? 't' : 'f');
+    COA_DEBUG(F("cZalogovnikLahkoOgrevaB=%c"), cZalogovnikLahkoOgrevaBojler ? 't' : 'f');
     bool crpalkaBoljerja = tBojler->temperature < (rCrpalkaBojler->read () == LOW ? pVklopBojlerja->readAsUInt8 () : pIzklopBojlerja->readAsUInt8 ())
         && (cDrvaLahkoOgrevajoBojler || cZalogovnikLahkoOgrevaBojler);
     rCrpalkaBojler->write (crpalkaBoljerja);
 
-    COA_DEBUG("Logic done");
+    COA_DEBUG(F("Logic done"));
 }
 
 void ApplicationComponent::setHysteresis (float tolerance)

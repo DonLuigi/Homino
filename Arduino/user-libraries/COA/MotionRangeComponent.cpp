@@ -65,7 +65,7 @@ int8_t MotionRangeComponent::move (int8_t percentOfMaximum)
             motionStopDeltaMillis += minMaxExtensionMillis;
         }
 
-        COA_DEBUG ("MR:%s:MV:%d%%(D:%d%%=%dms)", name, percentOfMaximum, deltaInPercentOfMaximum, deltaInPercentOfMaximumInMillis);
+        COA_DEBUG (F("MR:%s:MV:%d%%(D:%d%%=%dms)"), name, percentOfMaximum, deltaInPercentOfMaximum, deltaInPercentOfMaximumInMillis);
     }
 
     if (deltaInPercentOfMaximum < 0)
@@ -104,7 +104,7 @@ void MotionRangeComponent::pulse (unsigned long nowMillis, bool forceStop)
 
         if (durationMillis > motionStopDeltaMillis || forceStop)
         {
-            COA_DEBUG ("MR:%s:STOP:%ldms:@%ldms=%d%%:F%d", name, durationMillis, currentPositionMillis, currentPositionPercentOfMaximum, forceStop);
+            COA_DEBUG (F("MR:%s:STOP:%ldms:@%ldms=%d%%:F%d"), name, durationMillis, currentPositionMillis, currentPositionPercentOfMaximum, forceStop);
 
             direction = 0;
             upRelay->write (LOW);

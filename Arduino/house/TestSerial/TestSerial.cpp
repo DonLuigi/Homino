@@ -1,14 +1,16 @@
-// Do not remove the include below
-#include "TestSerial.h"
+#include <Arduino.h>
+
+#include "PinComponent.h"
+
+PinComponent p = PinComponent (5, OUTPUT, HIGH, "AAA");
 
 void setup ()
 {
     Serial.begin (115200);
-    Serial.println ("Begin");
+    p.setup ();
 }
 
 void loop ()
 {
-    Serial.println ("Begin");
     delay (1000);
 }
