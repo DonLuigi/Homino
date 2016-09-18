@@ -1,8 +1,8 @@
 #include <arduino.h>
 #include <limits.h>
 
-int minPin = 21;
-int maxPin = 21;
+int minPin = A8;
+int maxPin = A8;
 
 void setup ()
 {
@@ -35,7 +35,7 @@ void loop ()
 
     if (0)
     {
-        for (int pin = 41; pin <= maxPin; pin++)
+        for (int pin = minPin; pin <= maxPin; pin++)
         {
             Serial.println (pin);
 

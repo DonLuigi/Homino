@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <Command.h>
 
-#define COA_DEBUG_ENABLED 1
+#define COA_DEBUG_ENABLED 0
 
 #if COA_DEBUG_ENABLED
 #warning "Debugging enabled!"

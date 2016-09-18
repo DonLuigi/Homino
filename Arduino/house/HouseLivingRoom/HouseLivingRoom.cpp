@@ -254,11 +254,12 @@ TimedRelayComponent frontDoor (23, LOW, true, 2 * 1000L, &frontDoorProximityButt
 //
 ///////////////////
 //RelayComponent spareRelay1 (23, LOW, true, "spare1");
-RelayComponent spareRelay2 (25, LOW, true, "spare2");
+RelayComponent eatingRoomLightsRelay (A8, LOW, true, "spare2");
+RelayComponent relayOutsideLights (31, LOW, true, "spare5");
+RelayComponent entryRoomLightsRelay (33, LOW, true, "spare6");
+
 RelayComponent spareRelay3 (27, LOW, true, "spare3");
 RelayComponent spareRelay4 (29, LOW, true, "spare4");
-RelayComponent spareRelay5 (31, LOW, true, "spare5");
-RelayComponent spareRelay6 (33, LOW, true, "spare6");
 
 ///////////////////
 //
@@ -301,7 +302,7 @@ Message outboundMessage (outboundMessageBuffer, MESSAGE_BUFFER_SIZE);
 ///////////////////
 Component* components[] =
 { &kitchenEast, &kitchenSouth, &livingroomWest, &livingroomSouth, &diningRoom, &bathroom0, &staircase, &bathroom1, &kidsRoomEast, &kidsRoomSouth, &gallery, &bedroom, &hotWaterRecirculationPump,
-    &frontDoor, &spareRelay2, &spareRelay3, &spareRelay4, &spareRelay5, &spareRelay6, NULL };
+    &frontDoor, &eatingRoomLightsRelay, &spareRelay3, &spareRelay4, &relayOutsideLights, &entryRoomLightsRelay, NULL };
 
 Component* commandComponents[] =
 {
