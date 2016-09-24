@@ -69,7 +69,7 @@
 		<link>
 			<name>libraries/Ethernet</name>
 			<type>2</type>
-			<location>C:/WORK/ARDUINO/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/libraries/Ethernet/1.1.1</location>
+			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/libraries/Ethernet/1.1.1</location>
 		</link>
 		<link>
 			<name>libraries/Hysteresis</name>

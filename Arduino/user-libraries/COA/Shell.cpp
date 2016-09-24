@@ -14,8 +14,6 @@ Shell::Shell (Component** components, Component** commandComponents, Message* in
 
 void Shell::setup ()
 {
-    COA_DEBUG (F("SH:SETUP,%d"), 1);
-
 
     for (int i = 0; components != NULL && components[i] != NULL; i++)
     {

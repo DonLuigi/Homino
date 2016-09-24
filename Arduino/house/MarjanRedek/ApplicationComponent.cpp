@@ -113,8 +113,6 @@ int ApplicationComponent::readFromComponent (Message* message)
 
 void ApplicationComponent::displayRefresh (DisplayPage newCurrentPage, int options)
 {
-    lcd->clear (); // REMOVE
-
     // current page
     if (newCurrentPage != DISPLAY_PAGE_CURRENT)
     {
@@ -172,7 +170,6 @@ void ApplicationComponent::displayRefresh (DisplayPage newCurrentPage, int optio
             snprintf (temperature, DISPLAY_COLUMNS, "%i\xDF", (int) tBojler->temperature);
             snprintf (line2 + 8, DISPLAY_COLUMNS - 8 + 1, "%s=%s   ", tBojler->name, !isnan (tBojler->temperature) ? temperature : "ERR");
 
-            return;
             COA_DEBUG(F("LCD=%p"), lcd);
             lcd->setCursor (0, 0); // no lcd clear
             lcd->print (line1);
