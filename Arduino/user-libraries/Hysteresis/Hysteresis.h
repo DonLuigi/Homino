@@ -15,4 +15,4 @@ class Hysteresis
         float tolerance;
 };
 
-#endif HYSTERESIS_H
+#endif

@@ -36,7 +36,7 @@ void Shell::loop ()
     long startMillis = millis ();
 
     // process inbound commands
-    for (int commandComponentsIdx = 0; commandComponents != NULL && commandComponents[commandComponentsIdx] != NULL; commandComponentsIdx++)
+    for (int commandComponentsIdx = 0; commandComponents != NULL && inboundMessage != NULL && commandComponents[commandComponentsIdx] != NULL; commandComponentsIdx++)
     {
         // clear inbound message prior to reading
         inboundMessage->clear ();
@@ -111,7 +111,7 @@ void Shell::loop ()
     }
 
     // final reply
-    if (outboundMessage->getSize () > 0)
+    if (outboundMessage != NULL && outboundMessage->getSize () > 0)
     {
         for (int j = 0; commandComponents[j] != NULL; j++)
         {

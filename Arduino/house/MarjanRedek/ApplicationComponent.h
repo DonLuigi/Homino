@@ -12,13 +12,12 @@
 class ApplicationComponent: public Component
 {
     public:
-        ApplicationComponent (char* name, DallasTemperatureComponent* tZalogovnikZgoraj, DallasTemperatureComponent* tZalogovnikSpodaj, DallasTemperatureComponent* tDrva,
-            DallasTemperatureComponent* tBojler, PinComponent* rOljniGorilec, PinComponent* rPecAliZalogovnik, PinComponent* rDrvaAliOlje, PinComponent* rCrpalkaZalogovnik,
-            PinComponent* rCrpalkaBojler, EEPROMValueComponent* pCrpanjeZalogovnika, EEPROMValueComponent* pRazlikaZaVklopZalogovnika, EEPROMValueComponent* pVklopBojlerja,
-            EEPROMValueComponent* pIzklopBojlerja, EEPROMValueComponent* pRazlikaZaVklopCrpalkeBojlerja, EEPROMValueComponent* pTemperaturnaHistereza, LiquidCrystalI2CComponent* lcd,
-            KeypadComponent* keypad, PinComponent* buzzer);
+        ApplicationComponent (DallasTemperatureComponent* tZalogovnikZgoraj, DallasTemperatureComponent* tZalogovnikSpodaj, DallasTemperatureComponent* tDrva, DallasTemperatureComponent* tBojler,
+            PinComponent* rOljniGorilec, PinComponent* rPecAliZalogovnik, PinComponent* rDrvaAliOlje, PinComponent* rCrpalkaZalogovnik, PinComponent* rCrpalkaBojler,
+            EEPROMValueComponent* pCrpanjeZalogovnika, EEPROMValueComponent* pRazlikaZaVklopZalogovnika, EEPROMValueComponent* pVklopBojlerja, EEPROMValueComponent* pIzklopBojlerja,
+            EEPROMValueComponent* pRazlikaZaVklopCrpalkeBojlerja, EEPROMValueComponent* pTemperaturnaHistereza, LiquidCrystalI2CComponent* lcd, KeypadComponent* keypad, PinComponent* buzzer,
+            const char* name = NULL, uint32_t reportMillis = 0);
         int readFromComponent (Message* message);
-
 
     private:
         // components
@@ -83,4 +82,4 @@ class ApplicationComponent: public Component
         void displayRefresh (DisplayPage newCurrentPage, int options);
 };
 
-#endif APPLICATION_COMPONENT_H
+#endif

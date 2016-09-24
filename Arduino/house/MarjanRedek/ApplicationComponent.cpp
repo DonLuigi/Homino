@@ -1,12 +1,22 @@
+/*
+ P crpanje zalogovnika 35
+ P razlika vklop zalogovnika 20
+ P vklop bojlerja 45
+ P izklop bojlerja 80
+ P razlika vklop bojlerja 1
+ P histereza 1
+ */
+
 #include <Arduino.h>
 #include <EEPROM.h>
 #include "ApplicationComponent.h"
 
-ApplicationComponent::ApplicationComponent (char* name, DallasTemperatureComponent* tZalogovnikZgoraj, DallasTemperatureComponent* tZalogovnikSpodaj, DallasTemperatureComponent* tDrva,
+ApplicationComponent::ApplicationComponent (DallasTemperatureComponent* tZalogovnikZgoraj, DallasTemperatureComponent* tZalogovnikSpodaj, DallasTemperatureComponent* tDrva,
     DallasTemperatureComponent* tBojler, PinComponent* rOljniGorilec, PinComponent* rPecAliZalogovnik, PinComponent* rDrvaAliOlje, PinComponent* rCrpalkaZalogovnik, PinComponent* rCrpalkaBojler,
     EEPROMValueComponent* pCrpanjeZalogovnika, EEPROMValueComponent* pRazlikaZaVklopZalogovnika, EEPROMValueComponent* pVklopBojlerja, EEPROMValueComponent* pIzklopBojlerja,
-    EEPROMValueComponent* pRazlikaZaVklopCrpalkeBojlerja, EEPROMValueComponent* pTemperaturnaHistereza, LiquidCrystalI2CComponent* lcd, KeypadComponent* keypad, PinComponent* buzzer) :
-    Component (name)
+    EEPROMValueComponent* pRazlikaZaVklopCrpalkeBojlerja, EEPROMValueComponent* pTemperaturnaHistereza, LiquidCrystalI2CComponent* lcd, KeypadComponent* keypad, PinComponent* buzzerconst,
+    const char* name, uint32_t reportMillis) :
+    Component (name, reportMillis)
 {
     thermometers[0] = this->tZalogovnikZgoraj = tZalogovnikZgoraj;
     thermometers[1] = this->tZalogovnikSpodaj = tZalogovnikSpodaj;
@@ -36,6 +46,26 @@ ApplicationComponent::ApplicationComponent (char* name, DallasTemperatureCompone
 
     lastActivityMillis = 0;
     displayCurrentPage = DISPLAY_PAGE_MAIN;
+
+    uint8_t value;
+    if (pCrpanjeZalogovnika->readAsUInt8 () == 0xFF)
+    {
+        value = 35;
+        pCrpanjeZalogovnika->write (&value);
+
+        value = 20;
+        pRazlikaZaVklopZalogovnika->write (&value);
+
+        value = 45;
+        pVklopBojlerja->write (&value);
+
+        value = 80;
+        pIzklopBojlerja->write (&value);
+
+        value = 1;
+        pRazlikaZaVklopCrpalkeBojlerja->write (&value);
+        pTemperaturnaHistereza->write (&value);
+    }
 }
 
 int ApplicationComponent::readFromComponent (Message* message)
@@ -119,7 +149,6 @@ void ApplicationComponent::displayRefresh (DisplayPage newCurrentPage, int optio
         int8_t displayCurrentPageDelta = (newCurrentPage == DISPLAY_PAGE_LEFT ? -1 : newCurrentPage == DISPLAY_PAGE_RIGHT ? 1 : 0);
         int8_t newRawPage = (displayCurrentPageDelta != 0 ? displayCurrentPage + displayCurrentPageDelta : newCurrentPage);
         displayCurrentPage = (DisplayPage) (newRawPage < 0 ? DISPLAY_PAGE_LAST - 1 : newRawPage % DISPLAY_PAGE_LAST);
-        char line1[DISPLAY_COLUMNS + 1], line2[DISPLAY_COLUMNS + 1];
     }
 
     // touch
@@ -170,7 +199,6 @@ void ApplicationComponent::displayRefresh (DisplayPage newCurrentPage, int optio
             snprintf (temperature, DISPLAY_COLUMNS, "%i\xDF", (int) tBojler->temperature);
             snprintf (line2 + 8, DISPLAY_COLUMNS - 8 + 1, "%s=%s   ", tBojler->name, !isnan (tBojler->temperature) ? temperature : "ERR");
 
-            COA_DEBUG(F("LCD=%p"), lcd);
             lcd->setCursor (0, 0); // no lcd clear
             lcd->print (line1);
             lcd->setCursor (0, 1);
@@ -194,7 +222,6 @@ void ApplicationComponent::logic ()
 {
     // update thermometers
     DallasTemperatureComponent* failedThermometer = NULL;
-    uint8_t temperaturnaHistereza = pTemperaturnaHistereza->readAsUInt8 ();
     for (int i = 0; i < sizeof(thermometers) / sizeof(thermometers[0]); i++)
     {
         if (!thermometers[i]->readTemperature ())
@@ -205,6 +232,7 @@ void ApplicationComponent::logic ()
 
     if (manualMode)
     {
+        COA_DEBUG(F("Logic manual mode done"));
         return;
     }
 

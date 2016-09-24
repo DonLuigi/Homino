@@ -18,4 +18,4 @@ class KeypadComponent: public Keypad, public Component
         int32_t lastKeyMillis;
 };
 
-#endif KEYPAD_COMPONENT_H
+#endif

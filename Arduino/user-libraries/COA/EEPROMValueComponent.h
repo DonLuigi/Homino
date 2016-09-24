@@ -17,4 +17,4 @@ class EEPROMValueComponent: public Component
         uint32_t address;
 };
 
-#endif EEPROM_VALUE_COMPONENT_H
+#endif

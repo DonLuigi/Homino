@@ -14,4 +14,4 @@ class DallasTemperatureComponent: public DallasTemperature, public Component
         void accept (Message* message);
 };
 
-#endif DALLAS_TEMPERATURE_COMPONENT_H
+#endif
