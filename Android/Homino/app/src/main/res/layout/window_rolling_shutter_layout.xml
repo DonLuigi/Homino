@@ -22,7 +22,7 @@
 
 
         <ImageView
-            android:id="@+id/shutterIconView"
+            android:id="@+id/timedRelayIconView"
             android:layout_width="60dp"
             android:layout_height="100dp"
             android:layout_alignParentStart="true"
@@ -36,10 +36,10 @@
             android:id="@+id/percentTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/shutterIconView"
-            android:layout_below="@+id/shutterIconView"
+            android:layout_alignLeft="@+id/timedRelayIconView"
+            android:layout_below="@+id/timedRelayIconView"
             android:layout_marginLeft="5dp"
-            android:layout_toEndOf="@+id/shutterIconView"
+            android:layout_toEndOf="@+id/timedRelayIconView"
             android:text="0%"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="30dp"
@@ -52,7 +52,7 @@
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_alignTop="@+id/shutterIconView"
+            android:layout_alignTop="@+id/timedRelayIconView"
             android:layout_marginRight="5dp"
             android:background="@android:color/white"
             android:src="@drawable/ic_action_arrow_top"
@@ -60,7 +60,7 @@
 
 
         <ImageButton
-            android:id="@+id/stopButton"
+            android:id="@+id/lockUnlockButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignLeft="@+id/upButton"
@@ -76,9 +76,9 @@
             android:id="@+id/downButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignLeft="@+id/stopButton"
-            android:layout_alignStart="@+id/stopButton"
-            android:layout_below="@+id/stopButton"
+            android:layout_alignLeft="@+id/lockUnlockButton"
+            android:layout_alignStart="@+id/lockUnlockButton"
+            android:layout_below="@+id/lockUnlockButton"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:background="@android:color/white"
@@ -102,9 +102,9 @@
             android:id="@+id/halfButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignTop="@+id/stopButton"
+            android:layout_alignTop="@+id/lockUnlockButton"
             android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/stopButton"
+            android:layout_toLeftOf="@+id/lockUnlockButton"
             android:background="@android:color/white"
             android:src="@drawable/window_shutter_half"
             android:scaleType="fitCenter"/>

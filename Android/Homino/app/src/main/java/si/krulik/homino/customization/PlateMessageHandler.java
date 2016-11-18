@@ -174,13 +174,40 @@ public class PlateMessageHandler implements IMessageHandler
         {
             TimedRelayPlate timedRelayPlate = (TimedRelayPlate) plate;
 
+
+            // start stop
+            boolean start = false;
+            boolean stop = false;
+
             if (fields[1].equals (Customization.start))
             {
-                controlNodeMultiMessage.addMessage (timedRelayPlate.device, timedRelayPlate.device.id + ",START," + timedRelayPlate.device.durationMillis);
+                start = true;
             }
             if (fields[1].equals (Customization.stop))
             {
+                stop = true;
+            }
+            if (fields[1].equals (Customization.startStop))
+            {
+                start = (timedRelayPlate.device.percent < 0);
+                stop = !start;
+            }
+
+            if (start)
+            {
+                controlNodeMultiMessage.addMessage (timedRelayPlate.device, timedRelayPlate.device.id + ",START," + (timedRelayPlate.device.durationMillis > 0 ? "," + timedRelayPlate.device
+                    .durationMillis : "-1") + ",FORCE");
+            }
+            else if (stop)
+            {
                 controlNodeMultiMessage.addMessage (timedRelayPlate.device, timedRelayPlate.device.id + ",STOP");
+            }
+
+
+            // lock unlock
+            if (fields[1].equals (Customization.lockUnlock))
+            {
+                controlNodeMultiMessage.addMessage (timedRelayPlate.device, timedRelayPlate.device.id + (timedRelayPlate.device.locked ? ",UNLOCK" : ",LOCK"));
             }
         }
 

@@ -56,12 +56,13 @@ public class ControlNodesMessageHandler implements IMessageHandler
                     windowLouvreShutterPlate.device.rotationPercent = Integer.parseInt (fields[4]);
                 }
 
-                // timed replay
-                if (plate instanceof TimedRelayPlate && fields.length == 3 && fields[1].equalsIgnoreCase ("STATUS"))
+                // timed relay
+                if (plate instanceof TimedRelayPlate && fields.length == 4 && fields[1].equalsIgnoreCase ("STATUS"))
                 {
-                    logger.info ("Timed relay");
                     TimedRelayPlate timedRelayPlate = (TimedRelayPlate) plate;
                     timedRelayPlate.device.percent = Integer.parseInt (fields[2]);
+                    timedRelayPlate.device.locked = fields[3].equals ("1");
+                    logger.info ("Timed relay: " + timedRelayPlate.device.percent);
                 }
 
                 plate.refresh ();

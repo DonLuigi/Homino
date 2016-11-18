@@ -24,6 +24,15 @@ import si.krulik.homino.configuration.plates.WindowRollingShutterPlate;
 
 public class Customization
 {
+    enum Build
+    {
+        TabGroundFloor, TabFirstFloor
+    }
+
+    ;
+
+    Build build = Build.TabFirstFloor;
+
     public final static String messageDelimiter = ";";
     public final static String fieldDelimiter = ",";
     public final static String rotateUp = "RotateUp";
@@ -31,13 +40,16 @@ public class Customization
     public final static String up = "Up";
     public final static String down = "Down";
     public final static String start = "Start";
+    public final static String startStop = "StartStop";
     public final static String stop = "Stop";
+    public final static String lockUnlock = "LockUnlock";
     public final static String half = "Half";
     public final static String third = "Third";
     public final static String quarter = "Quarter";
     public final static String grid = "Grid";
 
     public final static String controlNodeMain = "CNMain";
+
     public final static String windowShuttersKitchen = "WsKitch";
     public final static String windowRollingShutterKitchenE = "WrsKitchE";
     public final static String windowRollingShutterKitchenS = "WrsKitchS";
@@ -47,9 +59,20 @@ public class Customization
     public final static String windowRollingShutterLivingRoomW = "WrsLivingW";
     public final static String windowRollingShutterStairs = "WrsStairs";
     public final static String windowRollingShutterBathroom0 = "WrsBath0";
+
+    public final static String windowRollingShutterBathroom1 = "WrsBathroom1";
+    public final static String windowRollingShutterKidsRoom = "WrsKids";
+    public final static String windowLouvreShutterKidsRoom = "WlsKids";
+
+    public final static String windowLouvreShutterGallery = "WlsGallery";
+
+    public final static String windowRollingShutterBedroom = "WrsBedroom";
+
     public final static String windowShuttersLowerFloor = "WsLower";
     public final static String windowShuttersAll = "WsAll";
     public final static String hotWaterRecirculationPump = "HWPump";
+    public final static String towelHeater = "TowelHeater";
+    public final static String frontDoor = "FrontDoor";
 
 
     public Configuration compose (Context context, Activity activity)
@@ -112,7 +135,9 @@ public class Customization
 
 
         // devices
-        TimedRelayDevice hotWaterRecirculationPumpDevice;
+        TimedRelayDevice hotWaterRecirculationPumpDevice, towelWarmerDevice, frontDoorDevice;
+
+
         configuration.addDevices (
             new WindowRollingShutterDevice (windowRollingShutterKitchenE, controlNodeMain,97),
             new WindowRollingShutterDevice (windowRollingShutterKitchenS, controlNodeMain,97),
@@ -121,13 +146,19 @@ public class Customization
             new WindowRollingShutterDevice (windowRollingShutterLivingRoomW, controlNodeMain,97),
             new WindowRollingShutterDevice (windowRollingShutterStairs, controlNodeMain,97),
             new WindowRollingShutterDevice (windowRollingShutterBathroom0, controlNodeMain,97),
-            hotWaterRecirculationPumpDevice = new TimedRelayDevice (hotWaterRecirculationPump, controlNodeMain, 60 * 1000));
+            new WindowRollingShutterDevice (windowRollingShutterBathroom1, controlNodeMain,97),
+            new WindowRollingShutterDevice (windowRollingShutterKidsRoom, controlNodeMain,97),
+            new WindowLouvreShutterDevice (windowLouvreShutterKidsRoom, controlNodeMain, 20),
+            new WindowLouvreShutterDevice (windowLouvreShutterGallery, controlNodeMain, 20),
+            new WindowRollingShutterDevice (windowRollingShutterBedroom, controlNodeMain,97),
+            hotWaterRecirculationPumpDevice = new TimedRelayDevice (hotWaterRecirculationPump, controlNodeMain, 60 * 1000),
+            towelWarmerDevice = new TimedRelayDevice (towelHeater, controlNodeMain, -1),
+            frontDoorDevice = new TimedRelayDevice (frontDoor, controlNodeMain, -1));
 
 
         // plate pages
-        configuration.addPlatePages (
+        PlatePage roleteInZaluzijePritlicje  =
             new PlatePage ("ROLETE IN ŽALUZIJE PRITLIČJE", 5,
-
                 new ActionPlate (windowShuttersLowerFloor, x0, y0, dx2, dy2, white, blue, lighterBlue, "PRITLIČJE",
                     new ActionPlateRow (
                         new ActionPlateRowButton (windowShuttersLowerFloor + fieldDelimiter + up, null, R.drawable.ic_action_arrow_top, null)),
@@ -140,8 +171,12 @@ public class Customization
                         new ActionPlateRowButton (windowShuttersLowerFloor + fieldDelimiter + quarter, null, R.drawable.window_shutter_quarter, null),
                         new ActionPlateRowButton (windowShuttersLowerFloor + fieldDelimiter + down, null, R.drawable.ic_action_arrow_bottom, null))),
 
-                new TimedRelayPlate (hotWaterRecirculationPump, x2, y0, dx2, dy2, white, orange, lighterOrange, "VODA", hotWaterRecirculationPump + fieldDelimiter + start, hotWaterRecirculationPump +
-                    fieldDelimiter + stop, hotWaterRecirculationPumpDevice),
+                new TimedRelayPlate (frontDoor, x2, y0, dx2, dy2, white, orange, lighterOrange, "VRATA", frontDoor + fieldDelimiter + start, frontDoor +
+                    fieldDelimiter + lockUnlock, R.drawable.key, frontDoorDevice),
+
+//                new TimedRelayPlate (hotWaterRecirculationPump, x2, y0, dx2, dy2, white, orange, lighterOrange, "VODA", hotWaterRecirculationPump + fieldDelimiter + start,
+// hotWaterRecirculationPump +
+//                    fieldDelimiter + stop, hotWaterRecirculationPumpDevice),
 
                 composeWindowRollingShutterPlate (windowRollingShutterKitchenE, x0, y2, dx2, dy2, white, darkCyan, lighterDarkCyan, "KUHINJA V", configuration.devicesById),
 
@@ -177,13 +212,35 @@ public class Customization
 
                 composeWindowLouvreShutterPlate (windowLouvreShutterDiningRoomS, x0, y6, dx2, dy2, white, lightGray, lighterLightGray, "JEDILNICA", configuration.devicesById),
                 composeWindowRollingShutterPlate (windowRollingShutterStairs, x2, y6, dx2, dy2, white, lightGray, lighterLightGray, "STOPNIŠČE", configuration.devicesById),
-                composeWindowRollingShutterPlate (windowRollingShutterBathroom0, x4, y6, dx2, dy2, white, lightGray, lighterLightGray, "KOP. P", configuration.devicesById))
-//
-//            new PlatePage ("Drugi", 5,
-//                composeWindowRollingShutterPlate (windowShuttersAll, 0, 0, 2, 2, white, darkGray, lighterDarkGray, "Vsi"))
+                composeWindowRollingShutterPlate (windowRollingShutterBathroom0, x4, y6, dx2, dy2, white, lightGray, lighterLightGray, "KOP. P", configuration.devicesById));
 
-        );
+
+        PlatePage roleteInZaluzijeNadstropje  =
+            new PlatePage ("ROLETE IN ŽALUZIJE NADSTROPJE", 5,
+                new TimedRelayPlate (hotWaterRecirculationPump, x0, y0, dx2, dy2, white, orange, lighterOrange, "VODA", hotWaterRecirculationPump + fieldDelimiter + startStop, null, R.drawable
+                    .faucet, hotWaterRecirculationPumpDevice),
+
+                new TimedRelayPlate (towelHeater, x2, y0, dx2, dy2, white, darkOrange, lighterDarkOrange, "BRISAČE", towelHeater + fieldDelimiter + startStop,
+                    null, R.drawable.towels, towelWarmerDevice),
+
+                composeWindowRollingShutterPlate (windowRollingShutterBathroom1, x0, y2, dx2, dy2, white, darkCyan, lighterDarkCyan, "KOPALNICA", configuration.devicesById),
+                composeWindowRollingShutterPlate (windowRollingShutterKidsRoom, x2, y2, dx2, dy2, white, darkCyan, lighterDarkCyan, "OTROŠKA V", configuration.devicesById),
+                composeWindowLouvreShutterPlate (windowLouvreShutterKidsRoom, x4, y2, dx2, dy2, white, darkOrange, lighterDarkOrange, "OTROŠKA J", configuration.devicesById),
+                composeWindowLouvreShutterPlate (windowLouvreShutterGallery, x0, y4, dx2, dy2, white, darkOrange, lighterDarkOrange,  "GALERIJA", configuration.devicesById),
+                composeWindowRollingShutterPlate (windowRollingShutterBedroom, x2, y4, dx2, dy2, white, lightGray, lighterLightGray, "SPALNICA", configuration.devicesById));
+
         // @formatter:on
+
+        switch (build)
+        {
+            case TabGroundFloor:
+                configuration.addPlatePages (roleteInZaluzijePritlicje, roleteInZaluzijeNadstropje);
+                break;
+
+            case TabFirstFloor:
+                configuration.addPlatePages (roleteInZaluzijeNadstropje, roleteInZaluzijePritlicje);
+                break;
+        }
 
 
         configuration.setPlateMessageHandler (new PlateMessageHandler ());

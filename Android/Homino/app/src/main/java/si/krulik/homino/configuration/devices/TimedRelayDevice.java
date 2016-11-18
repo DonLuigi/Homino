@@ -18,4 +18,5 @@ public class TimedRelayDevice extends Device
 
     public long durationMillis;
     public int percent = -1;
+    public boolean locked = false;
 }

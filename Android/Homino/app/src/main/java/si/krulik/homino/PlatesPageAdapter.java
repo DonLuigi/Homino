@@ -132,7 +132,7 @@ public class PlatesPageAdapter extends PagerAdapter
                     configuration, context));
                 ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.downButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.downButtonEventName,
                     configuration, context));
-                ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.stopButtonEventName,
+                ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.lockUnlockButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.stopButtonEventName,
                     configuration, context));
                 ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.gridButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.gridButtonEventName,
                     configuration, context));
@@ -158,7 +158,7 @@ public class PlatesPageAdapter extends PagerAdapter
                     context));
                 ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.downButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.downButtonEventName,
                     configuration, context));
-                ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.stopButtonEventName,
+                ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.lockUnlockButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.stopButtonEventName,
                     configuration, context));
                 ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.gridButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.halfButtonEventName,
                     configuration, context));
@@ -232,9 +232,9 @@ public class PlatesPageAdapter extends PagerAdapter
 
 
                 // button events
-                ((ImageButton) timedRelayPlate.view.findViewById (R.id.startButton)).setOnClickListener (new ButtonOnClickListener (timedRelayPlate.startButtonEventName,
+                ((ImageButton) timedRelayPlate.view.findViewById (R.id.startStopButton)).setOnClickListener (new ButtonOnClickListener (timedRelayPlate.startStopButtonEventName,
                     configuration, context));
-                ((ImageButton) timedRelayPlate.view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (timedRelayPlate.stopButtonEventName,
+                ((ImageButton) timedRelayPlate.view.findViewById (R.id.lockUnlockButton)).setOnClickListener (new ButtonOnClickListener (timedRelayPlate.enableDisableButtonEventName,
                     configuration, context));
             }
 
