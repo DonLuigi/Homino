@@ -17,17 +17,17 @@ void Shell::setup ()
 
     for (int i = 0; components != NULL && components[i] != NULL; i++)
     {
-        COA_DEBUG (F("SH:C:[%d] %s"), i, components[i]->name);
+        COA_DEBUG (F ("SH:C:[%d] %s"), i, components[i]->name);
         components[i]->setup ();
     }
 
     for (int i = 0; commandComponents != NULL && commandComponents[i] != NULL; i++)
     {
-        COA_DEBUG (F("SH:CC:[%d] %s"), i, commandComponents[i]->name);
+        COA_DEBUG (F ("SH:CC:[%d] %s"), i, commandComponents[i]->name);
         commandComponents[i]->setup ();
     }
 
-    COA_DEBUG (F("SH:SETUP DONE"));
+    COA_DEBUG (F ("SH:SETUP DONE"));
 }
 
 void Shell::loop ()
@@ -46,7 +46,8 @@ void Shell::loop ()
 
         if (inboundMessage != NULL && inboundMessage->getSize () > 0)
         {
-            COA_DEBUG (F("SH:CC:INBOUND:SIZE=%d:%s"), inboundMessage->getSize (), inboundMessage->getBuffer ());
+            COA_DEBUG (F ("SH:CC:INBOUND:SIZE=%d"), inboundMessage->getSize (), inboundMessage->getBuffer ());
+            COA_DEBUG (inboundMessage->getBuffer ());
 
             // message was received
             outboundMessage->clear ();
@@ -57,13 +58,13 @@ void Shell::loop ()
             int i;
             for (i = 0; inboundMessageParts[i] != NULL; i++)
                 ;
-            COA_DEBUG (F("SH:MSG:PARTS:%d"), i);
+            COA_DEBUG (F ("SH:MSG:PARTS:%d"), i);
 
             for (uint8_t inboundMessagePartsIdx = 0; inboundMessageParts[inboundMessagePartsIdx] != NULL; inboundMessagePartsIdx++)
             {
                 // compose command
                 Command command (inboundMessageParts[inboundMessagePartsIdx]);
-                COA_DEBUG (F("SH:COMM:NAME=%s"), command.getName ());
+                COA_DEBUG (F ("SH:COMM:NAME=%s"), command.getName ());
 
                 // write command into components
                 bool found = false;
@@ -71,7 +72,7 @@ void Shell::loop ()
                 {
                     if (strcasecmp (components[j]->name, command.getName ()) == 0)
                     {
-                        COA_DEBUG (F("SH:PROCESS:%s"), command.getName ());
+                        COA_DEBUG (F ("SH:PROCESS:%s"), command.getName ());
                         components[j]->writeToComponent (&command, outboundMessage, Component::ALL_SUBCOMPONENTS);
                         found = true;
                         break;
@@ -81,7 +82,7 @@ void Shell::loop ()
                 // write command into shell
                 if (!found && strcasecmp (name, command.getName ()) == 0)
                 {
-                    COA_DEBUG (F("SH:PROCESS:%s"), command.getName ());
+                    COA_DEBUG (F ("SH:PROCESS:%s"), command.getName ());
                     writeToComponent (&command, outboundMessage, Component::ALL_SUBCOMPONENTS);
                     found = true;
                 }
@@ -89,7 +90,7 @@ void Shell::loop ()
                 // component not found
                 if (!found)
                 {
-                    COA_DEBUG (F("SH:ERR:Unknown component '%s'"), command.getName ());
+                    COA_DEBUG (F ("SH:ERR:Unknown component '%s'"), command.getName ());
                     outboundMessage->append ("%s,ERR,UNKNOWN;", command.getName ());
                 }
 

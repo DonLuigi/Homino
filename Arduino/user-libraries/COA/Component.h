@@ -25,16 +25,16 @@ class Component
 
         static const int ALL_SUBCOMPONENTS = -1;
 
-        // debug
-#if COA_DEBUG_ENABLED
-//        void debug (const char* format, ...);
-        void debug (const __FlashStringHelper* format, ...);
-#endif
-
         // fileds
         const char* name;
         char* error;
         uint32_t reportMillis;
-};
+
+        // debug
+#if COA_DEBUG_ENABLED
+        void debug (char* text);
+        void debug (const __FlashStringHelper* format, ...);
+#endif
+        };
 
 #endif
