@@ -8,11 +8,13 @@ HardwareSerialComponent::HardwareSerialComponent (HardwareSerial* serial, const 
 
 int HardwareSerialComponent::readFromComponent (Message* message)
 {
+    // TODO: check for message size
     if (message->getSize () == 0 && serial->available ())
     {
         int size = serial->readBytesUntil ('\r', message->getBuffer (), message->getCapacity ());
         message->setSize (size);
-        COA_DEBUG (F("HS[%s]:RD:SIZE=%d:%s"), name, size, message->getBuffer ());
+        message->getBuffer ()[size] = '\0';
+        COA_DEBUG (F ("HS[%s]:RD:SIZE=%d:%s"), name, size, message->getBuffer ());
     }
 
     return (Component::ALL_SUBCOMPONENTS);
@@ -22,7 +24,7 @@ void HardwareSerialComponent::writeToComponent (Command* command, Message* messa
 {
     if (message->getSize () > 0)
     {
-        COA_DEBUG (F("HS[%s]:WR:SIZE=%d"), name, message->getSize ());
+        COA_DEBUG (F ("HS[%s]:WR:SIZE=%d"), name, message->getSize ());
         serial->write (message->getBuffer (), message->getSize ());
         message->clear ();
     }

@@ -18,9 +18,11 @@ ButtonComponent bathroom1DownButton (47, 50, "bath1Down");
 ButtonComponent bathroom1UpButton (48, 50, "bath1Up");
 ButtonComponent test4 (49, 50, "test4");
 
+ButtonComponent frontDoorButton (A3, 50, "FDB");
+
 ButtonComponent* buttons[] =
 { &kidsRoomEastUpButton, &kidsRoomSouthUpButton, &buttonKidsRoomSouthDown, &kidsRoomEastDownButton, &galleryDownButton, &galleryUpButton, &bedroomUpButton, &bedroomDownButton, &hotWaterPumpButton,
-    &bathroom1DownButton, &bathroom1UpButton, &test4, NULL };
+    &bathroom1DownButton, &bathroom1UpButton, &test4, &frontDoorButton, NULL };
 
 void setup ()
 {
@@ -56,4 +58,3 @@ void loop ()
         }
     }
 }
-

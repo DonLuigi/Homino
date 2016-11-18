@@ -240,7 +240,16 @@ ShutterComponent gallery (&galleryHeightMotion, &galleryRotationMotion, &gallery
 // button
 ButtonComponent hotWaterPumpButton (46, 50, "HWPB");
 
-TimedRelayComponent hotWaterRecirculationPump (21, LOW, true, 60 * 1000L, 0L, &hotWaterPumpButton, "HWPump", reportMillis);
+TimedRelayComponent hotWaterRecirculationPump (21, LOW, true, 60 * 1000L, 0L, &hotWaterPumpButton, NULL, "HWPump", reportMillis);
+
+///////////////////
+//
+// towel heater
+//
+///////////////////
+// button
+ButtonComponent towelHeaterButton (49, 50, "THPB");
+TimedRelayComponent towelHeater (A4, LOW, true, 20 * 60 * 1000L, 0L, &towelHeaterButton, NULL, "TowelHeater", reportMillis);
 
 ///////////////////
 //
@@ -248,7 +257,8 @@ TimedRelayComponent hotWaterRecirculationPump (21, LOW, true, 60 * 1000L, 0L, &h
 //
 ///////////////////
 ButtonComponent frontDoorProximityButton (A5, 50, "FDPB");
-TimedRelayComponent frontDoor (23, LOW, true, 2 * 1000L, 3 * 1000L, &frontDoorProximityButton, "FDoor", -1);
+ButtonComponent frontDoorUnlockButton (A3, 50, "FDEB");
+TimedRelayComponent frontDoor (23, LOW, true, 2 * 1000L, 3 * 1000L, &frontDoorProximityButton, &frontDoorUnlockButton, "FrontDoor", -1);
 
 ///////////////////
 //
@@ -304,7 +314,7 @@ Message outboundMessage (outboundMessageBuffer, MESSAGE_BUFFER_SIZE);
 ///////////////////
 Component* components[] =
 { &kitchenEast, &kitchenSouth, &livingroomWest, &livingroomSouth, &diningRoom, &bathroom0, &staircase, &bathroom1, &kidsRoomEast, &kidsRoomSouth, &gallery, &bedroom, &hotWaterRecirculationPump,
-    &frontDoor, &eatingRoomLightsRelay, &spareRelay3, &spareRelay4, &relayOutsideLights, &entryRoomLightsRelay, NULL };
+    &frontDoor, &eatingRoomLightsRelay, &spareRelay3, &spareRelay4, &relayOutsideLights, &entryRoomLightsRelay, &towelHeater, NULL };
 
 Component* commandComponents[] =
 {

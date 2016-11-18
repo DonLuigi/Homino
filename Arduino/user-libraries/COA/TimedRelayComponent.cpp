@@ -6,14 +6,16 @@
 //
 ///////////////////
 TimedRelayComponent::TimedRelayComponent (uint8_t pin, uint8_t initialState, bool inverted, uint32_t defaultDurationMillis, uint32_t reengageDurationMillis, ButtonComponent* triggerButton,
-    const char* name, uint32_t reportMillis) :
+    ButtonComponent* unlockButton, const char* name, uint32_t reportMillis) :
     RelayComponent (pin, initialState, inverted, name, reportMillis)
 {
     durationMillis = stopMillis = lastReportMillis = noReengageMillis = 0;
     forceReport = false;
+    locked = false;
     this->defaultDurationMillis = defaultDurationMillis;
     this->reengageDurationMillis = reengageDurationMillis;
     this->triggerButton = triggerButton;
+    this->unlockButton = unlockButton;
 }
 
 void TimedRelayComponent::setup ()
@@ -24,10 +26,17 @@ void TimedRelayComponent::setup ()
     {
         triggerButton->setup ();
     }
+
+    if (unlockButton != NULL)
+    {
+        unlockButton->setup ();
+    }
 }
 
 void TimedRelayComponent::writeToComponent (Command* command, Message* message, int subcomponent)
 {
+    Component::writeToComponent (command, message, subcomponent);
+
     char** parts = command->getParts ();
 
     if (parts[0] == NULL)
@@ -38,31 +47,33 @@ void TimedRelayComponent::writeToComponent (Command* command, Message* message, 
 
     if (strcasecmp (parts[0], "START") == 0)
     {
-        if (parts[1] == NULL)
+        if (parts[1] != NULL)
         {
-            message->append (Command::COMMAND_ERR_SYNTAX, name, 1);
-            return;
+            int32_t durationMillis = atol (parts[1]);
+            start (durationMillis >= 0 ? durationMillis : defaultDurationMillis, parts[2] != NULL && strcasecmp (parts[2], "FORCE") == 0);
         }
-
-        uint32_t durationMillis = atol (parts[1]);
-        start (durationMillis);
     }
-
     else if (strcasecmp (parts[0], "STOP") == 0)
     {
         stop ();
     }
-
+    else if (strcasecmp (parts[0], "LOCK") == 0)
+    {
+        locked = true;
+    }
+    else if (strcasecmp (parts[0], "UNLOCK") == 0)
+    {
+        locked = false;
+    }
     else if (strcasecmp (parts[0], "STATUS") == 0)
     {
-        forceReport = true;
-        COA_DEBUG (F ("FC1=%d"), forceReport);
     }
-
     else
     {
         message->append (Command::COMMAND_ERR_SYNTAX, name, 1);
     }
+
+    forceReport = true;
 }
 
 int TimedRelayComponent::readFromComponent (Message* message)
@@ -73,8 +84,23 @@ int TimedRelayComponent::readFromComponent (Message* message)
     // trigger button
     if (triggerButton != NULL && triggerButton->onPress ())
     {
-        COA_DEBUG (F ("START: %d, NOW:%d"), defaultDurationMillis, nowMillis);
-        start (defaultDurationMillis);
+        int8_t coveredTimePercent;
+        getStatus (&coveredTimePercent);
+        if (coveredTimePercent < 0)
+        {
+            start (defaultDurationMillis, false);
+        }
+        else
+        {
+            stop ();
+        }
+    }
+
+    // lock button
+    if (unlockButton != NULL && unlockButton->onPress ())
+    {
+        locked = false;
+        forceReport = true;
     }
 
     // stop
@@ -90,8 +116,8 @@ int TimedRelayComponent::readFromComponent (Message* message)
         (coveredTimePercent > 0 && lastReportMillis > 0 && (nowMillis - lastReportMillis) > reportMillis) || // running
         (coveredTimePercent == -1 && lastReportMillis < stopMillis)) // last report after stop
     {
-        COA_DEBUG (F ("FC2=%d,LRM=%ld,SM=%ld,P=%d,NM=%ld"), forceReport, lastReportMillis, stopMillis, coveredTimePercent, nowMillis);
-        message->append ("%s,STATUS,%d", name, coveredTimePercent);
+        COA_DEBUG (F ("FC2=%d,LRM=%ld,SM=%ld,P=%d,NM=%ld,EN=%d"), forceReport, lastReportMillis, stopMillis, coveredTimePercent, nowMillis, locked);
+        message->append ("%s,STATUS,%d,%d", name, coveredTimePercent, locked);
         lastReportMillis = nowMillis;
         forceReport = false;
         COA_DEBUG (F ("FC3=%d"), forceReport);
@@ -104,15 +130,15 @@ int TimedRelayComponent::readFromComponent (Message* message)
 // API
 //
 ///////////////////
-void TimedRelayComponent::start (uint32_t durationMillis)
+void TimedRelayComponent::start (uint32_t durationMillis, bool force)
 {
-    if (millis () >= noReengageMillis)
+    if (millis () >= noReengageMillis && (!locked || force))
     {
         RelayComponent::write (HIGH);
         this->durationMillis = durationMillis;
         stopMillis = millis () + durationMillis;
         forceReport = true;
-        COA_DEBUG (F ("TR[%s]:START:STOP MILLIS=%d,DUR MILLIS=%d"), name, stopMillis, durationMillis);
+        COA_DEBUG (F ("TR[%s]:START:STOP_MILLIS=%ld,DUR_MILLIS=%ld,FORCE=%d"), name, stopMillis, durationMillis, force);
     }
 }
 

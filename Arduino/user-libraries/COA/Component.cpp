@@ -31,25 +31,20 @@ uint8_t Component::toString (char* buffer, uint8_t size)
 }
 
 #if COA_DEBUG_ENABLED
-//void Component::debug (const char* format, ...)
-//{
-//    char buffer[32 + 1];
-//    va_list args;
-//    va_start(args, format);
-//    vsnprintf (buffer, 32, format, args);
-//    va_end(args);
-//    Serial.print ("#[");
-//    Serial.print (millis ());
-//    Serial.print ("] ");
-//    Serial.println (buffer);
-//}
+void Component::debug (char* text)
+{
+    Serial.print ("#[");
+    Serial.print (millis ());
+    Serial.print ("] ");
+    Serial.println (text);
+}
 
 void Component::debug (const __FlashStringHelper* format, ...)
 {
-    char buffer[32 + 1];
+    char buffer[64 + 1];
     va_list args;
     va_start(args, format);
-    vsnprintf (buffer, 32, String (format).c_str(), args);
+    vsnprintf (buffer, sizeof (buffer) - 1, String (format).c_str(), args);
     va_end (args);
     Serial.print ("#[");
     Serial.print (millis ());
