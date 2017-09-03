@@ -25,7 +25,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Wire/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/U8glib}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/U8glib/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/DHT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/OneWire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Bounce2}&quot;"/>
@@ -34,8 +33,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Ethernet}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Ethernet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Keypad}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Keypad/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/U8glib/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Keypad/utility}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.654564863" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -47,7 +47,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Wire/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/U8glib}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/U8glib/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/DHT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/OneWire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Bounce2}&quot;"/>
@@ -56,8 +55,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Ethernet}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Ethernet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Keypad}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Keypad/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/U8glib/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestSerial/libraries/Keypad/utility}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.2118264102" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>

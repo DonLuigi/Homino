@@ -88,8 +88,12 @@ public class PlatesPageAdapter extends PagerAdapter
         int columnCount = 0;
         for (Plate plate : platesPage.plates)
         {
-            columnCount = plate.x + plate.dx > columnCount ? plate.x + plate.dx : columnCount;
-            rowCount = plate.y + plate.dy > rowCount ? plate.y + plate.dy : rowCount;
+            if (plate.position == null)
+            {
+                continue;
+            }
+            columnCount = plate.position.x + plate.position.dx > columnCount ? plate.position.x + plate.position.dx : columnCount;
+            rowCount = plate.position.y + plate.position.dy > rowCount ? plate.position.y + plate.position.dy : rowCount;
         }
 
         DisplayMetrics displayMetrics = container.getContext ().getResources ().getDisplayMetrics ();
@@ -113,7 +117,11 @@ public class PlatesPageAdapter extends PagerAdapter
 
         for (Plate plate : platesPage.plates)
         {
-            logger.info ("New plate: eventName=" + plate.id + ", x=" + plate.x + ", y=" + plate.y + ", dx=" + plate.dx + ", dy=" + plate.dy);
+            if (plate.position == null)
+            {
+                continue;
+            }
+            logger.info ("New plate: eventName=" + plate.id + ", x=" + plate.position.x + ", y=" + plate.position.y + ", dx=" + plate.position.dx + ", dy=" + plate.position.dy);
 
 
             // window rolling shutter plate
@@ -260,9 +268,9 @@ public class PlatesPageAdapter extends PagerAdapter
     {
         adjustColors (viewGroup, plate);
 
-        GridLayout.LayoutParams params = new GridLayout.LayoutParams (GridLayout.spec (plate.y, plate.dy), GridLayout.spec (plate.x, plate.dx));
-        params.width = Math.round (plate.dx * boxSize - platesPage.marginInPx * 2);
-        params.height = Math.round (plate.dy * boxSize - platesPage.marginInPx * 2);
+        GridLayout.LayoutParams params = new GridLayout.LayoutParams (GridLayout.spec (plate.position.y, plate.position.dy), GridLayout.spec (plate.position.x, plate.position.dx));
+        params.width = Math.round (plate.position.dx * boxSize - platesPage.marginInPx * 2);
+        params.height = Math.round (plate.position.dy * boxSize - platesPage.marginInPx * 2);
         params.setMargins (platesPage.marginInPx, platesPage.marginInPx, platesPage.marginInPx, platesPage.marginInPx);
         viewGroup.setBackgroundColor (Color.parseColor (plate.backgroundColor));
         return (params);

@@ -24,7 +24,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Bounce2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/COA}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Wire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Wire/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/DHT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/LiquidCrystal_I2C}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Ethernet}&quot;"/>
@@ -36,6 +35,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/DallasTemperature}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Keypad}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Keypad/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Wire/utility}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1447701768" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -46,7 +46,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Bounce2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/COA}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Wire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Wire/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/DHT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/LiquidCrystal_I2C}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Ethernet}&quot;"/>
@@ -58,6 +57,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/DallasTemperature}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Keypad}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Keypad/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestButton/libraries/Wire/utility}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.820671161" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>

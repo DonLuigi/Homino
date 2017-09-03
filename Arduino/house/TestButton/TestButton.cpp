@@ -1,28 +1,10 @@
 #include <Arduino.h>
 #include <ButtonComponent.h>
 
-ButtonComponent kidsRoomEastUpButton (45, 50, "otrRolGor");
-ButtonComponent kidsRoomEastDownButton (39, 50, "otrRolDol");
-
-ButtonComponent kidsRoomSouthUpButton (43, 50, "otrZalGor");
-ButtonComponent buttonKidsRoomSouthDown (41, 50, "otrZalDol");
-
-ButtonComponent galleryUpButton (44, 50, "galGor");
-ButtonComponent galleryDownButton (42, 50, "galDol");
-
-ButtonComponent bedroomUpButton (40, 50, "spalnicaGor");
-ButtonComponent bedroomDownButton (38, 50, "spalnicaDol");
-
-ButtonComponent hotWaterPumpButton (46, 50, "hwp");
-ButtonComponent bathroom1DownButton (47, 50, "bath1Down");
-ButtonComponent bathroom1UpButton (48, 50, "bath1Up");
-ButtonComponent test4 (49, 50, "test4");
-
-ButtonComponent frontDoorButton (A3, 50, "FDB");
+ButtonComponent testButton (4, 50, "test");
 
 ButtonComponent* buttons[] =
-{ &kidsRoomEastUpButton, &kidsRoomSouthUpButton, &buttonKidsRoomSouthDown, &kidsRoomEastDownButton, &galleryDownButton, &galleryUpButton, &bedroomUpButton, &bedroomDownButton, &hotWaterPumpButton,
-    &bathroom1DownButton, &bathroom1UpButton, &test4, &frontDoorButton, NULL };
+{ &testButton, NULL };
 
 void setup ()
 {
@@ -30,11 +12,8 @@ void setup ()
     Serial.begin (115200);
     Serial.println ("BEGIN");
 
-    for (int i = 0; i < 8 * 4; i++)
-    {
-        pinMode (i, OUTPUT);
-        digitalWrite (i, HIGH);
-    }
+    pinMode (3, OUTPUT);
+    digitalWrite (3, LOW);
 }
 
 void loop ()

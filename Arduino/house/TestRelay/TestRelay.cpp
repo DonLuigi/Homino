@@ -1,8 +1,8 @@
 #include <arduino.h>
 #include <limits.h>
 
-int minPin = A8;
-int maxPin = A8;
+int minPin = 2;
+int maxPin = 2;
 
 void setup ()
 {

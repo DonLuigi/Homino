@@ -1,10 +1,10 @@
 #include <OneWire.h>
-#include "Shell.h"
-#include "PinComponent.h"
-#include "EEPROMValueComponent.h"
-#include "DallasTemperatureComponent.h"
-#include "LiquidCrystalI2CComponent.h"
-#include "KeypadComponent.h"
+#include <Shell.h>
+#include <PinComponent.h>
+#include <EEPROMValueComponent.h>
+#include <DallasTemperatureComponent.h>
+#include <LiquidCrystalI2CComponent.h>
+#include <KeypadComponent.h>
 #include "ApplicationComponent.h"
 
 #define ENABLE_SERIAL 1

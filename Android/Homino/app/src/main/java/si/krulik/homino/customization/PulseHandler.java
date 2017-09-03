@@ -51,9 +51,11 @@ public class PulseHandler implements IPulseHandler
         }
 
 
+        int minuteOffset = 0;
+
         // east, west, north window shutters
-        for (String shutter : new String[] {Customization.windowRollingShutterStairs, Customization.windowRollingShutterBathroom0, Customization.windowRollingShutterLivingRoomW, Customization
-            .windowRollingShutterKitchenE})
+        for (String shutter : new String[] {Customization.windowRollingShutterStairs, Customization.windowRollingShutterBathroom0, Customization.windowRollingShutterBathroom1, Customization
+            .windowRollingShutterLivingRoomW, Customization.windowRollingShutterKitchenE, Customization.windowRollingShutterKidsRoom, Customization.windowRollingShutterBedroom})
         {
             int daytimeHeightPercent = 0;
             if (shutter.equals (Customization.windowRollingShutterKitchenE) || shutter.equals (Customization.windowRollingShutterLivingRoomW))
@@ -61,41 +63,54 @@ public class PulseHandler implements IPulseHandler
                 daytimeHeightPercent = 65;
             }
 
-            automate (NIGHT_MODE + 1, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (0, 0), DateInfo.composeMillis (7, 0), wholeWeekDaysOfWeek, nowInfo, 100);
+            automate (NIGHT_MODE + 1, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (0, 0), DateInfo.composeMillis (7, minuteOffset), wholeWeekDaysOfWeek, nowInfo, 100);
 
-            automate (DAY_MODE, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (7, 0), nowInfo.sunsetMillisSinceStartOfDay - DateInfo.composeMillis (0, 20),
-                wholeWeekDaysOfWeek, nowInfo, daytimeHeightPercent);
+            if (!shutter.equals (Customization.windowRollingShutterKidsRoom) && !shutter.equals (Customization.windowRollingShutterBedroom))
+            {
+                automate (DAY_MODE, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (7, minuteOffset), nowInfo.sunsetMillisSinceStartOfDay - DateInfo.composeMillis (0, 20 +
+                    minuteOffset), wholeWeekDaysOfWeek, nowInfo, daytimeHeightPercent);
+            }
 
-            automate (NIGHT_MODE + 2, configuration, controlNodeMultiMessage, shutter, nowInfo.sunsetMillisSinceStartOfDay, DateInfo.composeMillis (24, 0), wholeWeekDaysOfWeek, nowInfo,
-                100);
+            automate (NIGHT_MODE + 2, configuration, controlNodeMultiMessage, shutter, nowInfo.sunsetMillisSinceStartOfDay - DateInfo.composeMillis (0, 20 + minuteOffset), DateInfo.composeMillis
+                (24, 0), wholeWeekDaysOfWeek, nowInfo, 100);
+
+            minuteOffset++;
         }
 
 
         // south window louvre shutters
-        for (String shutter : new String[] {Customization.windowLouvreShutterDiningRoomS, Customization.windowLouvreShutterLivingRoomS})
+        for (String shutter : new String[] {Customization.windowLouvreShutterDiningRoomS, Customization.windowLouvreShutterLivingRoomS, Customization.windowLouvreShutterGallery, Customization
+            .windowLouvreShutterKidsRoom})
         {
-            automate (NIGHT_MODE + 1, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (0, 0), DateInfo.composeMillis (7, 0), wholeWeekDaysOfWeek, nowInfo, 100, 100);
+            automate (NIGHT_MODE + 1, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (0, 0), DateInfo.composeMillis (7, minuteOffset), wholeWeekDaysOfWeek, nowInfo, 100, 100);
 
-            automate (DAY_MODE, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (7, 0), nowInfo.sunsetMillisSinceStartOfDay + DateInfo.composeMillis (0, 30),
-                wholeWeekDaysOfWeek, nowInfo, 100, 40);
+            if (!shutter.equals (Customization.windowLouvreShutterKidsRoom))
+            {
+                automate (DAY_MODE, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (7, minuteOffset), nowInfo.sunsetMillisSinceStartOfDay + DateInfo.composeMillis (0, 30 +
+                    minuteOffset), wholeWeekDaysOfWeek, nowInfo, 100, 40);
+            }
 
-            automate (NIGHT_MODE + 2, configuration, controlNodeMultiMessage, shutter, nowInfo.sunsetMillisSinceStartOfDay + DateInfo.composeMillis (0, 30), DateInfo.composeMillis (24, 0),
-                wholeWeekDaysOfWeek, nowInfo, 100, 100);
+            automate (NIGHT_MODE + 2, configuration, controlNodeMultiMessage, shutter, nowInfo.sunsetMillisSinceStartOfDay + DateInfo.composeMillis (0, 30 + minuteOffset), DateInfo.composeMillis
+                (24, 0), wholeWeekDaysOfWeek, nowInfo, 100, 100);
+
+            minuteOffset++;
         }
 
 
         // south window roller shutters
         for (String shutter : new String[] {Customization.windowRollingShutterKitchenS})
         {
-            automate (NIGHT_MODE + 1, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (0, 0), DateInfo.composeMillis (7, 0), wholeWeekDaysOfWeek, nowInfo, 100);
+            automate (NIGHT_MODE + 1, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (0, 0), DateInfo.composeMillis (7, minuteOffset), wholeWeekDaysOfWeek, nowInfo, 100);
 
-            automate (DAY_MODE + 1, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (7, 0), DateInfo.composeMillis (18, 0), wholeWeekDaysOfWeek, nowInfo, 70);
+            automate (DAY_MODE + 1, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (7, minuteOffset), DateInfo.composeMillis (18, minuteOffset), wholeWeekDaysOfWeek,
+                nowInfo, 70);
 
-            automate (DAY_MODE + 2, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (18, 0), nowInfo.sunsetMillisSinceStartOfDay + DateInfo.composeMillis (0, 30),
+            automate (DAY_MODE + 2, configuration, controlNodeMultiMessage, shutter, DateInfo.composeMillis (18, minuteOffset), nowInfo.sunsetMillisSinceStartOfDay + DateInfo.composeMillis (0, 30),
                 wholeWeekDaysOfWeek, nowInfo, 0);
 
-            automate (NIGHT_MODE + 2, configuration, controlNodeMultiMessage, shutter, nowInfo.sunsetMillisSinceStartOfDay + DateInfo.composeMillis (0, 30), DateInfo.composeMillis (24, 0),
-                wholeWeekDaysOfWeek, nowInfo, 100);
+            automate (NIGHT_MODE + 2, configuration, controlNodeMultiMessage, shutter, nowInfo.sunsetMillisSinceStartOfDay + DateInfo.composeMillis (0, 30 + minuteOffset), DateInfo.composeMillis
+                (24, 0), wholeWeekDaysOfWeek, nowInfo, 100);
+            minuteOffset++;
         }
 
 

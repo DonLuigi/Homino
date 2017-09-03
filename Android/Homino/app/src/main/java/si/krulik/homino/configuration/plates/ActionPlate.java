@@ -10,9 +10,9 @@ import si.krulik.homino.configuration.Plate;
 
 public class ActionPlate extends Plate
 {
-    public ActionPlate (String id, int x, int y, int dx, int dy, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String text, ActionPlateRow... rows)
+    public ActionPlate (String id, ActionPlatePosition position, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String text, ActionPlateRow... rows)
     {
-        super (id, x, y, dx, dy, foregroundColor, backgroundColor, buttonBackgroundColor);
+        super (id, position, foregroundColor, backgroundColor, buttonBackgroundColor);
         this.text = text;
         this.rows = Arrays.asList (rows);
     }

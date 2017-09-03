@@ -15,10 +15,10 @@ import si.krulik.homino.configuration.devices.TimedRelayDevice;
 
 public class TimedRelayPlate extends Plate
 {
-    public TimedRelayPlate (String id, int x, int y, int dx, int dy, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String text, String startStopButtonEventName,
+    public TimedRelayPlate (String id, ActionPlatePosition position, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String text, String startStopButtonEventName,
         String enableDisableButtonEventName, Integer imageResource, TimedRelayDevice device)
     {
-        super (id, x, y, dx, dy, foregroundColor, backgroundColor, buttonBackgroundColor);
+        super (id, position, foregroundColor, backgroundColor, buttonBackgroundColor);
         this.startStopButtonEventName = startStopButtonEventName;
         this.enableDisableButtonEventName = enableDisableButtonEventName;
         this.imageResource = imageResource;

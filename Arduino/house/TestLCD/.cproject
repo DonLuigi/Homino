@@ -24,18 +24,18 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/COA}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/LiquidCrystal_I2C}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/DallasTemperature}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/DHT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/OneWire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Ethernet}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Keypad}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Ethernet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Bounce2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/U8glib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/U8glib/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Keypad/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Ethernet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Ethernet/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/SPI}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.1436767334" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -46,18 +46,18 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/COA}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/LiquidCrystal_I2C}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/DallasTemperature}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/DHT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/OneWire}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Ethernet}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Keypad}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/SPI}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Ethernet/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Bounce2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/U8glib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/U8glib/utility}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Keypad/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Ethernet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/Ethernet/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/TestLCD/libraries/SPI}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.433221282" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>

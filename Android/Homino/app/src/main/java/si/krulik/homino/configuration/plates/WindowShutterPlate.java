@@ -5,10 +5,10 @@ import si.krulik.homino.configuration.devices.Device;
 
 public abstract class WindowShutterPlate extends Plate
 {
-    public WindowShutterPlate (String id, int x, int y, int dx, int dy, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String text, String upButtonEventName,
+    public WindowShutterPlate (String id, ActionPlatePosition position, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String text, String upButtonEventName,
         String downButtonEventName, String stopButtonEventName)
     {
-        super (id, x, y, dx, dy, foregroundColor, backgroundColor, buttonBackgroundColor);
+        super (id, position, foregroundColor, backgroundColor, buttonBackgroundColor);
         this.text = text;
         this.upButtonEventName = upButtonEventName;
         this.downButtonEventName = downButtonEventName;

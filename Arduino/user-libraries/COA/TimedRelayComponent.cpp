@@ -112,15 +112,18 @@ int TimedRelayComponent::readFromComponent (Message* message)
     // status
     int8_t coveredTimePercent;
     getStatus (&coveredTimePercent);
-    if (forceReport || // force
-        (coveredTimePercent > 0 && lastReportMillis > 0 && (nowMillis - lastReportMillis) > reportMillis) || // running
-        (coveredTimePercent == -1 && lastReportMillis < stopMillis)) // last report after stop
+    if (message != NULL)
     {
-        COA_DEBUG (F ("FC2=%d,LRM=%ld,SM=%ld,P=%d,NM=%ld,EN=%d"), forceReport, lastReportMillis, stopMillis, coveredTimePercent, nowMillis, locked);
-        message->append ("%s,STATUS,%d,%d", name, coveredTimePercent, locked);
-        lastReportMillis = nowMillis;
-        forceReport = false;
-        COA_DEBUG (F ("FC3=%d"), forceReport);
+        if (forceReport || // force
+            (coveredTimePercent > 0 && lastReportMillis > 0 && (nowMillis - lastReportMillis) > reportMillis) || // running
+            (coveredTimePercent == -1 && lastReportMillis < stopMillis)) // last report after stop
+        {
+            COA_DEBUG(F ("FC2=%d,LRM=%ld,SM=%ld,P=%d,NM=%ld,EN=%d"), forceReport, lastReportMillis, stopMillis, coveredTimePercent, nowMillis, locked);
+            message->append ("%s,STATUS,%d,%d", name, coveredTimePercent, locked);
+            lastReportMillis = nowMillis;
+            forceReport = false;
+            COA_DEBUG(F ("FC3=%d"), forceReport);
+        }
     }
     return (Component::ALL_SUBCOMPONENTS);
 }
@@ -138,7 +141,7 @@ void TimedRelayComponent::start (uint32_t durationMillis, bool force)
         this->durationMillis = durationMillis;
         stopMillis = millis () + durationMillis;
         forceReport = true;
-        COA_DEBUG (F ("TR[%s]:START:STOP_MILLIS=%ld,DUR_MILLIS=%ld,FORCE=%d"), name, stopMillis, durationMillis, force);
+        COA_DEBUG(F ("TR[%s]:START:STOP_MILLIS=%ld,DUR_MILLIS=%ld,FORCE=%d"), name, stopMillis, durationMillis, force);
     }
 }
 
@@ -149,7 +152,7 @@ void TimedRelayComponent::stop ()
     noReengageMillis = stopMillis + reengageDurationMillis;
     durationMillis = 0;
     forceReport = true;
-    COA_DEBUG (F ("TR[%s]:STOP"), name);
+    COA_DEBUG(F ("TR[%s]:STOP"), name);
 
 }
 

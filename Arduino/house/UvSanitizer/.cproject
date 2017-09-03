@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="it.baeyens.arduino.core.toolChain.release.1812372618">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="it.baeyens.arduino.core.toolChain.release.1812372618" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildProperties="" description="" id="it.baeyens.arduino.core.toolChain.release.1812372618" name="Release" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="it.baeyens.arduino.core.toolChain.release.1812372618.1792894832" name="/" resourcePath="">
+						<toolChain id="it.baeyens.arduino.core.toolChain.release.2033783620" name="Arduino Toolchain" superClass="it.baeyens.arduino.core.toolChain.release">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="it.baeyens.arduino.targetplatform.1603892660" name="Arduino Target" osList="all" superClass="it.baeyens.arduino.targetplatform"/>
+							<builder buildPath="${workspace_loc:/UvDesinfector}/Release" id="it.baeyens.arduino.sketch.builder.1497895288" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Arduino sketch builder" superClass="it.baeyens.arduino.sketch.builder"/>
+							<tool id="it.baeyens.arduino.tool.sketch.compiler.cpp.1471635575" name="Arduino C++ Compiler" superClass="it.baeyens.arduino.tool.sketch.compiler.cpp">
+								<option id="it.baeyens.arduino.compiler.cpp.sketch.option.incpath.1120630460" name="Include Paths (-I)" superClass="it.baeyens.arduino.compiler.cpp.sketch.option.incpath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/COA}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Bounce2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/LiquidCrystal_I2C}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/U8glib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/U8glib/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/DHT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/OneWire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/DallasTemperature}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Ethernet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Ethernet/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Keypad}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Keypad/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Hysteresis}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/EEPROM}&quot;"/>
+								</option>
+								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.705463567" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
+							</tool>
+							<tool id="it.baeyens.arduino.tool.compiler.c.67695613" name="Arduino C Compiler" superClass="it.baeyens.arduino.tool.compiler.c">
+								<option id="it.baeyens.arduino.compiler.c.sketch.option.incpath.2081428706" name="Include Paths (-I)" superClass="it.baeyens.arduino.compiler.c.sketch.option.incpath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/COA}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Bounce2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/LiquidCrystal_I2C}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/U8glib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/U8glib/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/DHT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/OneWire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/DallasTemperature}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Ethernet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Ethernet/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Keypad}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Keypad/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/Hysteresis}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/UvSanitizer/libraries/EEPROM}&quot;"/>
+								</option>
+								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.833495246" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
+							</tool>
+							<tool id="it.baeyens.arduino.tool.sketch.compiler.s.1128780587" name="Arduino Assembler" superClass="it.baeyens.arduino.tool.sketch.compiler.s"/>
+							<tool id="it.baeyens.arduino.tool.ar.1949163447" name="Arduino archiver" superClass="it.baeyens.arduino.tool.ar"/>
+							<tool id="it.baeyens.arduino.tool.combine.952975700" name="Arduino combiner" superClass="it.baeyens.arduino.tool.combine"/>
+							<tool id="it.baeyens.arduino.tool.objcopy.eep.293588200" name="Arduino tool Create eeprom" superClass="it.baeyens.arduino.tool.objcopy.eep"/>
+							<tool id="it.baeyens.arduino.tool.objcopy.flash.1996770380" name="Arduino tool Create hex" superClass="it.baeyens.arduino.tool.objcopy.flash"/>
+							<tool id="it.baeyens.arduino.tool.size.1424604952" name="Arduino tool Print Size" superClass="it.baeyens.arduino.tool.size"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="libraries/**/?xamples/**|libraries/**/?xtras/**|libraries/**/test/**|libraries/**/third-party/**|libraries**/._*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="UvDesinfector.null.624839188" name="UvDesinfector"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+</cproject>

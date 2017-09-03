@@ -44,22 +44,22 @@
 		<link>
 			<name>libraries/Bounce2</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/Bounce2</location>
+			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/Bounce2</location>
 		</link>
 		<link>
 			<name>libraries/COA</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/COA</location>
+			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/COA</location>
 		</link>
 		<link>
 			<name>libraries/DHT</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/DHT</location>
+			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/DHT</location>
 		</link>
 		<link>
 			<name>libraries/DallasTemperature</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/DallasTemperature</location>
+			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/DallasTemperature</location>
 		</link>
 		<link>
 			<name>libraries/Ethernet</name>
@@ -69,17 +69,17 @@
 		<link>
 			<name>libraries/Keypad</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/Keypad</location>
+			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/Keypad</location>
 		</link>
 		<link>
 			<name>libraries/LiquidCrystal_I2C</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/LiquidCrystal_I2C</location>
+			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/LiquidCrystal_I2C</location>
 		</link>
 		<link>
 			<name>libraries/OneWire</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/OneWire</location>
+			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/OneWire</location>
 		</link>
 		<link>
 			<name>libraries/SPI</name>
@@ -89,7 +89,7 @@
 		<link>
 			<name>libraries/U8glib</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PROGRAMMING/Homino/Arduino/user-libraries/U8glib</location>
+			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/U8glib</location>
 		</link>
 		<link>
 			<name>libraries/Wire</name>

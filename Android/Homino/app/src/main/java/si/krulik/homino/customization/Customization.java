@@ -15,6 +15,7 @@ import si.krulik.homino.configuration.devices.TimedRelayDevice;
 import si.krulik.homino.configuration.devices.WindowLouvreShutterDevice;
 import si.krulik.homino.configuration.devices.WindowRollingShutterDevice;
 import si.krulik.homino.configuration.plates.ActionPlate;
+import si.krulik.homino.configuration.plates.ActionPlatePosition;
 import si.krulik.homino.configuration.plates.ActionPlateRow;
 import si.krulik.homino.configuration.plates.ActionPlateRowButton;
 import si.krulik.homino.configuration.plates.PlatePage;
@@ -26,12 +27,12 @@ public class Customization
 {
     enum Build
     {
-        TabGroundFloor, TabFirstFloor
+        TabGroundFloor, TabFirstFloor, Phone
     }
 
     ;
 
-    Build build = Build.TabFirstFloor;
+    Build build = Build.TabGroundFloor;
 
     public final static String messageDelimiter = ";";
     public final static String fieldDelimiter = ",";
@@ -109,7 +110,7 @@ public class Customization
 
 
         // grid layout coordinates
-        int dx = 10;
+        int dx = 1;
         int dx2 = dx * 2;
 
         int x0 = 0;
@@ -119,7 +120,7 @@ public class Customization
         int x4 = dx * 4;
         int x5 = dx * 5;
 
-        int dy = 10;
+        int dy = 1;
         int dy2 = dy * 2;
 
         int y0 = 0;
@@ -129,6 +130,87 @@ public class Customization
         int y4 = dy * 4;
         int y5 = dy * 5;
         int y6 = dy * 6;
+        int y7 = dy * 7;
+        int y8 = dy * 8;
+
+
+        ActionPlatePosition windowShuttersLowerFloorPosition = null;
+        ActionPlatePosition frontDoorPosition = null;
+        ActionPlatePosition windowRollingShutterKitchenEPosition = null;
+        ActionPlatePosition windowRollingShutterKitchenSPosition = null;
+        ActionPlatePosition windowShuttersKitchenPosition = null;
+        ActionPlatePosition windowLouvreShutterLivingRoomSPosition = null;
+        ActionPlatePosition windowRollingShutterLivingRoomWPosition = null;
+        ActionPlatePosition windowShuttersLivingRoomPosition = null;
+        ActionPlatePosition windowLouvreShutterDiningRoomSPosition = null;
+        ActionPlatePosition windowRollingShutterStairsPosition = null;
+        ActionPlatePosition windowRollingShutterBathroom0Position = null;
+        ActionPlatePosition hotWaterRecirculationPumpPosition = null;
+        ActionPlatePosition towelHeaterPosition = null;
+        ActionPlatePosition windowRollingShutterBathroom1Position = null;
+        ActionPlatePosition windowRollingShutterKidsRoomPosition = null;
+        ActionPlatePosition windowLouvreShutterKidsRoomPosition = null;
+        ActionPlatePosition windowLouvreShutterGalleryPosition = null;
+        ActionPlatePosition windowRollingShutterBedroomPosition = null;
+
+
+        switch (build)
+        {
+            case TabGroundFloor:
+            case TabFirstFloor:
+                windowShuttersLowerFloorPosition = new ActionPlatePosition (x0, y0, dx2, dy2);
+                frontDoorPosition = new ActionPlatePosition (x2, y0, dx2, dy2);
+                windowRollingShutterKitchenEPosition = new ActionPlatePosition (x0, y2, dx2, dy2);
+                windowRollingShutterKitchenSPosition = new ActionPlatePosition (x2, y2, dx2, dy2);
+                windowShuttersKitchenPosition = new ActionPlatePosition (x4, y2, dx2, dy2);
+                windowLouvreShutterLivingRoomSPosition = new ActionPlatePosition (x0, y4, dx2, dy2);
+                windowRollingShutterLivingRoomWPosition = new ActionPlatePosition (x2, y4, dx2, dy2);
+                windowShuttersLivingRoomPosition = new ActionPlatePosition (x4, y4, dx2, dy2);
+                windowLouvreShutterDiningRoomSPosition = new ActionPlatePosition (x0, y6, dx2, dy2);
+                windowRollingShutterStairsPosition = new ActionPlatePosition (x2, y6, dx2, dy2);
+                windowRollingShutterBathroom0Position = new ActionPlatePosition (x4, y6, dx2, dy2);
+
+                hotWaterRecirculationPumpPosition = new ActionPlatePosition (x0, y0, dx2, dy2);
+                towelHeaterPosition = new ActionPlatePosition (x2, y0, dx2, dy2);
+                windowRollingShutterBathroom1Position = new ActionPlatePosition (x0, y2, dx2, dy2);
+                windowRollingShutterKidsRoomPosition = new ActionPlatePosition (x2, y2, dx2, dy2);
+                windowLouvreShutterKidsRoomPosition = new ActionPlatePosition (x4, y2, dx2, dy2);
+                windowLouvreShutterGalleryPosition = new ActionPlatePosition (x0, y4, dx2, dy2);
+                windowRollingShutterBedroomPosition = new ActionPlatePosition (x2, y4, dx2, dy2);
+                break;
+
+            case Phone:
+                // page 1
+                windowShuttersLowerFloorPosition = new ActionPlatePosition (x0, y0, dx2, dy2);
+                frontDoorPosition = new ActionPlatePosition (x2, y0, dx2, dy2);
+
+                windowRollingShutterKitchenEPosition = new ActionPlatePosition (x0, y2, dx2, dy2);
+                windowRollingShutterKitchenSPosition = new ActionPlatePosition (x2, y2, dx2, dy2);
+
+                windowLouvreShutterLivingRoomSPosition = new ActionPlatePosition (x0, y4, dx2, dy2);
+                windowRollingShutterLivingRoomWPosition = new ActionPlatePosition (x2, y4, dx2, dy2);
+
+                windowShuttersLivingRoomPosition = new ActionPlatePosition (x0, y6, dx2, dy2);
+                windowLouvreShutterDiningRoomSPosition = new ActionPlatePosition (x2, y6, dx2, dy2);
+
+                windowRollingShutterStairsPosition = new ActionPlatePosition (x0, y8, dx2, dy2);
+                windowRollingShutterBathroom0Position = new ActionPlatePosition (x2, y8, dx2, dy2);
+
+
+                // page 2
+                hotWaterRecirculationPumpPosition = new ActionPlatePosition (x0, y0, dx2, dy2);
+                towelHeaterPosition = new ActionPlatePosition (x2, y0, dx2, dy2);
+
+
+                windowRollingShutterKidsRoomPosition = new ActionPlatePosition (x0, y2, dx2, dy2);
+                windowLouvreShutterKidsRoomPosition = new ActionPlatePosition (x2, y2, dx2, dy2);
+
+                windowRollingShutterBathroom1Position = new ActionPlatePosition (x0, y4, dx2, dy2);
+                windowLouvreShutterGalleryPosition = new ActionPlatePosition (x2, y4, dx2, dy2);
+
+                windowRollingShutterBedroomPosition = new ActionPlatePosition (x0, y6, dx2, dy2);
+                break;
+        }
 
 
         // @formatter:off
@@ -159,7 +241,7 @@ public class Customization
         // plate pages
         PlatePage roleteInZaluzijePritlicje  =
             new PlatePage ("ROLETE IN ŽALUZIJE PRITLIČJE", 5,
-                new ActionPlate (windowShuttersLowerFloor, x0, y0, dx2, dy2, white, blue, lighterBlue, "PRITLIČJE",
+                new ActionPlate (windowShuttersLowerFloor, windowShuttersLowerFloorPosition, white, blue, lighterBlue, "PRITLIČJE",
                     new ActionPlateRow (
                         new ActionPlateRowButton (windowShuttersLowerFloor + fieldDelimiter + up, null, R.drawable.ic_action_arrow_top, null)),
 
@@ -171,18 +253,18 @@ public class Customization
                         new ActionPlateRowButton (windowShuttersLowerFloor + fieldDelimiter + quarter, null, R.drawable.window_shutter_quarter, null),
                         new ActionPlateRowButton (windowShuttersLowerFloor + fieldDelimiter + down, null, R.drawable.ic_action_arrow_bottom, null))),
 
-                new TimedRelayPlate (frontDoor, x2, y0, dx2, dy2, white, orange, lighterOrange, "VRATA", frontDoor + fieldDelimiter + start, frontDoor +
+                new TimedRelayPlate (frontDoor, frontDoorPosition, white, orange, lighterOrange, "VRATA", frontDoor + fieldDelimiter + start, frontDoor +
                     fieldDelimiter + lockUnlock, R.drawable.key, frontDoorDevice),
 
 //                new TimedRelayPlate (hotWaterRecirculationPump, x2, y0, dx2, dy2, white, orange, lighterOrange, "VODA", hotWaterRecirculationPump + fieldDelimiter + start,
 // hotWaterRecirculationPump +
 //                    fieldDelimiter + stop, hotWaterRecirculationPumpDevice),
 
-                composeWindowRollingShutterPlate (windowRollingShutterKitchenE, x0, y2, dx2, dy2, white, darkCyan, lighterDarkCyan, "KUHINJA V", configuration.devicesById),
+                composeWindowRollingShutterPlate (windowRollingShutterKitchenE, windowRollingShutterKitchenEPosition, white, darkCyan, lighterDarkCyan, "KUHINJA V", configuration.devicesById),
 
-                composeWindowRollingShutterPlate (windowRollingShutterKitchenS, x2, y2, dx2, dy2, white, darkCyan, lighterDarkCyan, "KUHINJA J", configuration.devicesById),
+                composeWindowRollingShutterPlate (windowRollingShutterKitchenS, windowRollingShutterKitchenSPosition, white, darkCyan, lighterDarkCyan, "KUHINJA J", configuration.devicesById),
 
-                new ActionPlate (windowShuttersKitchen, x4, y2, dx2, dy2,  white, cyan, lighterCyan, "KUHINJA",
+                new ActionPlate (windowShuttersKitchen, windowShuttersKitchenPosition,  white, cyan, lighterCyan, "KUHINJA",
                     new ActionPlateRow (
                         new ActionPlateRowButton (windowShuttersKitchen + fieldDelimiter + grid, null, R.drawable.ic_grid_on, null),
                         new ActionPlateRowButton (windowShuttersKitchen + fieldDelimiter + up, null, R.drawable.ic_action_arrow_top, null)),
@@ -195,9 +277,10 @@ public class Customization
                         new ActionPlateRowButton (windowShuttersKitchen + fieldDelimiter + quarter, null, R.drawable.window_shutter_quarter, null),
                         new ActionPlateRowButton (windowShuttersKitchen + fieldDelimiter + down, null, R.drawable.ic_action_arrow_bottom, null))),
 
-                composeWindowLouvreShutterPlate (windowLouvreShutterLivingRoomS, x0, y4, dx2, dy2, white, darkOrange, lighterDarkOrange, "DNEVNA J", configuration.devicesById),
-                composeWindowRollingShutterPlate (windowRollingShutterLivingRoomW, x2, y4, dx2, dy2, white, darkOrange, lighterDarkOrange,  "DNEVNA Z", configuration.devicesById),
-                new ActionPlate (windowShuttersLivingRoom, x4, y4, dx2, dy2,  white, orange, lighterOrange, "DNEVNA",
+                composeWindowLouvreShutterPlate (windowLouvreShutterLivingRoomS, windowLouvreShutterLivingRoomSPosition, white, darkOrange, lighterDarkOrange, "DNEVNA J", configuration.devicesById),
+                composeWindowRollingShutterPlate (windowRollingShutterLivingRoomW, windowRollingShutterLivingRoomWPosition, white, darkOrange, lighterDarkOrange,  "DNEVNA Z", configuration
+                    .devicesById),
+                new ActionPlate (windowShuttersLivingRoom, windowShuttersLivingRoomPosition,  white, orange, lighterOrange, "DNEVNA",
                     new ActionPlateRow (
                         new ActionPlateRowButton (windowShuttersLivingRoom + fieldDelimiter + grid, null, R.drawable.ic_grid_on, null),
                         new ActionPlateRowButton (windowShuttersLivingRoom + fieldDelimiter + up, null, R.drawable.ic_action_arrow_top, null)),
@@ -210,30 +293,32 @@ public class Customization
                         new ActionPlateRowButton (windowShuttersLivingRoom + fieldDelimiter + quarter, null, R.drawable.window_shutter_quarter, null),
                         new ActionPlateRowButton (windowShuttersLivingRoom + fieldDelimiter + down, null, R.drawable.ic_action_arrow_bottom, null))),
 
-                composeWindowLouvreShutterPlate (windowLouvreShutterDiningRoomS, x0, y6, dx2, dy2, white, lightGray, lighterLightGray, "JEDILNICA", configuration.devicesById),
-                composeWindowRollingShutterPlate (windowRollingShutterStairs, x2, y6, dx2, dy2, white, lightGray, lighterLightGray, "STOPNIŠČE", configuration.devicesById),
-                composeWindowRollingShutterPlate (windowRollingShutterBathroom0, x4, y6, dx2, dy2, white, lightGray, lighterLightGray, "KOP. P", configuration.devicesById));
+                composeWindowLouvreShutterPlate (windowLouvreShutterDiningRoomS, windowLouvreShutterDiningRoomSPosition, white, lightGray, lighterLightGray, "JEDILNICA", configuration.devicesById),
+                composeWindowRollingShutterPlate (windowRollingShutterStairs, windowRollingShutterStairsPosition, white, lightGray, lighterLightGray, "STOPNIŠČE", configuration.devicesById),
+                composeWindowRollingShutterPlate (windowRollingShutterBathroom0, windowRollingShutterBathroom0Position, white, lightGray, lighterLightGray, "KOP. P", configuration.devicesById));
 
 
         PlatePage roleteInZaluzijeNadstropje  =
             new PlatePage ("ROLETE IN ŽALUZIJE NADSTROPJE", 5,
-                new TimedRelayPlate (hotWaterRecirculationPump, x0, y0, dx2, dy2, white, orange, lighterOrange, "VODA", hotWaterRecirculationPump + fieldDelimiter + startStop, null, R.drawable
+                new TimedRelayPlate (hotWaterRecirculationPump, hotWaterRecirculationPumpPosition, white, orange, lighterOrange, "VODA", hotWaterRecirculationPump + fieldDelimiter + startStop,
+                    null, R.drawable
                     .faucet, hotWaterRecirculationPumpDevice),
 
-                new TimedRelayPlate (towelHeater, x2, y0, dx2, dy2, white, darkOrange, lighterDarkOrange, "BRISAČE", towelHeater + fieldDelimiter + startStop,
+                new TimedRelayPlate (towelHeater, towelHeaterPosition, white, darkOrange, lighterDarkOrange, "BRISAČE", towelHeater + fieldDelimiter + startStop,
                     null, R.drawable.towels, towelWarmerDevice),
 
-                composeWindowRollingShutterPlate (windowRollingShutterBathroom1, x0, y2, dx2, dy2, white, darkCyan, lighterDarkCyan, "KOPALNICA", configuration.devicesById),
-                composeWindowRollingShutterPlate (windowRollingShutterKidsRoom, x2, y2, dx2, dy2, white, darkCyan, lighterDarkCyan, "OTROŠKA V", configuration.devicesById),
-                composeWindowLouvreShutterPlate (windowLouvreShutterKidsRoom, x4, y2, dx2, dy2, white, darkOrange, lighterDarkOrange, "OTROŠKA J", configuration.devicesById),
-                composeWindowLouvreShutterPlate (windowLouvreShutterGallery, x0, y4, dx2, dy2, white, darkOrange, lighterDarkOrange,  "GALERIJA", configuration.devicesById),
-                composeWindowRollingShutterPlate (windowRollingShutterBedroom, x2, y4, dx2, dy2, white, lightGray, lighterLightGray, "SPALNICA", configuration.devicesById));
+                composeWindowRollingShutterPlate (windowRollingShutterBathroom1, windowRollingShutterBathroom1Position, white, darkCyan, lighterDarkCyan, "KOPALNICA", configuration.devicesById),
+                composeWindowRollingShutterPlate (windowRollingShutterKidsRoom, windowRollingShutterKidsRoomPosition, white, darkCyan, lighterDarkCyan, "OTROŠKA V", configuration.devicesById),
+                composeWindowLouvreShutterPlate (windowLouvreShutterKidsRoom, windowLouvreShutterKidsRoomPosition, white, darkOrange, lighterDarkOrange, "OTROŠKA J", configuration.devicesById),
+                composeWindowLouvreShutterPlate (windowLouvreShutterGallery, windowLouvreShutterGalleryPosition, white, darkOrange, lighterDarkOrange,  "GALERIJA", configuration.devicesById),
+                composeWindowRollingShutterPlate (windowRollingShutterBedroom, windowRollingShutterBedroomPosition, white, lightGray, lighterLightGray, "SPALNICA", configuration.devicesById));
 
         // @formatter:on
 
         switch (build)
         {
             case TabGroundFloor:
+            case Phone:
                 configuration.addPlatePages (roleteInZaluzijePritlicje, roleteInZaluzijeNadstropje);
                 break;
 
@@ -254,26 +339,26 @@ public class Customization
     private final static Logger logger = Logger.getLogger (Customization.class.getName ());
 
 
-    private WindowRollingShutterPlate composeWindowRollingShutterPlate (String id, int x, int y, int dx, int dy, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String
+    private WindowRollingShutterPlate composeWindowRollingShutterPlate (String id, ActionPlatePosition position, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String
         text, Map<String, Device> devicesById)
     {
         Device device = devicesById.get (id);
         Validate.notNull (device, "Device ", id, " not found");
         Validate.isTrue (device instanceof WindowRollingShutterDevice, "Device ", id, " not of correct type");
 
-        return (new WindowRollingShutterPlate (id, x, y, dx, dy, foregroundColor, backgroundColor, buttonBackgroundColor, text, id + fieldDelimiter + up, id + fieldDelimiter + down, id +
+        return (new WindowRollingShutterPlate (id, position, foregroundColor, backgroundColor, buttonBackgroundColor, text, id + fieldDelimiter + up, id + fieldDelimiter + down, id +
             fieldDelimiter + stop, id + fieldDelimiter + grid, id + fieldDelimiter + half, id + fieldDelimiter + quarter, (WindowRollingShutterDevice) device));
     }
 
 
-    private WindowLouvreShutterPlate composeWindowLouvreShutterPlate (String id, int x, int y, int dx, int dy, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String
+    private WindowLouvreShutterPlate composeWindowLouvreShutterPlate (String id, ActionPlatePosition position, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String
         text, Map<String, Device> devicesById)
     {
         Device device = devicesById.get (id);
         Validate.notNull (device, "Device ", id, " not found");
         Validate.isTrue (device instanceof WindowLouvreShutterDevice, "Device ", id, " not of correct type");
 
-        return (new WindowLouvreShutterPlate (id, x, y, dx, dy, foregroundColor, backgroundColor, buttonBackgroundColor, text, id + fieldDelimiter + up, id + fieldDelimiter + down, id +
+        return (new WindowLouvreShutterPlate (id, position, foregroundColor, backgroundColor, buttonBackgroundColor, text, id + fieldDelimiter + up, id + fieldDelimiter + down, id +
             fieldDelimiter + stop, id + fieldDelimiter + half, id + fieldDelimiter + rotateUp, id +
             fieldDelimiter + rotateDown, (WindowLouvreShutterDevice) device));
     }

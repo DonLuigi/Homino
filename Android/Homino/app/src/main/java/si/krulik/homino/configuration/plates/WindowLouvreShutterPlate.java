@@ -7,10 +7,10 @@ import si.krulik.homino.configuration.devices.WindowLouvreShutterDevice;
 
 public class WindowLouvreShutterPlate extends WindowShutterPlate
 {
-    public WindowLouvreShutterPlate (String id, int x, int y, int dx, int dy, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String text, String upButtonEventName,
+    public WindowLouvreShutterPlate (String id, ActionPlatePosition position, String foregroundColor, String backgroundColor, String buttonBackgroundColor, String text, String upButtonEventName,
         String downButtonEventName, String stopButtonEventName, String halfButtonEventName, String rotateUpButtonEventName, String rotateDownButtonEventName, WindowLouvreShutterDevice device)
     {
-        super (id, x, y, dx, dy, foregroundColor, backgroundColor, buttonBackgroundColor, text, upButtonEventName, downButtonEventName, stopButtonEventName);
+        super (id, position, foregroundColor, backgroundColor, buttonBackgroundColor, text, upButtonEventName, downButtonEventName, stopButtonEventName);
         this.halfButtonEventName = halfButtonEventName;
         this.rotateUpButtonEventName = rotateUpButtonEventName;
         this.rotateDownButtonEventName = rotateDownButtonEventName;
