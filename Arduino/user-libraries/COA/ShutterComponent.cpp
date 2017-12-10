@@ -259,7 +259,7 @@ void ShutterComponent::appendStatus (Message* message, uint32_t now)
     if (isMoving /* is moving */|| lastReportMillis > 0 /* was moving */|| now == 0 /* force immediate report */)
     {
         if (now == 0 /* report immediately */|| (!isMoving && lastReportMillis > 0) /* was moving -> report immediately */
-        || (now - lastReportMillis > reportMillis) /* is moving -> report once in a while */)
+        || shouldReport(now) /* is moving -> report once in a while */)
         {
             // compose message
             message->append ("%s,STATUS", name);
@@ -278,7 +278,10 @@ void ShutterComponent::appendStatus (Message* message, uint32_t now)
             message->append (";");
 
             // mark last report time
-            lastReportMillis = (now > 0 ? now : lastReportMillis);
+            if (now > 0)
+            {
+                setReported (now);
+            }
         }
 
         if (!isMoving)

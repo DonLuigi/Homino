@@ -22,13 +22,13 @@
 
 
         <ImageView
-            android:id="@+id/timedRelayIconView"
+            android:id="@+id/plateIcon"
             android:layout_width="60dp"
             android:layout_height="100dp"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/window_venetian_blind"
+            android:src="@drawable/window"
             android:scaleType="fitXY"/>
 
 
@@ -36,10 +36,10 @@
             android:id="@+id/percentTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/timedRelayIconView"
-            android:layout_below="@+id/timedRelayIconView"
+            android:layout_alignLeft="@+id/plateIcon"
+            android:layout_below="@+id/plateIcon"
             android:layout_marginLeft="5dp"
-            android:layout_toEndOf="@+id/timedRelayIconView"
+            android:layout_toEndOf="@+id/plateIcon"
             android:text="0%"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="20dp"
@@ -64,7 +64,7 @@
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_alignTop="@+id/timedRelayIconView"
+            android:layout_alignTop="@+id/plateIcon"
             android:layout_marginRight="5dp"
             android:background="@android:color/white"
             android:src="@drawable/ic_action_arrow_top"
@@ -72,7 +72,7 @@
 
 
         <ImageButton
-            android:id="@+id/lockUnlockButton"
+            android:id="@+id/stopButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignLeft="@+id/upButton"
@@ -88,9 +88,9 @@
             android:id="@+id/downButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignLeft="@+id/lockUnlockButton"
-            android:layout_alignStart="@+id/lockUnlockButton"
-            android:layout_below="@+id/lockUnlockButton"
+            android:layout_alignLeft="@+id/stopButton"
+            android:layout_alignStart="@+id/stopButton"
+            android:layout_below="@+id/stopButton"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:background="@android:color/white"
@@ -99,39 +99,39 @@
 
 
         <ImageButton
-            android:id="@+id/gridButton"
+            android:id="@+id/rotateMiddleButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="5dp"
             android:layout_alignTop="@+id/upButton"
+            android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/upButton"
             android:background="@android:color/white"
-            android:src="@drawable/ic_action_drag"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_action_drag" />
 
 
         <ImageButton
-            android:id="@+id/halfButton"
+            android:id="@+id/rotateUpButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignTop="@+id/lockUnlockButton"
+            android:layout_alignTop="@+id/stopButton"
             android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/lockUnlockButton"
+            android:layout_toLeftOf="@+id/stopButton"
             android:background="@android:color/white"
-            android:src="@drawable/ic_action_rotate_right"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_action_rotate_right" />
 
 
         <ImageButton
-            android:id="@+id/quarterButton"
+            android:id="@+id/rotateDownButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignTop="@+id/downButton"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/downButton"
             android:background="@android:color/white"
-            android:src="@drawable/ic_action_rotate_left"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_action_rotate_left" />
 
     </RelativeLayout>
 </LinearLayout>

@@ -14,7 +14,10 @@ class Command
         uint16_t getSize ();
 
         static const char* COMMAND_OK;
-        static const char* COMMAND_ERR_SYNTAX;
+        static const char* COMMAND_ERROR_SYNTAX;
+        static const char* COMMAND_ERROR;
+        static const char* STATUS;
+        static const char* READ;
 
     private:
         static const int MAX_PARTS = 32;

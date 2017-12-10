@@ -17,7 +17,7 @@ void RelayComponent::writeToComponent (Command* command, Message* message, int s
 
     if (parts[0] == NULL)
     {
-        message->append (Command::COMMAND_ERR_SYNTAX, name, 0);
+        message->append (Command::COMMAND_ERROR_SYNTAX, name, 0);
     }
 
     if (strcasecmp (parts[0], "HIGH") == 0)
@@ -36,7 +36,7 @@ void RelayComponent::writeToComponent (Command* command, Message* message, int s
     }
     else
     {
-        message->append (Command::COMMAND_ERR_SYNTAX, name, 1);
+        message->append (Command::COMMAND_ERROR_SYNTAX, name, 1);
     }
 }
 ///////////////////

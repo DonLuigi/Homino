@@ -12,18 +12,34 @@ Shell::Shell (Component** components, Component** commandComponents, Message* in
     this->outboundMessage = outboundMessage;
 }
 
+// Component
+void Shell::writeToComponent (Command* command, Message* message, int subcomponent)
+{
+    char** parts = command->getParts ();
+    if (strcasecmp (parts[0], "STATUS") == 0)
+    {
+        message->append ("%s,STATUS,%lu;", name, (uint32_t) uptimeMillis / 1000);
+
+        // trigger all components to report
+        for (int j = 0; components[j] != NULL; j++)
+        {
+            components[j]->setReported (0UL);
+        }
+    }
+}
+
 void Shell::setup ()
 {
 
     for (int i = 0; components != NULL && components[i] != NULL; i++)
     {
-        COA_DEBUG (F ("SH:C:[%d] %s"), i, components[i]->name);
+        COA_DEBUG (F ("SH:C[%d] %s"), i, components[i]->name);
         components[i]->setup ();
     }
 
     for (int i = 0; commandComponents != NULL && commandComponents[i] != NULL; i++)
     {
-        COA_DEBUG (F ("SH:CC:[%d] %s"), i, commandComponents[i]->name);
+        COA_DEBUG (F ("SH:CC[%d] %s"), i, commandComponents[i]->name);
         commandComponents[i]->setup ();
     }
 
@@ -32,10 +48,14 @@ void Shell::setup ()
 
 void Shell::loop ()
 {
-    // mark start
+// mark start
     long startMillis = millis ();
 
-    // process inbound commands
+// update uptime
+    uptimeMillis += (startMillis - uptimeLastUpdateMillis);
+    uptimeLastUpdateMillis = startMillis;
+
+// process inbound commands
     for (int commandComponentsIdx = 0; commandComponents != NULL && inboundMessage != NULL && commandComponents[commandComponentsIdx] != NULL; commandComponentsIdx++)
     {
         // clear inbound message prior to reading
@@ -46,8 +66,7 @@ void Shell::loop ()
 
         if (inboundMessage != NULL && inboundMessage->getSize () > 0)
         {
-            COA_DEBUG (F ("SH:CC:INBOUND:SIZE=%d"), inboundMessage->getSize (), inboundMessage->getBuffer ());
-            COA_DEBUG (inboundMessage->getBuffer ());
+            COA_DEBUG (F ("SH:CC:INBOUND:SIZE=%d"), inboundMessage->getSize (), inboundMessage->getBuffer ());COA_DEBUG (inboundMessage->getBuffer ());
 
             // message was received
             outboundMessage->clear ();
@@ -58,6 +77,7 @@ void Shell::loop ()
             int i;
             for (i = 0; inboundMessageParts[i] != NULL; i++)
                 ;
+
             COA_DEBUG (F ("SH:MSG:PARTS:%d"), i);
 
             for (uint8_t inboundMessagePartsIdx = 0; inboundMessageParts[inboundMessagePartsIdx] != NULL; inboundMessagePartsIdx++)
@@ -90,8 +110,8 @@ void Shell::loop ()
                 // component not found
                 if (!found)
                 {
-                    COA_DEBUG (F ("SH:ERR:Unknown component '%s'"), command.getName ());
-                    outboundMessage->append ("%s,ERR,UNKNOWN;", command.getName ());
+                    COA_DEBUG (F ("SH:ERROR:Unknown component '%s'"), command.getName ());
+                    outboundMessage->append (Command::COMMAND_ERROR, command.getName (), "UNKNOWN");
                 }
 
                 // reply only to subcomponent, if it was specified
@@ -104,14 +124,14 @@ void Shell::loop ()
         }
     }
 
-    // ping components for any outbound commands
+// ping components for any outbound commands
     for (int i = 0; components != NULL && components[i] != NULL; i++)
     {
         // COA_DEBUG("SH:PULSE %s", components[i]->name);
         components[i]->readFromComponent (outboundMessage);
     }
 
-    // final reply
+// final reply
     if (outboundMessage != NULL && outboundMessage->getSize () > 0)
     {
         for (int j = 0; commandComponents[j] != NULL; j++)
@@ -121,7 +141,7 @@ void Shell::loop ()
         outboundMessage->clear ();
     }
 
-    // delay
+// delay
     long consumedMillis = millis () - startMillis;
     long remainingMillis = loopMillis - consumedMillis;
     remainingMillis = (remainingMillis > 0 ? remainingMillis : 0);

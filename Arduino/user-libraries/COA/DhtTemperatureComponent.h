@@ -2,15 +2,14 @@
 #define DHT_TEMPERATURE_COMPONENT_H
 
 #include <DHT.h>
-#include <Component.h>
+#include <TemperatureComponent.h>
 
-class DhtTemperatureComponent: public Component
+class DhtTemperatureComponent: public TemperatureComponent
 {
     public:
         // component
         DhtTemperatureComponent (uint8_t pin, const char* name = NULL, uint32_t reportMillis = 0);
         void setup ();
-        void writeToComponent (Command* command, Message* message, int subcomponent);
 
         // api
         bool read (float* temperature, float *humidity);

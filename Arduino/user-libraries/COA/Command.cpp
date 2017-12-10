@@ -1,7 +1,10 @@
 #include <Command.h>
 
-const char* Command::COMMAND_OK = "%s,OK";
-const char* Command::COMMAND_ERR_SYNTAX = "%s,ERR,SYNTAX,%d";
+const char* Command::COMMAND_OK = "%s,OK;";
+const char* Command::COMMAND_ERROR_SYNTAX = "%s,ERROR,SYNTAX,%d;";
+const char* Command::COMMAND_ERROR = "%s,ERROR,%s;";
+const char* Command::STATUS = "STATUS";
+const char* Command::READ = "READ";
 
 Command::Command (char* buffer)
 {

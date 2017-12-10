@@ -1,5 +1,7 @@
-#include <Command.h>
-#include "DhtTemperatureComponent.h"
+#include <DhtTemperatureComponent.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 ///////////////////
 //
@@ -15,38 +17,6 @@ DhtTemperatureComponent::DhtTemperatureComponent (uint8_t pin, const char* name,
 void DhtTemperatureComponent::setup ()
 {
     dht.setup (pin);
-}
-
-void DhtTemperatureComponent::writeToComponent (Command* command, Message* message, int subcomponent)
-{
-    char** parts = command->getParts ();
-
-    if (parts[0] == NULL)
-    {
-        message->append (Command::COMMAND_ERR_SYNTAX, name, 0);
-        return;
-    }
-
-    if (strcasecmp (parts[0], "STATUS") == 0)
-    {
-        float temperature;
-        float humidity;
-        bool ok = read (&temperature, &humidity);
-
-        if (ok)
-        {
-            message->append ("%s,STATUS,%d,%d", name, (int) temperature, (int) humidity);
-        }
-        else
-        {
-            message->append ("%s,STATUS,ERROR", name);
-        }
-    }
-
-    else
-    {
-        message->append (Command::COMMAND_ERR_SYNTAX, name, 1);
-    }
 }
 
 ///////////////////

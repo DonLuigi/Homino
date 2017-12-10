@@ -13,12 +13,20 @@ class Shell: public Component
         void setup ();
         void loop ();
 
+        // Component
+        void writeToComponent (Command* command, Message* message, int subcomponent);
+
+
     private:
         Component** components;
         Component** commandComponents;
         Message* inboundMessage;
         Message* outboundMessage;
         long loopMillis;
+
+        // uptime
+        uint64_t uptimeMillis = 0;
+        uint32_t uptimeLastUpdateMillis = 0;
 };
 
 #endif

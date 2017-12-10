@@ -27,7 +27,7 @@ void PinComponent::setup ()
         read ();
     }
 
-    COA_DEBUG (F("PN:%s(%d):SETUP:%d(%s)"), name, pin, state, mode == OUTPUT ? "OUT" : "IN");
+    COA_DEBUG (F("PN[%s](%d):SETUP:%d(%s)"), name, pin, state, mode == OUTPUT ? "OUT" : "IN");
 }
 
 ///////////////////
@@ -39,7 +39,7 @@ void PinComponent::write (uint8_t state)
 {
     if (state != this->state)
     {
-        COA_DEBUG (F("PN:%s(%d):%d"), name, pin, state);
+        COA_DEBUG (F("PN[%s](%d):%d"), name, pin, state);
     }
     digitalWrite (pin, state);
     this->state = state;
@@ -47,7 +47,7 @@ void PinComponent::write (uint8_t state)
 
 void PinComponent::pwmWrite (uint8_t ratio)
 {
-    COA_DEBUG (F("PN:%s(%d):%d"), name, pin, ratio);
+    COA_DEBUG (F("PN[%s](%d):%d"), name, pin, ratio);
     analogWrite (pin, ratio);
     this->state = ratio;
 }

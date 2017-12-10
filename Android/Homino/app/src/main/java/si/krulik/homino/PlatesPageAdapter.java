@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,19 +19,24 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.logging.Logger;
-
+import si.krulik.homino.common.logger.CustomLogger;
 import si.krulik.homino.configuration.Configuration;
-import si.krulik.homino.configuration.Plate;
-import si.krulik.homino.configuration.plates.ActionPlate;
-import si.krulik.homino.configuration.plates.ActionPlateRow;
-import si.krulik.homino.configuration.plates.ActionPlateRowButton;
-import si.krulik.homino.configuration.plates.PlatePage;
-import si.krulik.homino.configuration.plates.TimedRelayPlate;
-import si.krulik.homino.configuration.plates.WindowLouvreShutterPlate;
-import si.krulik.homino.configuration.plates.WindowRollingShutterPlate;
+import si.krulik.homino.configuration.command.Action;
+import si.krulik.homino.configuration.device.WindowShutterDevice;
+import si.krulik.homino.configuration.plate.ActionPlate;
+import si.krulik.homino.configuration.plate.ActionPlateRow;
+import si.krulik.homino.configuration.plate.ActionPlateRowButton;
+import si.krulik.homino.configuration.plate.common.Plate;
+import si.krulik.homino.configuration.plate.common.PlatePage;
+import si.krulik.homino.configuration.plate.common.PlatePosition;
+import si.krulik.homino.configuration.plate.device.PhotoResistorPlate;
+import si.krulik.homino.configuration.plate.device.ShellPlate;
+import si.krulik.homino.configuration.plate.device.ThermometerPlate;
+import si.krulik.homino.configuration.plate.device.TimedRelayPlate;
+import si.krulik.homino.configuration.plate.device.WindowShutterPlate;
+import si.krulik.homino.message.MultiMessage;
+
 
 public class PlatesPageAdapter extends PagerAdapter
 {
@@ -41,29 +47,15 @@ public class PlatesPageAdapter extends PagerAdapter
     }
 
 
-    @Override
-    public int getCount ()
+    @Override public Object instantiateItem (ViewGroup container, int position)
     {
-        return (configuration.platePages.size ());
-    }
-
-
-    @Override
-    public boolean isViewFromObject (View view, Object object)
-    {
-        return (view == object);
-    }
-
-
-    @Override
-    public Object instantiateItem (ViewGroup container, int position)
-    {
+        logger.fine ("Inflating page ", position);
         // layout inflater
         LayoutInflater layoutInflater = LayoutInflater.from (container.getContext ());
 
 
         // page definition
-        PlatePage platesPage = configuration.platePages.get (position);
+        PlatePage platesPage = configuration.getPlatesAndPages ().getPlatePages ().get (position);
         logger.info ("New page " + position);
 
 
@@ -77,7 +69,7 @@ public class PlatesPageAdapter extends PagerAdapter
         TextView titleTextView = new TextView (container.getContext ());
         rootLayout.addView (titleTextView);
 
-        titleTextView.setText (platesPage.title);
+        titleTextView.setText (platesPage.getTitle ());
         LinearLayout.LayoutParams titleTextViewLayoutParams = new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         titleTextViewLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
         titleTextView.setLayoutParams (titleTextViewLayoutParams);
@@ -86,14 +78,15 @@ public class PlatesPageAdapter extends PagerAdapter
         // calculate number of rows and columns and box size
         int rowCount = 0;
         int columnCount = 0;
-        for (Plate plate : platesPage.plates)
+        for (Plate plate : platesPage.getPlates ())
         {
-            if (plate.position == null)
+            PlatePosition platePosition = plate.getPlatePosition ();
+            if (plate.getPlatePosition () == null)
             {
                 continue;
             }
-            columnCount = plate.position.x + plate.position.dx > columnCount ? plate.position.x + plate.position.dx : columnCount;
-            rowCount = plate.position.y + plate.position.dy > rowCount ? plate.position.y + plate.position.dy : rowCount;
+            columnCount = platePosition.getX () + platePosition.getDx () > columnCount ? platePosition.getX () + platePosition.getDx () : columnCount;
+            rowCount = platePosition.getY () + platePosition.getDy () > rowCount ? platePosition.getY () + platePosition.getDy () : rowCount;
         }
 
         DisplayMetrics displayMetrics = container.getContext ().getResources ().getDisplayMetrics ();
@@ -115,111 +108,98 @@ public class PlatesPageAdapter extends PagerAdapter
         gridLayout.setColumnCount (columnCount);
 
 
-        for (Plate plate : platesPage.plates)
+        for (Plate plate : platesPage.getPlates ())
         {
-            if (plate.position == null)
+            PlatePosition platePosition = plate.getPlatePosition ();
+            if (platePosition == null)
             {
                 continue;
             }
-            logger.info ("New plate: eventName=" + plate.id + ", x=" + plate.position.x + ", y=" + plate.position.y + ", dx=" + plate.position.dx + ", dy=" + plate.position.dy);
+            logger.info ("New plate: " + plate);
 
 
             // window rolling shutter plate
-            if (plate instanceof WindowRollingShutterPlate)
+            if (plate instanceof WindowShutterPlate)
             {
-                WindowRollingShutterPlate windowRollingShutterPlate = (WindowRollingShutterPlate) plate;
-                logger.info ("New window shutter plate: " + windowRollingShutterPlate.text);
+                logger.info ("New window shutter plate: " + plate);
+                WindowShutterPlate windowShutterPlate = (WindowShutterPlate) plate;
+                String id = plate.getId ();
+                WindowShutterDevice windowShutterDevice = windowShutterPlate.getWindowShutterDevice ();
 
 
-                // inflate shutter view
-                windowRollingShutterPlate.view = layoutInflater.inflate (R.layout.window_rolling_shutter_layout, null);
-
-
-                // button events
-                ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.upButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.upButtonEventName,
-                    configuration, context));
-                ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.downButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.downButtonEventName,
-                    configuration, context));
-                ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.lockUnlockButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.stopButtonEventName,
-                    configuration, context));
-                ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.gridButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.gridButtonEventName,
-                    configuration, context));
-                ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.halfButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.halfButtonEventName,
-                    configuration, context));
-                ((ImageButton) windowRollingShutterPlate.view.findViewById (R.id.quarterButton)).setOnClickListener (new ButtonOnClickListener (windowRollingShutterPlate.quarterButtonEventName,
-                    configuration, context));
-            }
-
-
-            if (plate instanceof WindowLouvreShutterPlate)
-            {
-                WindowLouvreShutterPlate windowLouvreShutterPlate = (WindowLouvreShutterPlate) plate;
-                logger.info ("New window louvre shutter plate: " + windowLouvreShutterPlate.text);
-
-
-                // inflate shutter view
-                windowLouvreShutterPlate.view = layoutInflater.inflate (R.layout.window_venetian_blind_layout, null);
-
-
-                // button events
-                ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.upButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.upButtonEventName, configuration,
-                    context));
-                ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.downButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.downButtonEventName,
-                    configuration, context));
-                ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.lockUnlockButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.stopButtonEventName,
-                    configuration, context));
-                ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.gridButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.halfButtonEventName,
-                    configuration, context));
-                ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.halfButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.rotateUpButtonEventName,
-                    configuration, context));
-                ((ImageButton) windowLouvreShutterPlate.view.findViewById (R.id.quarterButton)).setOnClickListener (new ButtonOnClickListener (windowLouvreShutterPlate.rotateDownButtonEventName,
-                    configuration, context));
+                // inflate
+                View view;
+                if (windowShutterDevice.getRotationStepPercent () < 0)
+                {
+                    // no rotation => rolling shutter
+                    view = layoutInflater.inflate (R.layout.window_rolling_shutter_layout, null);
+                    // button events
+                    ((ImageButton) view.findViewById (R.id.upButton)).setOnClickListener (new ButtonOnClickListener (Action.Up, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.downButton)).setOnClickListener (new ButtonOnClickListener (Action.Down, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (Action.Stop, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.gridButton)).setOnClickListener (new ButtonOnClickListener (Action.Grid, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.halfButton)).setOnClickListener (new ButtonOnClickListener (Action.Half, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.quarterButton)).setOnClickListener (new ButtonOnClickListener (Action.Quarter, plate, configuration, context));
+                }
+                else
+                {
+                    // rotation => louvre shutter
+                    view = layoutInflater.inflate (R.layout.window_venetian_blind_layout, null);
+                    ((ImageButton) view.findViewById (R.id.upButton)).setOnClickListener (new ButtonOnClickListener (Action.Up, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.downButton)).setOnClickListener (new ButtonOnClickListener (Action.Down, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (Action.Stop, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.rotateUpButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateUp, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.rotateDownButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateDown, plate, configuration, context));
+                    ((ImageButton) view.findViewById (R.id.rotateMiddleButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateMidddle, plate, configuration, context));
+                }
+                windowShutterPlate.setView (view);
             }
 
 
             if (plate instanceof ActionPlate)
             {
                 ActionPlate actionPlate = (ActionPlate) plate;
-                logger.info ("New action plate: " + actionPlate.text);
+                logger.info ("New action plate: " + actionPlate);
 
-                actionPlate.view = layoutInflater.inflate (R.layout.action_plate_layout, null);
-                TableLayout tableLayout = (TableLayout) actionPlate.view.findViewById (R.id.actionPlateLayoutTableView);
+                View view = layoutInflater.inflate (R.layout.action_plate_layout, null);
+                actionPlate.setView (view);
+                TableLayout tableLayout = (TableLayout) view.findViewById (R.id.actionPlateLayoutTableView);
 
 
-                for (ActionPlateRow actionPlateRow : actionPlate.rows)
+                for (ActionPlateRow actionPlateRow : actionPlate.getRows ())
                 {
                     TableRow tableRow = new TableRow (container.getContext ());
                     tableLayout.addView (tableRow);
 
                     for (ActionPlateRowButton actionPlateRowButton : actionPlateRow.buttons)
                     {
-                        if (actionPlateRowButton.text != null)
+                        if (actionPlateRowButton.getTitle () != null)
                         {
                             View buttonView = layoutInflater.inflate (R.layout.action_plate_layout_text_button, null);
                             TextView rowTextView = (TextView) buttonView.findViewById (R.id.actionPlateLayoutTextButton);
-                            rowTextView.setText (actionPlateRowButton.text);
+                            rowTextView.setText (actionPlateRowButton.getTitle ());
 
-                            if (actionPlateRowButton.widthMultiplier != null)
+                            if (actionPlateRowButton.getWidthMultiplier () != null)
                             {
-                                rowTextView.getLayoutParams ().width *= actionPlateRowButton.widthMultiplier;
+                                rowTextView.getLayoutParams ().width *= actionPlateRowButton.getWidthMultiplier ();
                             }
 
-                            rowTextView.setOnClickListener (new ButtonOnClickListener (actionPlateRowButton.eventName, configuration, context));
+                            rowTextView.setOnClickListener (new ButtonOnClickListener (actionPlateRowButton.getAction (), plate, configuration, context));
 
                             tableRow.addView (buttonView);
                         }
-                        else if (actionPlateRowButton.imageSource != null)
+                        else if (actionPlateRowButton.getImageSource () != null)
                         {
                             View buttonView = layoutInflater.inflate (R.layout.action_plate_layout_image_button, null);
                             ImageButton imageButton = (ImageButton) buttonView.findViewById (R.id.actionPlateLayoutImageButton);
-                            imageButton.setImageResource (actionPlateRowButton.imageSource);
+                            imageButton.setImageResource (actionPlateRowButton.getImageSource ());
 
-                            if (actionPlateRowButton.widthMultiplier != null)
+                            if (actionPlateRowButton.getWidthMultiplier () != null)
                             {
-                                imageButton.getLayoutParams ().width *= actionPlateRowButton.widthMultiplier;
+                                imageButton.getLayoutParams ().width *= actionPlateRowButton.getWidthMultiplier ();
                             }
 
-                            imageButton.setOnClickListener (new ButtonOnClickListener (actionPlateRowButton.eventName, configuration, context));
+                            imageButton.setOnClickListener (new ButtonOnClickListener (actionPlateRowButton.getAction (), plate, configuration, context));
 
                             tableRow.addView (buttonView);
                         }
@@ -228,25 +208,45 @@ public class PlatesPageAdapter extends PagerAdapter
             }
 
 
-
             if (plate instanceof TimedRelayPlate)
             {
-                TimedRelayPlate timedRelayPlate = (TimedRelayPlate ) plate;
-                logger.info ("New timed relay plate: " + timedRelayPlate.text);
+                TimedRelayPlate timedRelayPlate = (TimedRelayPlate) plate;
+                logger.info ("New timed relay plate: " + timedRelayPlate);
 
 
                 // inflate shutter view
-                timedRelayPlate.view = layoutInflater.inflate (R.layout.timed_relay_plate, null);
+                View view = layoutInflater.inflate (R.layout.timed_relay_plate, null);
+                timedRelayPlate.setView (view);
 
 
                 // button events
-                ((ImageButton) timedRelayPlate.view.findViewById (R.id.startStopButton)).setOnClickListener (new ButtonOnClickListener (timedRelayPlate.startStopButtonEventName,
-                    configuration, context));
-                ((ImageButton) timedRelayPlate.view.findViewById (R.id.lockUnlockButton)).setOnClickListener (new ButtonOnClickListener (timedRelayPlate.enableDisableButtonEventName,
-                    configuration, context));
+                ((ImageButton) view.findViewById (R.id.startStopButton)).setOnClickListener (new ButtonOnClickListener (Action.StartStop, plate, configuration, context));
+                ((ImageButton) view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (Action.LockUnlock, plate, configuration, context));
             }
 
 
+            if (plate instanceof ThermometerPlate)
+            {
+                logger.info ("Inflate ", plate);
+                View view = layoutInflater.inflate (R.layout.thermometer_plate, null);
+                plate.setView (view);
+            }
+
+
+            if (plate instanceof PhotoResistorPlate)
+            {
+                logger.info ("Inflate ", plate);
+                View view = layoutInflater.inflate (R.layout.photo_resistor_plate, null);
+                plate.setView (view);
+            }
+
+
+            if (plate instanceof ShellPlate)
+            {
+                logger.info ("Inflate ", plate);
+                View view = layoutInflater.inflate (R.layout.shell_plate, null);
+                plate.setView (view);
+            }
 
 
             // refresh plate content
@@ -254,8 +254,8 @@ public class PlatesPageAdapter extends PagerAdapter
 
 
             // adjust colors and add plate to grid layout
-            GridLayout.LayoutParams params = adjustColorsAndLayout ((ViewGroup) plate.view, platesPage, plate, boxSize);
-            gridLayout.addView (plate.view, params);
+            GridLayout.LayoutParams params = adjustColorsAndLayout ((ViewGroup) plate.getView (), platesPage, plate, boxSize);
+            gridLayout.addView (plate.getView (), params);
         }
 
 
@@ -264,15 +264,34 @@ public class PlatesPageAdapter extends PagerAdapter
     }
 
 
+    @Override public void destroyItem (View container, int position, Object object)
+    {
+        ((ViewPager) container).removeView ((View) object);
+    }
+
+
+    @Override public int getCount ()
+    {
+        return (configuration.getPlatesAndPages ().getPlatePages ().size ());
+    }
+
+
+    @Override public boolean isViewFromObject (View view, Object object)
+    {
+        return (view == object);
+    }
+
+
     private GridLayout.LayoutParams adjustColorsAndLayout (ViewGroup viewGroup, PlatePage platesPage, Plate plate, float boxSize)
     {
         adjustColors (viewGroup, plate);
 
-        GridLayout.LayoutParams params = new GridLayout.LayoutParams (GridLayout.spec (plate.position.y, plate.position.dy), GridLayout.spec (plate.position.x, plate.position.dx));
-        params.width = Math.round (plate.position.dx * boxSize - platesPage.marginInPx * 2);
-        params.height = Math.round (plate.position.dy * boxSize - platesPage.marginInPx * 2);
-        params.setMargins (platesPage.marginInPx, platesPage.marginInPx, platesPage.marginInPx, platesPage.marginInPx);
-        viewGroup.setBackgroundColor (Color.parseColor (plate.backgroundColor));
+        PlatePosition platePosition = plate.getPlatePosition ();
+        GridLayout.LayoutParams params = new GridLayout.LayoutParams (GridLayout.spec (platePosition.getY (), platePosition.getDy ()), GridLayout.spec (platePosition.getX (), platePosition.getDx ()));
+        params.width = Math.round (platePosition.getDx () * boxSize - platesPage.getMarginInPx () * 2);
+        params.height = Math.round (platePosition.getDy () * boxSize - platesPage.getMarginInPx () * 2);
+        params.setMargins (platesPage.getMarginInPx (), platesPage.getMarginInPx (), platesPage.getMarginInPx (), platesPage.getMarginInPx ());
+        viewGroup.setBackgroundColor (Color.parseColor (plate.getBackgroundColor ()));
         return (params);
     }
 
@@ -289,8 +308,8 @@ public class PlatesPageAdapter extends PagerAdapter
                 ColorDrawable colorDrawable = (ColorDrawable) tv.getBackground ();
                 if (colorDrawable != null && colorDrawable.getColor () == Color.WHITE)
                 {
-                    tv.setTextColor (Color.parseColor (plate.foregroundColor));
-                    tv.setBackgroundColor (Color.parseColor (plate.buttonBackgroundColor));
+                    tv.setTextColor (Color.parseColor (plate.getForegroundColor ()));
+                    tv.setBackgroundColor (Color.parseColor (plate.getButtonBackgroundColor ()));
                 }
             }
 
@@ -301,8 +320,8 @@ public class PlatesPageAdapter extends PagerAdapter
                 ColorDrawable colorDrawable = ((ColorDrawable) imageView.getBackground ());
                 if (colorDrawable != null && colorDrawable.getColor () == Color.WHITE)
                 {
-                    imageView.setColorFilter (Color.parseColor (plate.foregroundColor), PorterDuff.Mode.SRC_ATOP);
-                    imageView.setBackgroundColor (Color.parseColor (plate.buttonBackgroundColor));
+                    imageView.setColorFilter (Color.parseColor (plate.getForegroundColor ()), PorterDuff.Mode.SRC_ATOP);
+                    imageView.setBackgroundColor (Color.parseColor (plate.getButtonBackgroundColor ()));
                 }
             }
 
@@ -315,7 +334,7 @@ public class PlatesPageAdapter extends PagerAdapter
     }
 
 
-    private final Logger logger = Logger.getLogger (PlatesPageAdapter.class.getName ());
+    private static final CustomLogger logger = CustomLogger.getLogger ("PLATE_PAGES_ADAPTER");
     private final Configuration configuration;
     private final Context context;
 }
@@ -323,9 +342,10 @@ public class PlatesPageAdapter extends PagerAdapter
 
 class ButtonOnClickListener implements View.OnClickListener
 {
-    public ButtonOnClickListener (String eventMessage, Configuration configuration, Context context)
+    public ButtonOnClickListener (Action action, Plate plate, Configuration configuration, Context context)
     {
-        this.eventMessage = eventMessage;
+        this.action = action;
+        this.plate = plate;
         this.configuration = configuration;
         this.context = context;
     }
@@ -335,19 +355,21 @@ class ButtonOnClickListener implements View.OnClickListener
     {
         try
         {
-            configuration.plateMessageHandler.handle ("ui", eventMessage, configuration);
+            logger.fine ("On click: ", action);
+            MultiMessage multiMessage = plate.handleAction (action, configuration);
+            configuration.flushMessages (multiMessage);
         }
         catch (Throwable t)
         {
-            logger.severe ("Exception occured while handling event message " + eventMessage);
-            Toast toast = Toast.makeText (context, t.getMessage (), Toast.LENGTH_LONG);
-            toast.show ();
+            logger.severe (t, "Exception occured while handling plate action ", action);
+            configuration.error (null, t.getMessage ());
         }
     }
 
 
-    private static final Logger logger = Logger.getLogger (PlatesPageAdapter.class.getName ());
-    private String eventMessage;
+    private Action action;
+    private Plate plate;
     private Configuration configuration;
     private Context context;
+    private static final CustomLogger logger = CustomLogger.getLogger ("BUTTON_ON_CLICK");
 }

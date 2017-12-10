@@ -39,8 +39,7 @@ int EthernetW5100Component::readFromComponent (Message* message)
     if (!activeTcpClient)
     {
         return (-1);
-    }
-    COA_DEBUG (F ("ETH[%s]:CLIENT,SOCK=%d"), name, activeTcpClient.getSocketNumber ());
+    } COA_DEBUG (F ("ETH[%s]:CLIENT,SOCK=%d"), name, activeTcpClient.getSocketNumber ());
 
     int availableSpot = -1;
     int clientIndex = -1;
@@ -64,7 +63,7 @@ int EthernetW5100Component::readFromComponent (Message* message)
     {
         if (availableSpot < 0)
         {
-            COA_DEBUG (F ("ETH[%s]:ERR:NO_SPACE"), name);
+            COA_DEBUG (F ("ETH[%s]:ERROR:NO_SPACE"), name);
             return (-1);
         }
         tcpClients[clientIndex = availableSpot] = activeTcpClient;
@@ -83,11 +82,10 @@ int EthernetW5100Component::readFromComponent (Message* message)
             COA_DEBUG (F ("ETH[%s]:MAGIC[%d]=%d"), name, i, byteRead);
             if (byteRead != messageMagicCookie[i])
             {
-                message->append ("%s,ERR,ETH_MAGIC", name);
+                message->append (Command::COMMAND_ERROR, "name", "ETH_MAGIC");
                 return (-1);
             }
-        }
-        COA_DEBUG (F ("ETH[%s]:MAGIC_OK"), name);
+        } COA_DEBUG (F ("ETH[%s]:MAGIC_OK"), name);
 
         // size
         uint16_t size = activeTcpClient.read () & 0xFF;
@@ -97,7 +95,9 @@ int EthernetW5100Component::readFromComponent (Message* message)
 
         if (size >= message->getCapacity ())
         {
-            message->append ("%s,ERR,ETH_SIZE,%d", name, size);
+            char sizeAsString[10];
+            itoa (10, sizeAsString, 10);
+            message->append (Command::COMMAND_ERROR, name, sizeAsString);
             return (-1);
         }
 
@@ -125,6 +125,7 @@ void EthernetW5100Component::writeToComponent (Command* command, Message* messag
         COA_DEBUG (F ("ETH[%s]:WRITE:EMPTY"), name);
         return;
     }
+    COA_DEBUG (F ("ETH[%s]:SIZE:%d,:%s"), name, bufferSize, message->getBuffer());
 
     // common loop for sending to all clients or to one specified in subcomponent
     for (int i = 0; i < maxClients; i++)

@@ -160,13 +160,13 @@ environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.COMPI
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.COMPILER.WARNING_FLAGS/value=-w
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.DTS/delimiter=;
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.DTS/operation=replace
-environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.DTS/value=3600
+environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.DTS/value=0
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.LOCAL/delimiter=;
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.LOCAL/operation=replace
-environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.LOCAL/value=1504398507
+environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.LOCAL/value=1512899970
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.UTC/delimiter=;
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.UTC/operation=replace
-environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.UTC/value=1504391307
+environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.UTC/value=1512896370
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.ZONE/delimiter=;
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.ZONE/operation=replace
 environment/project/it.baeyens.arduino.core.toolChain.release.1334284876/A.EXTRA.TIME.ZONE/value=3600

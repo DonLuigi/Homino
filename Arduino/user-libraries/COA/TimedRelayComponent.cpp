@@ -41,7 +41,7 @@ void TimedRelayComponent::writeToComponent (Command* command, Message* message, 
 
     if (parts[0] == NULL)
     {
-        message->append (Command::COMMAND_ERR_SYNTAX, name, 0);
+        message->append (Command::COMMAND_ERROR_SYNTAX, name, 0);
         return;
     }
 
@@ -70,7 +70,7 @@ void TimedRelayComponent::writeToComponent (Command* command, Message* message, 
     }
     else
     {
-        message->append (Command::COMMAND_ERR_SYNTAX, name, 1);
+        message->append (Command::COMMAND_ERROR_SYNTAX, name, 1);
     }
 
     forceReport = true;
@@ -115,14 +115,13 @@ int TimedRelayComponent::readFromComponent (Message* message)
     if (message != NULL)
     {
         if (forceReport || // force
-            (coveredTimePercent > 0 && lastReportMillis > 0 && (nowMillis - lastReportMillis) > reportMillis) || // running
-            (coveredTimePercent == -1 && lastReportMillis < stopMillis)) // last report after stop
+            shouldReport(nowMillis) || // general
+            (coveredTimePercent > 0 && shouldReport(nowMillis, 1000UL)) || // running
+            (coveredTimePercent == -1 && shouldReport (stopMillis, 0UL))) // last immediate (0) report after stop
         {
-            COA_DEBUG(F ("FC2=%d,LRM=%ld,SM=%ld,P=%d,NM=%ld,EN=%d"), forceReport, lastReportMillis, stopMillis, coveredTimePercent, nowMillis, locked);
-            message->append ("%s,STATUS,%d,%d", name, coveredTimePercent, locked);
-            lastReportMillis = nowMillis;
+            message->append ("%s,STATUS,%d,%d;", name, coveredTimePercent, locked);
+            setReported(nowMillis);
             forceReport = false;
-            COA_DEBUG(F ("FC3=%d"), forceReport);
         }
     }
     return (Component::ALL_SUBCOMPONENTS);

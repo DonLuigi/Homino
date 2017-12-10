@@ -12,24 +12,27 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import si.krulik.homino.common.logger.CustomLogger;
+import si.krulik.homino.common.validate.Validate;
 import si.krulik.homino.configuration.Configuration;
-import si.krulik.homino.customization.Customization;
-import si.krulik.homino.service.CommunicationService;
-import si.krulik.homino.service.ControlNodeCommunicationRequest;
+import si.krulik.homino.configuration.device.common.Device;
+import si.krulik.homino.configuration.device.common.DeviceControlNode;
+import si.krulik.homino.configuration.plate.common.Plate;
+import si.krulik.homino.message.Message;
+import si.krulik.homino.message.MultiMessage;
+import si.krulik.homino.network.HominoNetworkMessage;
+import si.krulik.homino.network.HominoNetworkService;
 
 
 public class MainActivity extends AppCompatActivity
 {
-    @Override
-    protected void onCreate (Bundle savedInstanceState)
+    @Override protected void onCreate (Bundle savedInstanceState)
     {
         logger.info ("onCreate begin");
 
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         configuration = null;
         try
         {
-            configuration = new Customization ().compose (getApplicationContext (), this);
+            configuration = new Configuration (getApplicationContext (), this);
         }
         catch (Throwable t)
         {
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity
 
 
         // setup background communication service
-        LocalBroadcastManager.getInstance (this).registerReceiver (new CommunicationReceiver (configuration), new IntentFilter (ControlNodeCommunicationRequest.communicationRequestIntentAction));
+        LocalBroadcastManager.getInstance (this).registerReceiver (new HominoNetworkBroadcastReceiver (configuration), new IntentFilter (HominoNetworkMessage.communicationRequestIntentAction));
 
 
         // pager view
@@ -71,31 +74,29 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    @Override
-    protected void onStart ()
+    @Override protected void onStart ()
     {
         logger.info ("onStart begin");
 
         super.onStart ();
-        Intent intent = new Intent (this, CommunicationService.class);
-        bindService (intent, communcationServiceConnection, Context.BIND_AUTO_CREATE);
+        Intent intent = new Intent (this, HominoNetworkService.class);
+        bindService (intent, hominoNetworkServiceConnection, Context.BIND_AUTO_CREATE);
 
         logger.info ("onStart end");
     }
 
 
-    @Override
-    protected void onStop ()
+    @Override protected void onStop ()
     {
         logger.info ("onStop begin");
 
         super.onStop ();
         // Unbind from the service
-        if (configuration != null && configuration.communicationService != null)
+        if (configuration != null && configuration.getHominoNetworkService () != null)
         {
             logger.info ("unbinding service");
-            unbindService (communcationServiceConnection);
-            configuration.communicationService = null;
+            unbindService (hominoNetworkServiceConnection);
+            configuration.setHominoNetworkService (null);
             logger.info ("done");
         }
 
@@ -103,9 +104,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-    @Override
-    public void onPause ()
+    @Override public void onPause ()
     {
         logger.info ("onPause begin");
 
@@ -124,18 +123,21 @@ public class MainActivity extends AppCompatActivity
     {
         if (configuration != null)
         {
-            configuration.pulseHandler.pulse (configuration, new Date ());
+            Date now = new Date ();
+
+            configuration.getPulseHandler ().pulse (configuration, now);
+
+            configuration.log (now);
         }
     }
 
 
-    private ServiceConnection communcationServiceConnection = new ServiceConnection ()
+    private ServiceConnection hominoNetworkServiceConnection = new ServiceConnection ()
     {
-        @Override
-        public void onServiceConnected (ComponentName name, IBinder service)
+        @Override public void onServiceConnected (ComponentName name, IBinder service)
         {
             logger.info ("onServiceConnected begin");
-            configuration.communicationService = ((CommunicationService.LocalBinder) service).getService ();
+            configuration.setHominoNetworkService (((HominoNetworkService.LocalBinder) service).getService ());
 
             // pulse
             pulse ();
@@ -161,12 +163,11 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        @Override
-        public void onServiceDisconnected (ComponentName name)
+        @Override public void onServiceDisconnected (ComponentName name)
         {
             logger.info ("onServiceDisconnected begin");
 
-            configuration.communicationService = null;
+            configuration.setHominoNetworkService (null);
 
             // disable pulse
             if (pulseTimer != null)
@@ -186,43 +187,70 @@ public class MainActivity extends AppCompatActivity
 }
 
 
-class CommunicationReceiver extends BroadcastReceiver
+class HominoNetworkBroadcastReceiver extends BroadcastReceiver
 {
-    public CommunicationReceiver (Configuration configuration)
+    public HominoNetworkBroadcastReceiver (Configuration configuration)
     {
         this.configuration = configuration;
     }
 
 
-    @Override
-    public void onReceive (Context context, Intent intent)
+    @Override public void onReceive (Context context, Intent intent)
     {
-        logger.info ("onReceive: begin");
-
-        ControlNodeCommunicationRequest controlNodeCommunicationRequest = (ControlNodeCommunicationRequest) intent.getSerializableExtra (ControlNodeCommunicationRequest.class.getSimpleName ());
-        logger.info ("Main received communication request: " + controlNodeCommunicationRequest);
-
-        if (controlNodeCommunicationRequest.message == null || controlNodeCommunicationRequest.message.equals ("ERROR"))
+        try
         {
-            Toast toast = Toast.makeText (context, "Error communicating with control node " + controlNodeCommunicationRequest.controlNodeNetworkAddress, Toast.LENGTH_LONG);
+            logger.info ("onReceive: begin");
+
+            // deserialize
+            HominoNetworkMessage hominoNetworkMessage = (HominoNetworkMessage) intent.getSerializableExtra (HominoNetworkMessage.class.getSimpleName ());
+            logger.info ("Received ", hominoNetworkMessage);
+
+
+            // locate control device
+            DeviceControlNode deviceControlNode = configuration.getDevices ().getDeviceControlNodesByIpPort ().get (hominoNetworkMessage.getControlNodeIpPort ());
+            Validate.notNull (deviceControlNode, "Missing device control node ", hominoNetworkMessage.getControlNodeIpPort ());
+
+
+            // report error
+            if (hominoNetworkMessage.isError ())
+            {
+                configuration.error (deviceControlNode.getId (), hominoNetworkMessage.getMessage ());
+            }
+
+
+            // handle message
+            else
+            {
+                MultiMessage multiMessage = new MultiMessage (deviceControlNode.getId (), hominoNetworkMessage.getMessage ());
+
+                for (Message message : multiMessage.getMessages ())
+                {
+                    Device device = configuration.getDevices ().getDevice (message.getDeviceId ());
+                    if (device == null)
+                    {
+                        configuration.error (deviceControlNode.getId (), "Unknown device " + message.getDeviceId ());
+                        continue;
+                    }
+                    device.handleMessage (message);
+
+                    Plate plate = configuration.getPlatesAndPages ().getPlatesById ().get (device.getId ());
+                    if (plate != null)
+                    {
+                        plate.refresh ();
+                    }
+                }
+            }
+
+            logger.info ("onReceive: end");
         }
-        else
+        catch (Exception e)
         {
-            try
-            {
-                configuration.communicationMessageHandler.handle (controlNodeCommunicationRequest.controlNodeNetworkAddress, controlNodeCommunicationRequest.message, configuration);
-            }
-            catch (Throwable t)
-            {
-                logger.log (Level.SEVERE, "Exception occured while handling event message " + controlNodeCommunicationRequest.message, t);
-                Toast toast = Toast.makeText (context, t.getMessage (), Toast.LENGTH_LONG);
-                toast.show ();
-            }
+            logger.severe (e, "Exception occured");
+            configuration.error (null, e.getMessage ());
         }
-        logger.info ("onReceive: end");
     }
 
 
-    private static final Logger logger = Logger.getLogger (CommunicationReceiver.class.getName ());
+    private static final CustomLogger logger = CustomLogger.getLogger ("BROADCAST_RECEIVER");
     private final Configuration configuration;
 }

@@ -39,7 +39,7 @@
 		<link>
 			<name>core/variant</name>
 			<type>2</type>
-			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/variants/eightanaloginputs</location>
+			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/variants/mega</location>
 		</link>
 	</linkedResources>
 </projectDescription>

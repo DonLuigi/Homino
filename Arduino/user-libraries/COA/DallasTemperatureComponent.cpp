@@ -1,27 +1,29 @@
-#include "DallasTemperatureComponent.h"
+#include <DallasTemperatureComponent.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
 
-DallasTemperatureComponent::DallasTemperatureComponent (OneWire* oneWire, const char* name, bool report) :
-    Component (name, report), DallasTemperature (oneWire)
+DallasTemperatureComponent::DallasTemperatureComponent (uint8_t pin, const char* name, uint32_t reportMillis) :
+    Component (name, reportMillis), oneWire (pin), dallasTemperature (&oneWire)
 {
 }
 
-bool DallasTemperatureComponent::readTemperature ()
+bool DallasTemperatureComponent::read (float* temperature, float *humidity)
 {
-    bool isPreviousNan = isnan (temperature);
-    requestTemperatures ();
-    temperature = getTempCByIndex (0);
-    if ((int) temperature == DEVICE_DISCONNECTED)
+    if (humidity != NULL)
     {
-        temperature = NAN;
-        return (false);
+        *humidity = -1;
+    }
+
+    if (temperature != NULL)
+    {
+        dallasTemperature.requestTemperatures ();
+        *temperature = dallasTemperature.getTempCByIndex (0);
+        if ((int) temperature == DEVICE_DISCONNECTED)
+        {
+            return (false);
+        }
     }
 
     return (true);
-}
-
-void DallasTemperatureComponent::accept (Message* message)
-{
-    Serial.print ("Current temperature: ");
-    readTemperature ();
-    Serial.println (temperature);
 }

@@ -1,3 +1,5 @@
-
-RTSP in VLC
-http://stackoverflow.com/questions/20937322/is-it-possible-to-add-a-network-address-shortcut-on-android
+1. open in gimp
+2. select by color tool: click on background color
+3. Select -> Feather 5 pixels
+4. Color -> Color to Alpha
+ 
