@@ -1,5 +1,6 @@
 package si.krulik.homino.configuration.plate.device;
 
+import android.view.View;
 import android.widget.TextView;
 
 import lombok.ToString;
@@ -8,6 +9,7 @@ import si.krulik.homino.configuration.device.ShellDevice;
 import si.krulik.homino.configuration.device.common.Device;
 import si.krulik.homino.configuration.plate.common.IPlateActionHandler;
 import si.krulik.homino.configuration.plate.common.Plate;
+import si.krulik.homino.configuration.plate.common.PlatePage;
 
 
 @ToString (includeFieldNames = true, callSuper = true) public class ShellPlate extends Plate
@@ -21,7 +23,7 @@ import si.krulik.homino.configuration.plate.common.Plate;
 
     @Override public void refresh ()
     {
-        if (view != null)
+        for (View view : getViewByPlatePageId ().values ())
         {
             long seconds = device.getUptimeSeconds () % 60;
             long minutes = (device.getUptimeSeconds () / 60) % 60;
@@ -30,7 +32,7 @@ import si.krulik.homino.configuration.plate.common.Plate;
 
 
             ((TextView) view.findViewById (R.id.titleTextView)).setText (title);
-            ((TextView) view.findViewById (R.id.upTime)).setText (String.format ("%dD:%02dH:%02dM:%02dS", days, hours, minutes, seconds));
+            ((TextView) view.findViewById (R.id.upTime)).setText (String.format ("%d:%02dH:%02dM:%02dS", days, hours, minutes, seconds));
         }
     }
 

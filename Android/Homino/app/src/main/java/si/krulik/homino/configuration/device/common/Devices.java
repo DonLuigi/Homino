@@ -34,7 +34,6 @@ public class Devices implements IMultiMessageHandler
     @Getter Map<String, DeviceControlNode> deviceControlNodesById = new HashMap ();
 
 
-    @Getter Map<String, DeviceControlNode> deviceControlNodesByIpPort = new HashMap ();
 
 
     @Getter List<ShellDevice> shellDevices = new ArrayList ();
@@ -43,7 +42,6 @@ public class Devices implements IMultiMessageHandler
     public void addDeviceControlNode (DeviceControlNode deviceControlNode)
     {
         deviceControlNodesById.put (deviceControlNode.getId (), deviceControlNode);
-        deviceControlNodesByIpPort.put (deviceControlNode.getIp (), deviceControlNode);
         logger.info ("Added device control node ", deviceControlNode);
     }
 

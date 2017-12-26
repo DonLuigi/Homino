@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import lombok.ToString;
@@ -15,6 +16,7 @@ import si.krulik.homino.configuration.device.TimedRelayDevice;
 import si.krulik.homino.configuration.device.common.Device;
 import si.krulik.homino.configuration.plate.common.IPlateActionHandler;
 import si.krulik.homino.configuration.plate.common.Plate;
+import si.krulik.homino.configuration.plate.common.PlatePage;
 
 
 @ToString (includeFieldNames = true, callSuper = true) public class TimedRelayPlate extends Plate
@@ -28,49 +30,48 @@ import si.krulik.homino.configuration.plate.common.Plate;
     }
 
 
-    public void refresh ()
+    @Override public void refresh ()
     {
-        if (view == null)
+        for (View view : getViewByPlatePageId ().values ())
         {
-            return;
-        }
+            // title
+            ((TextView) view.findViewById (R.id.titleTextView)).setText (title);
 
-        // title
-        ((TextView) view.findViewById (R.id.titleTextView)).setText (title);
+            // plate image
+            if (imageResource != null)
+            {
+                ((ImageView) view.findViewById (R.id.plateIcon)).setImageResource (imageResource);
+            }
 
-        // plate image
-        if (imageResource != null)
-        {
-            ((ImageView) view.findViewById (R.id.plateIcon)).setImageResource (imageResource);
-        }
+            // progress bar
 
-        // progress bar
-        ProgressBar progressBar = (ProgressBar) view.findViewById (R.id.progressBar);
-        if (device.getPercent () < 0)
-        {
-            progressBar.setVisibility (View.INVISIBLE);
-        }
-        else
-        {
-            progressBar.setVisibility (View.VISIBLE);
-            progressBar.setProgress (device.getPercent ());
-        }
+            SeekBar seekBar = (SeekBar) view.findViewById (R.id.seekBar);
+            if (device.getPercent () < 0)
+            {
+                seekBar.setVisibility (View.INVISIBLE);
+            }
+            else
+            {
+                seekBar.setVisibility (View.VISIBLE);
+                seekBar.setProgress (device.getPercent ()/10);
+            }
 
 
-        // start stop button
-        ((ImageButton) view.findViewById (R.id.startStopButton)).setImageResource (device.getPercent () < 0 ? R.drawable.ic_play_arrow : R.drawable.ic_stop);
+            // start stop button
+            ((ImageButton) view.findViewById (R.id.startStopButton)).setImageResource (device.getPercent () < 0 ? R.drawable.ic_play_arrow : R.drawable.ic_stop);
 
 
-        // lock unlock
-        ImageButton lockUnlockButton = (ImageButton) view.findViewById (R.id.stopButton);
-        if (!lockable)
-        {
-            lockUnlockButton.setVisibility (View.INVISIBLE);
-        }
-        else
-        {
-            lockUnlockButton.setImageResource (device.isLocked () ? R.drawable.ic_action_lock_open : R.drawable.ic_action_lock_closed);
-            view.setAlpha (device.isLocked () ? 0.3f : 1f);
+            // lock unlock
+            ImageButton lockUnlockButton = (ImageButton) view.findViewById (R.id.lockUnlockButton);
+            if (!lockable)
+            {
+                lockUnlockButton.setVisibility (View.INVISIBLE);
+            }
+            else
+            {
+                lockUnlockButton.setImageResource (device.isLocked () ? R.drawable.ic_action_lock_open : R.drawable.ic_action_lock_closed);
+                view.setAlpha (device.isLocked () ? 0.3f : 1f);
+            }
         }
     }
 

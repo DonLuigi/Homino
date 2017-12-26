@@ -1,47 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/thermometerPlate"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="170dp"
+    android:layout_height="200dp"
     android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="N/A"
+        android:maxLines="1"
+        android:text="TITLE"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <ImageView
             android:id="@+id/plateIcon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/thermometer"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/thermometer"
+            app:layout_constraintBottom_toTopOf="@+id/temperature"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_margin="5dp"
-            android:text="0°C"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="5dp"
+            android:text="20.0°C"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="30dp"
             android:textStyle="bold"
-            tools:textAlignment="textEnd" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
         <TextView
             android:id="@+id/humidity"
@@ -50,13 +63,14 @@
             android:layout_alignParentRight="true"
             android:layout_alignStart="@+id/temperature"
             android:layout_centerVertical="true"
-            android:text="0%"
+            android:layout_marginEnd="5dp"
+            android:text="50%"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30dp"
+            android:textSize="20dp"
             android:textStyle="bold"
-            tools:textAlignment="textEnd" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/temperature"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    </RelativeLayout>
 
-
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>

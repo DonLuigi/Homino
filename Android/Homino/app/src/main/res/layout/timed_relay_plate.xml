@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/timedRelayPlate"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="170dp"
+    android:layout_height="200dp"
     android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="N/A"
+        android:maxLines="1"
+        android:text="TITLE"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <ImageView
             android:id="@+id/plateIcon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/faucet"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/faucet"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            app:layout_constraintEnd_toStartOf="@+id/startStopButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageButton
@@ -39,39 +48,49 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_alignTop="@+id/plateIcon"
-            android:layout_marginRight="5dp"
-            android:background="@android:color/white"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_play_arrow"/>
-
-
-        <ImageButton
-            android:id="@+id/stopButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignLeft="@+id/startStopButton"
-            android:layout_alignStart="@+id/startStopButton"
-            android:layout_below="@+id/startStopButton"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="5dp"
             android:background="@android:color/white"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_stop"/>
+            android:src="@drawable/ic_play_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="20dp"
-            android:layout_alignParentBottom="true"
-            android:foreground="@android:color/white"
-            android:max="100"
-            android:maxHeight="20dip"
-            android:minHeight="20dip"
-            android:progress="80"
-            android:scaleY="8" />
 
-    </RelativeLayout>
+        <ImageButton
+            android:id="@+id/lockUnlockButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignTop="@+id/plateIcon"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@android:color/white"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_action_lock_open"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            style="@android:style/Widget.DeviceDefault.SeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:max="10"
+            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:progress="3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
 
 </LinearLayout>

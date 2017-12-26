@@ -61,46 +61,7 @@ public  class PlatesPageFragment extends Fragment
         platesPageLinearLayout.setOrientation (LinearLayout.HORIZONTAL);
         platesPageLinearLayout.setLayoutParams (new LinearLayout.LayoutParams (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-
-        // compose columns
-//        for (int i = 0; i < configuration.numberOfPlateColumnsPerPage; i++)
-//        {
-//            int pageColumnIndex = pageNumber * configuration.numberOfPlateColumnsPerPage + i;
-//            if (pageColumnIndex >= configuration.plateColumns.size ())
-//            {
-//                break;
-//            }
-//
-//            LinearLayout platesColumnLinearLayout = new LinearLayout (getContext ());
-//            platesPageLinearLayout.addView (platesColumnLinearLayout);
-//
-//            platesColumnLinearLayout.setOrientation (LinearLayout.VERTICAL);
-//            platesColumnLinearLayout.setLayoutParams (new LinearLayout.LayoutParams (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-//
-//            TextView textView = new TextView (getContext ());
-//            textView.setText ("ITEM" + i);
-//            platesColumnLinearLayout.addView (textView);
-//        }
-
         return (platesPageLinearLayout);
-
-
-//            //View rootView = inflater.inflate (R.layout.fragment_pages, container, false);
-//            View rootView = inflater.inflate (R.layout.plates_page, container, false);
-//
-//            View window_rolling_shutter_layout = inflater.inflate (R.layout.window_rolling_shutter_layout, container, false);
-//            LinearLayout linearLayout = (LinearLayout) rootView.findViewById (R.eventName.firstColumn);
-//            linearLayout.addView (window_rolling_shutter_layout);
-//
-//            View plate2 = inflater.inflate (R.layout.window_rolling_shutter_layout, container, false);
-//            plate2.setBackground (ContextCompat.getDrawable (getContext (), R.drawable.plate_background_red));
-//            LinearLayout linearLayout2 = (LinearLayout) rootView.findViewById (R.eventName.firstColumn);
-//            linearLayout2.addView (plate2);
-//
-//
-//            //TextView textView = (TextView) rootView.findViewById (R.eventName.section_label);
-        //     textView.setText (getString (R.string.section_format, getArguments ().getInt (ARG_SECTION_NUMBER)));
-//            return rootView;
     }
 
 

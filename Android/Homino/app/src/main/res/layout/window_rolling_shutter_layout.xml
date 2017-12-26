@@ -1,49 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/windowRollingShutterPlate"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="170dp"
+    android:layout_height="200dp"
     android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="N/A"
+        android:maxLines="1"
+        android:text="TITLE"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <ImageView
             android:id="@+id/plateIcon"
-            android:layout_width="60dp"
-            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/window"
-            android:scaleType="fitXY"/>
-
-
-        <TextView
-            android:id="@+id/percentTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/plateIcon"
-            android:layout_below="@+id/plateIcon"
-            android:layout_marginLeft="5dp"
-            android:layout_toEndOf="@+id/plateIcon"
-            android:text="0%"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30dp"
-            android:textStyle="bold"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/window_shutter_0"
+            app:layout_constraintBottom_toTopOf="@+id/halfButton"
+            app:layout_constraintEnd_toStartOf="@+id/upButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageButton
@@ -53,10 +48,13 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_alignTop="@+id/plateIcon"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
             android:background="@android:color/white"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_action_arrow_top"
-            android:scaleType="fitCenter"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageButton
@@ -66,11 +64,13 @@
             android:layout_alignLeft="@+id/upButton"
             android:layout_alignStart="@+id/upButton"
             android:layout_below="@+id/upButton"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
             android:background="@android:color/white"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_action_cancel"
-            android:scaleType="fitCenter"/>
+            app:layout_constraintBottom_toTopOf="@+id/downButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upButton" />
 
         <ImageButton
             android:id="@+id/downButton"
@@ -79,23 +79,28 @@
             android:layout_alignLeft="@+id/stopButton"
             android:layout_alignStart="@+id/stopButton"
             android:layout_below="@+id/stopButton"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
             android:background="@android:color/white"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_action_arrow_bottom"
-            android:scaleType="fitCenter"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
         <ImageButton
             android:id="@+id/gridButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="5dp"
             android:layout_alignTop="@+id/upButton"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="5dp"
             android:layout_toLeftOf="@+id/upButton"
             android:background="@android:color/white"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_grid_on"
-            android:scaleType="fitCenter"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <ImageButton
@@ -103,23 +108,15 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignTop="@+id/stopButton"
-            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_toLeftOf="@+id/stopButton"
             android:background="@android:color/white"
+            android:scaleType="fitCenter"
             android:src="@drawable/window_shutter_half"
-            android:scaleType="fitCenter"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/downButton"
+            app:layout_constraintStart_toEndOf="@+id/gridButton" />
 
 
-        <ImageButton
-            android:id="@+id/quarterButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignTop="@+id/downButton"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/downButton"
-            android:background="@android:color/white"
-            android:src="@drawable/window_shutter_quarter"
-            android:scaleType="fitCenter"/>
-
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>

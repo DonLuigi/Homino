@@ -7,15 +7,15 @@ import lombok.ToString;
 
 @ToString (includeFieldNames = true) public class DeviceControlNode
 {
-    public DeviceControlNode (String id, String ip)
+    public DeviceControlNode (String id, String networkAddress)
     {
         this.id = id;
-        this.ip = ip;
+        this.networkAddress = networkAddress;
     }
 
 
     @Getter private String id;
 
 
-    @Getter private String ip;
+    @Getter private String networkAddress;
 }

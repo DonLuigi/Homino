@@ -2,10 +2,10 @@ package si.krulik.homino.configuration.plate.common;
 
 import android.view.View;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import si.krulik.homino.common.logger.CustomLogger;
 import si.krulik.homino.configuration.Configuration;
@@ -15,7 +15,7 @@ import si.krulik.homino.message.Message;
 import si.krulik.homino.message.MultiMessage;
 
 
-@ToString (includeFieldNames = true, of = {"id", "title", "platePosition"}) abstract public class Plate
+@ToString (includeFieldNames = true, of = {"id", "title"}) abstract public class Plate
 {
     public Plate (String id, String title, String foregroundColor, String backgroundColor, String buttonBackgroundColor, IPlateActionHandler actionHandler)
     {
@@ -66,7 +66,7 @@ import si.krulik.homino.message.MultiMessage;
     @Getter protected String title;
 
 
-    @Getter @Setter protected PlatePosition platePosition;
+    @Getter protected Map<String, PlatePosition> platePositionsByPageId = new HashMap ();
 
 
     @Getter protected String foregroundColor, backgroundColor, buttonBackgroundColor;
@@ -75,7 +75,7 @@ import si.krulik.homino.message.MultiMessage;
     @Getter protected IPlateActionHandler actionHandler;
 
 
-    @Getter @Setter protected View view;
+    @Getter private Map<String, View> viewByPlatePageId = new HashMap ();
 
 
     private static final CustomLogger logger = CustomLogger.getLogger ("PLATE");

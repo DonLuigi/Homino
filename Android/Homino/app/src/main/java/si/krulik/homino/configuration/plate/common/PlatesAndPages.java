@@ -13,7 +13,7 @@ import si.krulik.homino.common.validate.Validate;
 
 public class PlatesAndPages
 {
-    public PlatesAndPages (PlatePage[] platePagesArray, Plate[] platesArray, PlatePosition[] platePositionsArray)
+    public PlatesAndPages (PlatePage[] platePagesArray, Plate[] platesArray, PlatePosition[] platePositionsArray, int plateBoxHorizontalSizeInPixels, int plateBoxVerticalSizeInPixels)
     {
         // plate pages
         logger.info ("Constructing plates and pages");
@@ -44,10 +44,12 @@ public class PlatesAndPages
             PlatePage platePage = platePagesById.get (platePosition.getPlatePageId ());
             Validate.notNull (platePage, "Missing plate page on position ", platePosition);
 
-            plate.setPlatePosition (platePosition);
+            plate.getPlatePositionsByPageId ().put (platePosition.getPlatePageId (), platePosition);
             platePage.addPlate (plate);
         }
 
+        this.plateBoxHorizontalSizeInPixels = plateBoxHorizontalSizeInPixels;
+        this.plateBoxVerticalSizeInPixels = plateBoxVerticalSizeInPixels;
 
         logger.info ("Done, plate pages size ", platePages.size (), ", plates size ", getPlates ().size ());
     }
@@ -80,6 +82,13 @@ public class PlatesAndPages
     {
         return (platesById.values ());
     }
+
+
+    // box
+    @Getter int plateBoxHorizontalSizeInPixels;
+
+
+    @Getter int plateBoxVerticalSizeInPixels;
 
 
     static final CustomLogger logger = CustomLogger.getLogger ("PLATES&PAGES");

@@ -6,11 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import java.util.Date;
@@ -21,6 +25,7 @@ import java.util.logging.Logger;
 import si.krulik.homino.common.logger.CustomLogger;
 import si.krulik.homino.common.validate.Validate;
 import si.krulik.homino.configuration.Configuration;
+import si.krulik.homino.configuration.device.ShellDevice;
 import si.krulik.homino.configuration.device.common.Device;
 import si.krulik.homino.configuration.device.common.DeviceControlNode;
 import si.krulik.homino.configuration.plate.common.Plate;
@@ -65,6 +70,18 @@ public class MainActivity extends AppCompatActivity
         viewPager.setLayoutParams (new ViewPager.LayoutParams ());
 
         viewPager.setAdapter (new PlatesPageAdapter (configuration, this.getBaseContext ()));
+
+        // create pager title strip
+        PagerTitleStrip pagerTitleStrip = new PagerTitleStrip (this);
+        pagerTitleStrip.setBackgroundColor (Color.BLACK);
+        pagerTitleStrip.setTextSize (TypedValue.COMPLEX_UNIT_DIP, 24);
+
+        ViewPager.LayoutParams layoutParams = new ViewPager.LayoutParams ();
+        layoutParams.height = ViewPager.LayoutParams.WRAP_CONTENT;
+        layoutParams.width = ViewPager.LayoutParams.MATCH_PARENT;
+        layoutParams.gravity = Gravity.TOP;
+
+        viewPager.addView (pagerTitleStrip, layoutParams);
 
         root.addView (viewPager);
         setContentView (root);
@@ -125,6 +142,17 @@ public class MainActivity extends AppCompatActivity
         {
             Date now = new Date ();
 
+
+            // ping
+            MultiMessage multiMessage = new MultiMessage ();
+            for (ShellDevice shellDevice : configuration.getDevices ().getShellDevices ())
+            {
+                multiMessage.add (shellDevice.ping (now));
+            }
+            configuration.flushMessages (multiMessage);
+
+
+            // pulse
             configuration.getPulseHandler ().pulse (configuration, now);
 
             configuration.log (now);
@@ -207,20 +235,20 @@ class HominoNetworkBroadcastReceiver extends BroadcastReceiver
 
 
             // locate control device
-            DeviceControlNode deviceControlNode = configuration.getDevices ().getDeviceControlNodesByIpPort ().get (hominoNetworkMessage.getControlNodeIpPort ());
-            Validate.notNull (deviceControlNode, "Missing device control node ", hominoNetworkMessage.getControlNodeIpPort ());
+            DeviceControlNode deviceControlNode = configuration.getDevices ().getDeviceControlNodesById ().get (hominoNetworkMessage.getDeviceControlNodeId ());
 
 
             // report error
             if (hominoNetworkMessage.isError ())
             {
-                configuration.error (deviceControlNode.getId (), hominoNetworkMessage.getMessage ());
+                configuration.error (deviceControlNode != null ? deviceControlNode.getId () : null, hominoNetworkMessage.getMessage ());
             }
 
 
             // handle message
             else
             {
+                Validate.notNull (deviceControlNode, "Missing device control node ", hominoNetworkMessage.getDeviceControlNodeId ());
                 MultiMessage multiMessage = new MultiMessage (deviceControlNode.getId (), hominoNetworkMessage.getMessage ());
 
                 for (Message message : multiMessage.getMessages ())

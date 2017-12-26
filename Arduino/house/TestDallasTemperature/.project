@@ -6,7 +6,7 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>it.baeyens.arduino.core.inoToCpp</name>
+			<name>io.sloeber.core.inoToCpp</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -28,28 +28,28 @@
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
-		<nature>it.baeyens.arduinonature</nature>
+		<nature>io.sloeber.arduinonature</nature>
 	</natures>
 	<linkedResources>
 		<link>
 			<name>core/core</name>
 			<type>2</type>
-			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/cores/arduino</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.20/cores/arduino</locationURI>
 		</link>
 		<link>
 			<name>core/variant</name>
 			<type>2</type>
-			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/variants/mega</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.20/variants/mega</locationURI>
 		</link>
 		<link>
 			<name>libraries/DallasTemperature</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/DallasTemperature</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/DallasTemperature</locationURI>
 		</link>
 		<link>
 			<name>libraries/OneWire</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/OneWire</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/OneWire</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

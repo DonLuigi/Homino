@@ -1,5 +1,6 @@
 package si.krulik.homino.configuration.plate;
 
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.Arrays;
@@ -23,7 +24,10 @@ import si.krulik.homino.configuration.plate.common.Plate;
 
     @Override public void refresh ()
     {
-        ((TextView) view.findViewById (R.id.titleTextView)).setText (title);
+        for (View view : getViewByPlatePageId ().values ())
+        {
+            ((TextView) view.findViewById (R.id.titleTextView)).setText (title);
+        }
     }
 
 

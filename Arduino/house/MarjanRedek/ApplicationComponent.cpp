@@ -185,19 +185,29 @@ void ApplicationComponent::displayRefresh (DisplayPage newCurrentPage, int optio
     switch (displayCurrentPage)
     {
         case DISPLAY_PAGE_MAIN:
-            char temperature[DISPLAY_COLUMNS + 1];
+            char temperatureChar[DISPLAY_COLUMNS + 1];
+            float temperature;
+            boolean status;
 
-            snprintf (temperature, DISPLAY_COLUMNS, "%i\xDF", (int) tZalogovnikZgoraj->temperature);
-            snprintf (line1, DISPLAY_COLUMNS, "%s=%s  ", tZalogovnikZgoraj->name, !isnan (tZalogovnikZgoraj->temperature) ? temperature : "ERR");
 
-            snprintf (temperature, DISPLAY_COLUMNS, "%i\xDF", (int) tZalogovnikSpodaj->temperature);
-            snprintf (line1 + 8, DISPLAY_COLUMNS - 8 + 1, "%s=%s   ", tZalogovnikSpodaj->name, !isnan (tZalogovnikSpodaj->temperature) ? temperature : "ERR");
+            status = tZalogovnikZgoraj->read (&temperature, NULL);
+            snprintf (temperatureChar, DISPLAY_COLUMNS, "%i\xDF", (int) temperature);
+            snprintf (line1, DISPLAY_COLUMNS, "%s=%s  ", tZalogovnikZgoraj->name, status ? temperatureChar : "ERR");
 
-            snprintf (temperature, DISPLAY_COLUMNS, "%i\xDF", (int) tDrva->temperature);
-            snprintf (line2, DISPLAY_COLUMNS, "%s=%s  ", tDrva->name, !isnan (tDrva->temperature) ? temperature : "ERR");
 
-            snprintf (temperature, DISPLAY_COLUMNS, "%i\xDF", (int) tBojler->temperature);
-            snprintf (line2 + 8, DISPLAY_COLUMNS - 8 + 1, "%s=%s   ", tBojler->name, !isnan (tBojler->temperature) ? temperature : "ERR");
+            status = tZalogovnikSpodaj->read (&temperature, NULL);
+            snprintf (temperatureChar, DISPLAY_COLUMNS, "%i\xDF", (int) temperature);
+            snprintf (line1 + 8, DISPLAY_COLUMNS - 8 + 1, "%s=%s   ", tZalogovnikSpodaj->name, status ? temperatureChar : "ERR");
+
+
+            status = tDrva->read (&temperature, NULL);
+            snprintf (temperatureChar, DISPLAY_COLUMNS, "%i\xDF", (int) temperature);
+            snprintf (line2, DISPLAY_COLUMNS, "%s=%s  ", tDrva->name, status ? temperatureChar : "ERR");
+
+
+            status = tBojler->read (&temperature, NULL);
+            snprintf (temperatureChar, DISPLAY_COLUMNS, "%i\xDF", (int) temperature);
+            snprintf (line2 + 8, DISPLAY_COLUMNS - 8 + 1, "%s=%s   ", tBojler->name, status ? temperatureChar : "ERR");
 
             lcd->setCursor (0, 0); // no lcd clear
             lcd->print (line1);
@@ -224,7 +234,8 @@ void ApplicationComponent::logic ()
     DallasTemperatureComponent* failedThermometer = NULL;
     for (int i = 0; i < sizeof(thermometers) / sizeof(thermometers[0]); i++)
     {
-        if (!thermometers[i]->readTemperature ())
+        float temperature;
+        if (!thermometers[i]->read (&temperature, NULL))
         {
             failedThermometer = thermometers[i];
         }
@@ -236,11 +247,27 @@ void ApplicationComponent::logic ()
         return;
     }
 
-    // oljni gorilec
 
-    bool cPecNaDrvaDela = tDrva->temperature > pCrpanjeZalogovnika->readAsUInt8 ();
+    // temperatures
+    float tDrvaTemperature;
+    tDrva->read (&tDrvaTemperature, NULL);
+
+    float tZalogovnikZgorajTemperature;
+    tZalogovnikZgoraj->read (&tZalogovnikZgorajTemperature, NULL);
+
+    float tZalogovnikSpodajTemperature;
+    tZalogovnikSpodaj->read (&tZalogovnikSpodajTemperature, NULL);
+
+    float tBojlerTemperature;
+    tBojler->read (&tBojlerTemperature, NULL);
+
+
+
+    // oljni gorilec
+    bool cPecNaDrvaDela = tDrvaTemperature > pCrpanjeZalogovnika->readAsUInt8 ();
     COA_DEBUG(F("cPecNaDrvaDela=%c"), cPecNaDrvaDela ? 't' : 'f');
-    bool cZalogovnikPripravljen = tZalogovnikZgoraj->temperature > pCrpanjeZalogovnika->readAsUInt8 ();
+
+    bool cZalogovnikPripravljen = tZalogovnikZgorajTemperature > pCrpanjeZalogovnika->readAsUInt8 ();
     COA_DEBUG(F("cZalogovnikPripravljen=%c"), cZalogovnikPripravljen ? 't' : 'f');
     rOljniGorilec->write (!cZalogovnikPripravljen && !cPecNaDrvaDela); // normally closed
 
@@ -255,15 +282,15 @@ void ApplicationComponent::logic ()
     rDrvaAliOlje->write (!drva); // normally open -> invert
 
     // crpalka zalogovnika
-    boolean crpalkaZalogovnik = tDrva->temperature > (tZalogovnikSpodaj->temperature + pRazlikaZaVklopZalogovnika->readAsUInt8 ());
+    boolean crpalkaZalogovnik = tDrvaTemperature > (tZalogovnikSpodajTemperature + pRazlikaZaVklopZalogovnika->readAsUInt8 ());
     rCrpalkaZalogovnik->write (!crpalkaZalogovnik); // normally open -> invert
 
     // crpalka bojlerja
-    bool cDrvaLahkoOgrevajoBojler = pec && (tDrva->temperature > tBojler->temperature + pRazlikaZaVklopCrpalkeBojlerja->readAsUInt8 ());
+    bool cDrvaLahkoOgrevajoBojler = pec && (tDrvaTemperature > tBojlerTemperature + pRazlikaZaVklopCrpalkeBojlerja->readAsUInt8 ());
     COA_DEBUG(F("cDrvaLahkoOgrevajoBojler=%c"), cDrvaLahkoOgrevajoBojler ? 't' : 'f');
-    bool cZalogovnikLahkoOgrevaBojler = !pec && (tZalogovnikZgoraj->temperature > tBojler->temperature + pRazlikaZaVklopCrpalkeBojlerja->readAsUInt8 ());
+    bool cZalogovnikLahkoOgrevaBojler = !pec && (tZalogovnikZgorajTemperature > tBojlerTemperature + pRazlikaZaVklopCrpalkeBojlerja->readAsUInt8 ());
     COA_DEBUG(F("cZalogovnikLahkoOgrevaB=%c"), cZalogovnikLahkoOgrevaBojler ? 't' : 'f');
-    bool crpalkaBoljerja = tBojler->temperature < (rCrpalkaBojler->read () == LOW ? pVklopBojlerja->readAsUInt8 () : pIzklopBojlerja->readAsUInt8 ())
+    bool crpalkaBoljerja = tBojlerTemperature < (rCrpalkaBojler->read () == LOW ? pVklopBojlerja->readAsUInt8 () : pIzklopBojlerja->readAsUInt8 ())
         && (cDrvaLahkoOgrevajoBojler || cZalogovnikLahkoOgrevaBojler);
     rCrpalkaBojler->write (crpalkaBoljerja);
 

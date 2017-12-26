@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 import si.krulik.homino.common.logger.CustomLogger;
 import si.krulik.homino.configuration.Configuration;
 import si.krulik.homino.configuration.command.Action;
+import si.krulik.homino.configuration.device.AuthorizerDevice;
 import si.krulik.homino.configuration.device.WindowShutterDevice;
 import si.krulik.homino.configuration.plate.ActionPlate;
 import si.krulik.homino.configuration.plate.ActionPlateRow;
@@ -30,6 +30,7 @@ import si.krulik.homino.configuration.plate.ActionPlateRowButton;
 import si.krulik.homino.configuration.plate.common.Plate;
 import si.krulik.homino.configuration.plate.common.PlatePage;
 import si.krulik.homino.configuration.plate.common.PlatePosition;
+import si.krulik.homino.configuration.plate.device.AuthorizerPlate;
 import si.krulik.homino.configuration.plate.device.PhotoResistorPlate;
 import si.krulik.homino.configuration.plate.device.ShellPlate;
 import si.krulik.homino.configuration.plate.device.ThermometerPlate;
@@ -66,13 +67,13 @@ public class PlatesPageAdapter extends PagerAdapter
 
 
         // title
-        TextView titleTextView = new TextView (container.getContext ());
-        rootLayout.addView (titleTextView);
-
-        titleTextView.setText (platesPage.getTitle ());
-        LinearLayout.LayoutParams titleTextViewLayoutParams = new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        titleTextViewLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-        titleTextView.setLayoutParams (titleTextViewLayoutParams);
+        //        TextView titleTextView = new TextView (container.getContext ());
+        //        rootLayout.addView (titleTextView);
+        //
+        //        titleTextView.setText (platesPage.getTitle ());
+        //        LinearLayout.LayoutParams titleTextViewLayoutParams = new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //        titleTextViewLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+        //        titleTextView.setLayoutParams (titleTextViewLayoutParams);
 
 
         // calculate number of rows and columns and box size
@@ -80,8 +81,8 @@ public class PlatesPageAdapter extends PagerAdapter
         int columnCount = 0;
         for (Plate plate : platesPage.getPlates ())
         {
-            PlatePosition platePosition = plate.getPlatePosition ();
-            if (plate.getPlatePosition () == null)
+            PlatePosition platePosition = plate.getPlatePositionsByPageId ().get (platesPage.getId ());
+            if (platePosition == null)
             {
                 continue;
             }
@@ -90,9 +91,15 @@ public class PlatesPageAdapter extends PagerAdapter
         }
 
         DisplayMetrics displayMetrics = container.getContext ().getResources ().getDisplayMetrics ();
-        float boxSize = ((float) displayMetrics.widthPixels) / columnCount;
 
-        logger.info ("Columns=" + columnCount + ", rows=" + rowCount + ", parent width=" + displayMetrics.widthPixels + ", boxSize=" + boxSize);
+
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+        int columns = (int) dpWidth / 175; // TODO: use this
+
+
+        logger.info ("Columns=", columnCount, ", rows=", rowCount, ", parent width=", displayMetrics.widthPixels, ", dpHeight=", dpHeight, ", dpWidth=", dpWidth);
 
 
         // scroll view
@@ -110,7 +117,7 @@ public class PlatesPageAdapter extends PagerAdapter
 
         for (Plate plate : platesPage.getPlates ())
         {
-            PlatePosition platePosition = plate.getPlatePosition ();
+            PlatePosition platePosition = plate.getPlatePositionsByPageId ().get (platesPage.getId ());
             if (platePosition == null)
             {
                 continue;
@@ -139,7 +146,7 @@ public class PlatesPageAdapter extends PagerAdapter
                     ((ImageButton) view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (Action.Stop, plate, configuration, context));
                     ((ImageButton) view.findViewById (R.id.gridButton)).setOnClickListener (new ButtonOnClickListener (Action.Grid, plate, configuration, context));
                     ((ImageButton) view.findViewById (R.id.halfButton)).setOnClickListener (new ButtonOnClickListener (Action.Half, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.quarterButton)).setOnClickListener (new ButtonOnClickListener (Action.Quarter, plate, configuration, context));
+                    //                    ((ImageButton) view.findViewById (R.id.quarterButton)).setOnClickListener (new ButtonOnClickListener (Action.Quarter, plate, configuration, context));
                 }
                 else
                 {
@@ -150,9 +157,9 @@ public class PlatesPageAdapter extends PagerAdapter
                     ((ImageButton) view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (Action.Stop, plate, configuration, context));
                     ((ImageButton) view.findViewById (R.id.rotateUpButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateUp, plate, configuration, context));
                     ((ImageButton) view.findViewById (R.id.rotateDownButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateDown, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.rotateMiddleButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateMidddle, plate, configuration, context));
+                    //                    ((ImageButton) view.findViewById (R.id.rotateMiddleButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateMidddle, plate, configuration, context));
                 }
-                windowShutterPlate.setView (view);
+                windowShutterPlate.getViewByPlatePageId ().put (platesPage.getId (), view);
             }
 
 
@@ -162,7 +169,7 @@ public class PlatesPageAdapter extends PagerAdapter
                 logger.info ("New action plate: " + actionPlate);
 
                 View view = layoutInflater.inflate (R.layout.action_plate_layout, null);
-                actionPlate.setView (view);
+                actionPlate.getViewByPlatePageId ().put (platesPage.getId (), view);
                 TableLayout tableLayout = (TableLayout) view.findViewById (R.id.actionPlateLayoutTableView);
 
 
@@ -216,12 +223,12 @@ public class PlatesPageAdapter extends PagerAdapter
 
                 // inflate shutter view
                 View view = layoutInflater.inflate (R.layout.timed_relay_plate, null);
-                timedRelayPlate.setView (view);
+                timedRelayPlate.getViewByPlatePageId ().put (platesPage.getId (), view);
 
 
                 // button events
                 ((ImageButton) view.findViewById (R.id.startStopButton)).setOnClickListener (new ButtonOnClickListener (Action.StartStop, plate, configuration, context));
-                ((ImageButton) view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (Action.LockUnlock, plate, configuration, context));
+                ((ImageButton) view.findViewById (R.id.lockUnlockButton)).setOnClickListener (new ButtonOnClickListener (Action.LockUnlock, plate, configuration, context));
             }
 
 
@@ -229,7 +236,7 @@ public class PlatesPageAdapter extends PagerAdapter
             {
                 logger.info ("Inflate ", plate);
                 View view = layoutInflater.inflate (R.layout.thermometer_plate, null);
-                plate.setView (view);
+                plate.getViewByPlatePageId ().put (platesPage.getId (), view);
             }
 
 
@@ -237,7 +244,7 @@ public class PlatesPageAdapter extends PagerAdapter
             {
                 logger.info ("Inflate ", plate);
                 View view = layoutInflater.inflate (R.layout.photo_resistor_plate, null);
-                plate.setView (view);
+                plate.getViewByPlatePageId ().put (platesPage.getId (), view);
             }
 
 
@@ -245,17 +252,27 @@ public class PlatesPageAdapter extends PagerAdapter
             {
                 logger.info ("Inflate ", plate);
                 View view = layoutInflater.inflate (R.layout.shell_plate, null);
-                plate.setView (view);
+                plate.getViewByPlatePageId ().put (platesPage.getId (), view);
             }
 
+
+            if (plate instanceof AuthorizerPlate)
+            {
+                logger.info ("Inflate ", plate);
+                View view = layoutInflater.inflate (R.layout.authorizer_plate, null);
+                plate.getViewByPlatePageId ().put (platesPage.getId (), view);
+            }
 
             // refresh plate content
             plate.refresh ();
 
 
             // adjust colors and add plate to grid layout
-            GridLayout.LayoutParams params = adjustColorsAndLayout ((ViewGroup) plate.getView (), platesPage, plate, boxSize);
-            gridLayout.addView (plate.getView (), params);
+            View view = plate.getViewByPlatePageId ().get (platesPage.getId ());
+
+
+            GridLayout.LayoutParams params = adjustColorsAndLayout ((ViewGroup) view, platesPage, plate, configuration.getPlatesAndPages ().getPlateBoxHorizontalSizeInPixels (), configuration.getPlatesAndPages ().getPlateBoxVerticalSizeInPixels ());
+            gridLayout.addView (view, params);
         }
 
 
@@ -282,14 +299,21 @@ public class PlatesPageAdapter extends PagerAdapter
     }
 
 
-    private GridLayout.LayoutParams adjustColorsAndLayout (ViewGroup viewGroup, PlatePage platesPage, Plate plate, float boxSize)
+    @Override public CharSequence getPageTitle (int position)
+    {
+        PlatePage platePage = configuration.getPlatesAndPages ().getPlatePages ().get (position);
+        return (platePage.getTitle ());
+    }
+
+
+    private GridLayout.LayoutParams adjustColorsAndLayout (ViewGroup viewGroup, PlatePage platesPage, Plate plate, int plateBoxHorizontalSizeInPixels, int plateBoxVerticalSizeInPixels)
     {
         adjustColors (viewGroup, plate);
 
-        PlatePosition platePosition = plate.getPlatePosition ();
+        PlatePosition platePosition = plate.getPlatePositionsByPageId ().get (platesPage.getId ());
         GridLayout.LayoutParams params = new GridLayout.LayoutParams (GridLayout.spec (platePosition.getY (), platePosition.getDy ()), GridLayout.spec (platePosition.getX (), platePosition.getDx ()));
-        params.width = Math.round (platePosition.getDx () * boxSize - platesPage.getMarginInPx () * 2);
-        params.height = Math.round (platePosition.getDy () * boxSize - platesPage.getMarginInPx () * 2);
+        params.width = Math.round (platePosition.getDx () * plateBoxHorizontalSizeInPixels - platesPage.getMarginInPx () * 2);
+        params.height = Math.round (platePosition.getDy () * plateBoxVerticalSizeInPixels - platesPage.getMarginInPx () * 2);
         params.setMargins (platesPage.getMarginInPx (), platesPage.getMarginInPx (), platesPage.getMarginInPx (), platesPage.getMarginInPx ());
         viewGroup.setBackgroundColor (Color.parseColor (plate.getBackgroundColor ()));
         return (params);

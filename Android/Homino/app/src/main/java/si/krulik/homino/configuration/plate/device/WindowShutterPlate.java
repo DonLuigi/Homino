@@ -1,5 +1,8 @@
 package si.krulik.homino.configuration.plate.device;
 
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import lombok.ToString;
@@ -21,9 +24,27 @@ import si.krulik.homino.configuration.plate.common.Plate;
 
     @Override public void refresh ()
     {
-        ((TextView) view.findViewById (R.id.titleTextView)).setText (title);
-        ((TextView) view.findViewById (R.id.percentTextView)).setText (device.getVerticalPercent () >= 0 ? Integer.toString (device.getVerticalPercent ()) + "%" : "N/A");
-        //((TextView) view.findViewById (R.id.rotationPercentView)).setText (device.getRotationPercent () >= 0 ? Integer.toString (device.getRotationPercent ()) + "%" : "N/A");
+        for (View view : getViewByPlatePageId ().values ())
+        {
+            // title
+            ((TextView) view.findViewById (R.id.titleTextView)).setText (title);
+
+
+            // vertical
+            ImageView plateIconImageView = (ImageView) view.findViewById (R.id.plateIcon);
+            int verticalImageIndex = device.getVerticalPercent () / windowShutterImageIds.length;
+            verticalImageIndex = verticalImageIndex < windowShutterImageIds.length ? verticalImageIndex : windowShutterImageIds.length - 1;
+            plateIconImageView.setImageResource (windowShutterImageIds[verticalImageIndex]);
+
+
+            // rotation
+            int rotationPercent = device.getRotationPercent ();
+            if (rotationPercent >= 0)
+            {
+                SeekBar seekBarView = (SeekBar) view.findViewById (R.id.seekBar);
+                seekBarView.setProgress (rotationPercent / 10);
+            }
+        }
     }
 
 
@@ -40,4 +61,8 @@ import si.krulik.homino.configuration.plate.common.Plate;
 
 
     private WindowShutterDevice device;
+    private static int[] windowShutterImageIds = new int[] {
+        R.drawable.window_shutter_0, R.drawable.window_shutter_1, R.drawable.window_shutter_2, R.drawable.window_shutter_3, R.drawable.window_shutter_4, R.drawable.window_shutter_5, R.drawable.window_shutter_6, R.drawable.window_shutter_7,
+        R.drawable.window_shutter_8, R.drawable.window_shutter_9
+    };
 }

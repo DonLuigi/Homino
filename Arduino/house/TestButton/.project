@@ -6,7 +6,7 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>it.baeyens.arduino.core.inoToCpp</name>
+			<name>io.sloeber.core.inoToCpp</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -28,73 +28,73 @@
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
-		<nature>it.baeyens.arduinonature</nature>
+		<nature>io.sloeber.arduinonature</nature>
 	</natures>
 	<linkedResources>
 		<link>
 			<name>core/core</name>
 			<type>2</type>
-			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/cores/arduino</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.20/cores/arduino</locationURI>
 		</link>
 		<link>
 			<name>core/variant</name>
 			<type>2</type>
-			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/variants/eightanaloginputs</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.20/variants/mega</locationURI>
 		</link>
 		<link>
 			<name>libraries/Bounce2</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/Bounce2</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/Bounce2</locationURI>
 		</link>
 		<link>
 			<name>libraries/COA</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/COA</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/COA</locationURI>
 		</link>
 		<link>
 			<name>libraries/DHT</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/DHT</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/DHT</locationURI>
 		</link>
 		<link>
 			<name>libraries/DallasTemperature</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/DallasTemperature</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/DallasTemperature</locationURI>
 		</link>
 		<link>
 			<name>libraries/Ethernet</name>
 			<type>2</type>
-			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/libraries/Ethernet/1.1.1</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/libraries/Ethernet/1.1.2</locationURI>
 		</link>
 		<link>
 			<name>libraries/Keypad</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/Keypad</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/Keypad</locationURI>
 		</link>
 		<link>
 			<name>libraries/LiquidCrystal_I2C</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/LiquidCrystal_I2C</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/LiquidCrystal_I2C</locationURI>
 		</link>
 		<link>
 			<name>libraries/OneWire</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/OneWire</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/OneWire</locationURI>
 		</link>
 		<link>
 			<name>libraries/SPI</name>
 			<type>2</type>
-			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/libraries/SPI</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.20/libraries/SPI</locationURI>
 		</link>
 		<link>
 			<name>libraries/U8glib</name>
 			<type>2</type>
-			<location>D:/BACKUP/GDRIVE/PC/PROGRAMMING/Homino/Arduino/user-libraries/U8glib</location>
+			<locationURI>WORKSPACE_LOC/user-libraries/U8glib</locationURI>
 		</link>
 		<link>
 			<name>libraries/Wire</name>
 			<type>2</type>
-			<location>C:/WORK/Arduino/Eclipse/win64.2016-03-07_15-24-47/arduinoPlugin/packages/arduino/hardware/avr/1.6.9/libraries/Wire</location>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.20/libraries/Wire</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

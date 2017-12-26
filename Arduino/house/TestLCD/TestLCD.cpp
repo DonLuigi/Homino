@@ -1,4 +1,3 @@
-#include "TestLCD.h"
 #include "LiquidCrystalI2CComponent.h"
 
 LiquidCrystalI2CComponent lcd (0x27, 16, 2, 20 * 1000L, 500L, 100, "lcd");

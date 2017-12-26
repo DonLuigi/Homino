@@ -5,26 +5,26 @@ import lombok.Getter;
 
 public class Message
 {
-    @Getter private String peerId;
-
-
-    @Getter private String[] parts;
+    @Getter private String deviceControlNodeId;
 
 
     @Getter private String deviceId;
 
 
-    public Message (String peerId, String messageAsString)
+    @Getter private String[] parts;
+
+
+    public Message (String deviceControlNodeId, String messageAsString)
     {
-        this.peerId = peerId;
+        this.deviceControlNodeId = deviceControlNodeId;
         parts = messageAsString.split (fieldDelimiter);
         deviceId = (parts.length > 0 ? parts[0] : null);
     }
 
 
-    public Message (String peerId, String... part)
+    public Message (String deviceControlNodeId, String... part)
     {
-        this.peerId = peerId;
+        this.deviceControlNodeId = deviceControlNodeId;
         parts = part;
         deviceId = (parts.length > 0 ? parts[0] : null);
     }

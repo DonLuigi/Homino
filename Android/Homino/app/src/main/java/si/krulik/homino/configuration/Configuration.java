@@ -1,15 +1,21 @@
 package si.krulik.homino.configuration;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +23,7 @@ import si.krulik.homino.R;
 import si.krulik.homino.common.logger.CustomLogger;
 import si.krulik.homino.common.validate.Validate;
 import si.krulik.homino.configuration.command.Action;
+import si.krulik.homino.configuration.device.AuthorizerDevice;
 import si.krulik.homino.configuration.device.PhotoResistorDevice;
 import si.krulik.homino.configuration.device.ShellDevice;
 import si.krulik.homino.configuration.device.ThermometerDevice;
@@ -34,6 +41,7 @@ import si.krulik.homino.configuration.plate.common.Plate;
 import si.krulik.homino.configuration.plate.common.PlatePage;
 import si.krulik.homino.configuration.plate.common.PlatePosition;
 import si.krulik.homino.configuration.plate.common.PlatesAndPages;
+import si.krulik.homino.configuration.plate.device.AuthorizerPlate;
 import si.krulik.homino.configuration.plate.device.PhotoResistorPlate;
 import si.krulik.homino.configuration.plate.device.ShellPlate;
 import si.krulik.homino.configuration.plate.device.ThermometerPlate;
@@ -55,20 +63,20 @@ public class Configuration
     }
 
 
-    Build build = Build.TabGroundFloor;
+    Build build = Build.Phone;
 
 
-    // device control nodes
-    enum DeviceControlNodeDescriptions
+    // device control node ids
+    enum DeviceControlNodeId
     {
-        Main, Attic
+        Main, Attic, LudvikPhone, BarbiPhone
     }
 
 
     // devices
     enum DeviceDescriptions
     {
-        ShellMain ("ShellMain"), ShellAttic ("ShellAttic"),
+        ShellMain ("ShellMain"), ShellAttic ("ShellAttic"), ShellLudvikPhone ("ShellLudvikPhone"),
 
         WindowShutterKitchenE ("WrsKitchE"), WindowShutterKitchenS ("WrsKitchS"), WindowLouvreShutterDiningRoomS ("WlsDiningS"), WindowLouvreShutterLivingRoomS ("WlsLivingS"), WindowShutterLivingRoomW ("WrsLivingW"),
         WindowShutterStairs ("WrsStairs"), WindowShutterBathroom0 ("WrsBath0"),
@@ -83,7 +91,9 @@ public class Configuration
 
         RecouperatorOutputThermometer ("RecOutTemp"), OutsideThermometer ("OutTemp"), AtticThermometer ("AtticTemp"),
 
-        PhotoResistor ("PhotoRes"), AtticVentilator ("Vent"), AtticDehumidifier ("Dehum"), RecouperatorX151 ("RecoupX151");
+        PhotoResistor ("PhotoRes"), AtticVentilator ("Vent"), AtticDehumidifier ("Dehum"), RecouperatorX151 ("RecoupX151"),
+
+        LudvikPhoneAutorizer ("LudvikPhoneAutorizer"), BarbiPhoneAutorizer ("BarbiPhoneAutorizer");
 
 
         DeviceDescriptions (String abbreviation)
@@ -99,9 +109,13 @@ public class Configuration
     @Getter private Devices devices = new Devices (new DeviceControlNode[]
 
         {
-            new DeviceControlNode (DeviceControlNodeDescriptions.Main.name (), "192.168.1.50:5555"),
+            new DeviceControlNode (DeviceControlNodeId.Main.name (), "192.168.1.50:5555"),
 
-            new DeviceControlNode (DeviceControlNodeDescriptions.Attic.name (), "192.168.1.51:5555")
+            new DeviceControlNode (DeviceControlNodeId.Attic.name (), "192.168.1.51:5555"),
+
+            new DeviceControlNode (DeviceControlNodeId.LudvikPhone.name (), "localhost:5555"),
+
+            new DeviceControlNode (DeviceControlNodeId.BarbiPhone.name (), "localhost:5555"),
         });
 
 
@@ -139,20 +153,96 @@ public class Configuration
 
     // plates
     // plate positions
-    PlatePosition[] platePositions;
+    PlatePosition[][] platePositions = new PlatePosition[][]
 
-    {
-        switch (build)
         {
-            case TabGroundFloor:
-                platePositions = new PlatePosition[] {
+            // single columns
+            null,
 
+
+            // double columns
+            new PlatePosition[]
+
+                {
                     // page 1
                     new PlatePosition ("1", ActionPlateDescriptions.WindowShuttersLowerFloor.name (), 0, 0, 2, 2),
 
                     new PlatePosition ("1", DeviceDescriptions.FrontDoor.abbreviation, 2, 0, 2, 2),
 
-                    new PlatePosition ("1", DeviceDescriptions.WindowShutterKitchenE.abbreviation, 0, 2, 2, 2),
+                    new PlatePosition ("1", DeviceDescriptions.HotWaterRecirculationPump.abbreviation, 0, 2, 2, 2),
+
+                    new PlatePosition ("1", DeviceDescriptions.WindowShutterKitchenE.abbreviation, 2, 2, 2, 2),
+
+                    new PlatePosition ("1", DeviceDescriptions.WindowShutterKitchenS.abbreviation, 0, 4, 2, 2),
+
+                    new PlatePosition ("1", ActionPlateDescriptions.WindowShuttersKitchen.name (), 2, 4, 2, 2),
+
+                    new PlatePosition ("1", DeviceDescriptions.WindowLouvreShutterLivingRoomS.abbreviation, 0, 6, 2, 2),
+
+                    new PlatePosition ("1", DeviceDescriptions.WindowShutterLivingRoomW.abbreviation, 2, 6, 2, 2),
+
+                    new PlatePosition ("1", ActionPlateDescriptions.WindowShuttersLivingRoom.name (), 0, 8, 2, 2),
+
+                    new PlatePosition ("1", DeviceDescriptions.WindowLouvreShutterDiningRoomS.abbreviation, 2, 8, 2, 2),
+
+                    new PlatePosition ("1", DeviceDescriptions.WindowShutterStairs.abbreviation, 0, 10, 2, 2),
+
+                    new PlatePosition ("1", DeviceDescriptions.WindowShutterBathroom0.abbreviation, 2, 10, 2, 2),
+
+
+                    // page 2
+                    new PlatePosition ("2", DeviceDescriptions.HotWaterRecirculationPump.abbreviation, 0, 0, 2, 2),
+
+                    new PlatePosition ("2", DeviceDescriptions.TowelHeater.abbreviation, 2, 0, 2, 2),
+
+                    new PlatePosition ("2", DeviceDescriptions.WindowShutterBathroom1.abbreviation, 0, 2, 2, 2),
+
+                    new PlatePosition ("2", DeviceDescriptions.WindowShutterKidsRoom.abbreviation, 2, 2, 2, 2),
+
+                    new PlatePosition ("2", DeviceDescriptions.WindowLouvreShutterKidsRoom.abbreviation, 0, 4, 2, 2),
+
+                    new PlatePosition ("2", DeviceDescriptions.WindowLouvreShutterGallery.abbreviation, 2, 4, 2, 2),
+
+                    new PlatePosition ("2", DeviceDescriptions.WindowShutterBedroom.abbreviation, 0, 6, 2, 2),
+
+
+                    // page 3
+                    new PlatePosition ("3", DeviceDescriptions.ShellMain.abbreviation, 0, 0, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.ShellAttic.abbreviation, 2, 0, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.OutsideThermometer.abbreviation, 0, 2, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.AtticThermometer.abbreviation, 2, 2, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.RecouperatorOutputThermometer.abbreviation, 0, 4, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.PhotoResistor.abbreviation, 2, 4, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.AtticDehumidifier.abbreviation, 0, 6, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.AtticVentilator.abbreviation, 2, 6, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.RecouperatorX151.abbreviation, 0, 8, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.ShellLudvikPhone.abbreviation, 2, 8, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.LudvikPhoneAutorizer.abbreviation, 0, 10, 2, 2),
+
+                    // new PlatePosition ("3", DeviceDescriptions.BarbiPhoneAutorizer.abbreviation, 2, 6, 2, 2),
+                },
+
+
+            // triple columns
+            new PlatePosition[]
+
+                {
+                    // page 1
+                    new PlatePosition ("1", ActionPlateDescriptions.WindowShuttersLowerFloor.name (), 0, 0, 2, 2),
+
+                    new PlatePosition ("1", DeviceDescriptions.FrontDoor.abbreviation, 2, 0, 2, 2),
+
+                    new PlatePosition ("1", DeviceDescriptions.HotWaterRecirculationPump.abbreviation, 4, 0, 2, 2),
 
                     new PlatePosition ("1", DeviceDescriptions.WindowShutterKitchenE.abbreviation, 0, 2, 2, 2),
 
@@ -207,235 +297,266 @@ public class Configuration
                     new PlatePosition ("3", DeviceDescriptions.AtticVentilator.abbreviation, 2, 4, 2, 2),
 
                     new PlatePosition ("3", DeviceDescriptions.RecouperatorX151.abbreviation, 4, 4, 2, 2),
-                };
-        }
-    }
+
+                    new PlatePosition ("3", DeviceDescriptions.ShellLudvikPhone.abbreviation, 0, 6, 2, 2),
+
+                    new PlatePosition ("3", DeviceDescriptions.LudvikPhoneAutorizer.abbreviation, 2, 6, 2, 2),
+                }
+        };
 
 
-    @Getter private PlatesAndPages platesAndPages = new PlatesAndPages (
+    // plate pages
+    PlatePage[] platePages = new PlatePage[]
 
-        // plate pages
-        new PlatePage[]
+        {
+            new PlatePage ("1", "PRITLIČJE", 5),
 
+            new PlatePage ("2", "NADSTROPJE", 5),
+
+            new PlatePage ("3", "OSTALO", 5)
+        };
+
+
+    // plates
+    Plate[] plates = new Plate[]
+
+        {
+            new ActionPlate (ActionPlateDescriptions.WindowShuttersLowerFloor.name (), white, blue, lighterBlue, "PRITLIČJE", new IPlateActionHandler ()
             {
-                new PlatePage ("1", "ROLETE IN ŽALUZIJE PRITLIČJE", 5),
+                public MultiMessage handleAction (Action action, Configuration configuration)
+                {
+                    DeviceDescriptions deviceDescriptions[] = { //
+                        DeviceDescriptions.WindowLouvreShutterLivingRoomS, //
+                        DeviceDescriptions.WindowShutterKitchenE, //
+                        DeviceDescriptions.WindowShutterKitchenS, //
+                        DeviceDescriptions.WindowLouvreShutterDiningRoomS, //
+                        DeviceDescriptions.WindowLouvreShutterLivingRoomS, //
+                        DeviceDescriptions.WindowShutterLivingRoomW, //
+                        DeviceDescriptions.WindowShutterStairs, //
+                        DeviceDescriptions.WindowShutterBathroom0
+                    };
 
-                new PlatePage ("2", "ROLETE IN ŽALUZIJE NADSTROPJE", 5),
+                    MultiMessage multiMessage = new MultiMessage ();
+                    for (DeviceDescriptions deviceDescription : deviceDescriptions)
+                    {
+                        Device device = configuration.getDevices ().getDevice (deviceDescription.abbreviation);
+                        multiMessage.add (device.handleAction (action));
+                    }
 
-                new PlatePage ("3", "OSTALO", 5)
+                    return (multiMessage);
+                }
             },
 
+                new ActionPlateRow (new ActionPlateRowButton (Action.Up, null, R.drawable.ic_action_arrow_top, null)),
 
-        // plates
-        new Plate[]
+                new ActionPlateRow (new ActionPlateRowButton (Action.Half, null, R.drawable.window_shutter_half, null),
 
+                    new ActionPlateRowButton (Action.Stop, null, R.drawable.ic_action_cancel, null)),
+
+                new ActionPlateRow (new ActionPlateRowButton (Action.Quarter, null, R.drawable.window_shutter_quarter, null),
+
+                    new ActionPlateRowButton (Action.Down, null, R.drawable.ic_action_arrow_bottom, null))),
+
+
+            new TimedRelayPlate (white, orange, lighterOrange, "VRATA", R.drawable.doorknob, true,
+
+                new TimedRelayDevice (DeviceDescriptions.FrontDoor.abbreviation, DeviceControlNodeId.Main.name (), -1), null),
+
+
+            new WindowShutterPlate (white, darkCyan, lighterDarkCyan, "KUHINJA V",
+
+                new WindowShutterDevice (DeviceDescriptions.WindowShutterKitchenE.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
+
+
+            new WindowShutterPlate (white, darkCyan, lighterDarkCyan, "KUHINJA J",
+
+                new WindowShutterDevice (DeviceDescriptions.WindowShutterKitchenS.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
+
+
+            new ActionPlate (ActionPlateDescriptions.WindowShuttersKitchen.name (), white, cyan, lighterCyan, "KUHINJA", new IPlateActionHandler ()
             {
-                new ActionPlate (ActionPlateDescriptions.WindowShuttersLowerFloor.name (), white, blue, lighterBlue, "PRITLIČJE", new IPlateActionHandler ()
+                public MultiMessage handleAction (Action action, Configuration configuration)
                 {
-                    public MultiMessage handleAction (Action action, Configuration configuration)
-                    {
-                        DeviceDescriptions deviceDescriptions[] = { //
-                            DeviceDescriptions.WindowLouvreShutterLivingRoomS, //
-                            DeviceDescriptions.WindowShutterKitchenE, //
-                            DeviceDescriptions.WindowShutterKitchenS, //
-                            DeviceDescriptions.WindowLouvreShutterDiningRoomS, //
-                            DeviceDescriptions.WindowLouvreShutterLivingRoomS, //
-                            DeviceDescriptions.WindowShutterLivingRoomW, //
-                            DeviceDescriptions.WindowShutterStairs, //
-                            DeviceDescriptions.WindowShutterBathroom0
-                        };
+                    return (null);
+                }
+            },
 
-                        MultiMessage multiMessage = new MultiMessage ();
-                        for (DeviceDescriptions deviceDescription : deviceDescriptions)
-                        {
-                            Device device = configuration.getDevices ().getDevice (deviceDescription.abbreviation);
-                            multiMessage.add (device.handleAction (action));
-                        }
+                new ActionPlateRow (new ActionPlateRowButton (Action.Grid, null, R.drawable.ic_grid_on, null),
 
-                        return (multiMessage);
-                    }
-                },
+                    new ActionPlateRowButton (Action.Up, null, R.drawable.ic_action_arrow_top, null)),
 
-                    new ActionPlateRow (new ActionPlateRowButton (Action.Up, null, R.drawable.ic_action_arrow_top, null)),
+                new ActionPlateRow (new ActionPlateRowButton (Action.Half, null, R.drawable.window_shutter_half, null),
 
-                    new ActionPlateRow (new ActionPlateRowButton (Action.Half, null, R.drawable.window_shutter_half, null),
+                    new ActionPlateRowButton (Action.Stop, null, R.drawable.ic_action_cancel, null)),
 
-                        new ActionPlateRowButton (Action.Stop, null, R.drawable.ic_action_cancel, null)),
+                new ActionPlateRow (new ActionPlateRowButton (Action.Quarter, null, R.drawable.window_shutter_quarter, null),
 
-                    new ActionPlateRow (new ActionPlateRowButton (Action.Quarter, null, R.drawable.window_shutter_quarter, null),
-
-                        new ActionPlateRowButton (Action.Down, null, R.drawable.ic_action_arrow_bottom, null))),
+                    new ActionPlateRowButton (Action.Down, null, R.drawable.ic_action_arrow_bottom, null))),
 
 
-                new TimedRelayPlate (white, orange, lighterOrange, "VRATA", R.drawable.doorknob, true,
+            new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "DNEVNA J",
 
-                    new TimedRelayDevice (DeviceDescriptions.FrontDoor.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1), null),
+                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterLivingRoomS.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
 
+            new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "DNEVNA Z",
 
-                new WindowShutterPlate (white, darkCyan, lighterDarkCyan, "KUHINJA V",
-
-                    new WindowShutterDevice (DeviceDescriptions.WindowShutterKitchenE.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1, 97), null),
-
-
-                new WindowShutterPlate (white, darkCyan, lighterDarkCyan, "KUHINJA J",
-
-                    new WindowShutterDevice (DeviceDescriptions.WindowShutterKitchenS.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1, 97), null),
+                new WindowShutterDevice (DeviceDescriptions.WindowShutterLivingRoomW.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
 
 
-                new ActionPlate (ActionPlateDescriptions.WindowShuttersKitchen.name (), white, cyan, lighterCyan, "KUHINJA", new IPlateActionHandler ()
+            new ActionPlate (ActionPlateDescriptions.WindowShuttersLivingRoom.name (), white, orange, lighterOrange, "DNEVNA", new IPlateActionHandler ()
+            {
+                public MultiMessage handleAction (Action action, Configuration configuration)
                 {
-                    public MultiMessage handleAction (Action action, Configuration configuration)
-                    {
-                        return (null);
-                    }
-                },
+                    return (null);
+                }
+            },
 
-                    new ActionPlateRow (new ActionPlateRowButton (Action.Grid, null, R.drawable.ic_grid_on, null),
+                new ActionPlateRow (
 
-                        new ActionPlateRowButton (Action.Up, null, R.drawable.ic_action_arrow_top, null)),
+                    new ActionPlateRowButton (Action.Grid, null, R.drawable.ic_grid_on, null),
 
-                    new ActionPlateRow (new ActionPlateRowButton (Action.Half, null, R.drawable.window_shutter_half, null),
+                    new ActionPlateRowButton (Action.Up, null, R.drawable.ic_action_arrow_top, null)),
 
-                        new ActionPlateRowButton (Action.Stop, null, R.drawable.ic_action_cancel, null)),
+                new ActionPlateRow (new ActionPlateRowButton (Action.Half, null, R.drawable.window_shutter_half, null),
 
-                    new ActionPlateRow (new ActionPlateRowButton (Action.Quarter, null, R.drawable.window_shutter_quarter, null),
+                    new ActionPlateRowButton (Action.Stop, null, R.drawable.ic_action_cancel, null)),
 
-                        new ActionPlateRowButton (Action.Down, null, R.drawable.ic_action_arrow_bottom, null))),
+                new ActionPlateRow (new ActionPlateRowButton (Action.Quarter, null, R.drawable.window_shutter_quarter, null),
 
+                    new ActionPlateRowButton (Action.Down, null, R.drawable.ic_action_arrow_bottom, null))),
 
-                new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "DNEVNA J",
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterLivingRoomS.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1, 97), null),
+            new WindowShutterPlate (white, lightGray, lighterLightGray, "JEDILNICA",
 
-                new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "DNEVNA Z",
+                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterDiningRoomS.abbreviation, DeviceControlNodeId.Main.name (), 20, 97), null),
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowShutterLivingRoomW.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1, 97), null),
 
+            new WindowShutterPlate (white, lightGray, lighterLightGray, "STOPNIŠČE",
 
-                new ActionPlate (ActionPlateDescriptions.WindowShuttersLivingRoom.name (), white, orange, lighterOrange, "DNEVNA", new IPlateActionHandler ()
-                {
-                    public MultiMessage handleAction (Action action, Configuration configuration)
-                    {
-                        return (null);
-                    }
-                },
+                new WindowShutterDevice (DeviceDescriptions.WindowShutterStairs.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
 
-                    new ActionPlateRow (
 
-                        new ActionPlateRowButton (Action.Grid, null, R.drawable.ic_grid_on, null),
+            new WindowShutterPlate (white, lightGray, lighterLightGray, "KOP. P",
 
-                        new ActionPlateRowButton (Action.Up, null, R.drawable.ic_action_arrow_top, null)),
+                new WindowShutterDevice (DeviceDescriptions.WindowShutterBathroom0.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
 
-                    new ActionPlateRow (new ActionPlateRowButton (Action.Half, null, R.drawable.window_shutter_half, null),
 
-                        new ActionPlateRowButton (Action.Stop, null, R.drawable.ic_action_cancel, null)),
+            new TimedRelayPlate (white, orange, lighterOrange, "VODA", R.drawable.faucet, false,
 
-                    new ActionPlateRow (new ActionPlateRowButton (Action.Quarter, null, R.drawable.window_shutter_quarter, null),
+                new TimedRelayDevice (DeviceDescriptions.HotWaterRecirculationPump.abbreviation, DeviceControlNodeId.Main.name (), 60 * 1000), null),
 
-                        new ActionPlateRowButton (Action.Down, null, R.drawable.ic_action_arrow_bottom, null))),
 
+            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "BRISAČE", R.drawable.towel, false,
 
-                new WindowShutterPlate (white, lightGray, lighterLightGray, "JEDILNICA",
+                new TimedRelayDevice (DeviceDescriptions.TowelHeater.abbreviation, DeviceControlNodeId.Main.name (), -1), null),
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterDiningRoomS.abbreviation, DeviceControlNodeDescriptions.Main.name (), 20, 97), null),
 
+            new WindowShutterPlate (white, darkCyan, lighterDarkCyan, "KOPALNICA",
 
-                new WindowShutterPlate (white, lightGray, lighterLightGray, "STOPNIŠČE",
+                new WindowShutterDevice (DeviceDescriptions.WindowShutterBathroom1.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowShutterStairs.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1, 97), null),
+            new WindowShutterPlate (white, darkCyan, lighterDarkCyan, "OTROŠKA V",
 
+                new WindowShutterDevice (DeviceDescriptions.WindowShutterKidsRoom.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
 
-                new WindowShutterPlate (white, lightGray, lighterLightGray, "KOP. P",
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowShutterBathroom0.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1, 97), null),
+            new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "OTROŠKA J",
 
+                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterKidsRoom.abbreviation, DeviceControlNodeId.Main.name (), 20, 97), null),
 
-                new TimedRelayPlate (white, orange, lighterOrange, "VODA", R.drawable.faucet, false,
 
-                    new TimedRelayDevice (DeviceDescriptions.HotWaterRecirculationPump.abbreviation, DeviceControlNodeDescriptions.Main.name (), 60 * 1000), null),
+            new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "GALERIJA",
 
+                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterGallery.abbreviation, DeviceControlNodeId.Main.name (), 20, 97), null),
 
-                new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "BRISAČE", R.drawable.towel, false,
 
-                    new TimedRelayDevice (DeviceDescriptions.TowelHeater.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1), null),
+            new WindowShutterPlate (white, lightGray, lighterLightGray, "SPALNICA",
 
+                new WindowShutterDevice (DeviceDescriptions.WindowShutterBedroom.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
 
-                new WindowShutterPlate (white, darkCyan, lighterDarkCyan, "KOPALNICA",
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowShutterBathroom1.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1, 97), null),
+            new ShellPlate (white, lightGray, lighterLightGray, "KURILNICA",
 
-                new WindowShutterPlate (white, darkCyan, lighterDarkCyan, "OTROŠKA V",
+                new ShellDevice (DeviceDescriptions.ShellMain.abbreviation, DeviceControlNodeId.Main.name (), 0, -1), null),
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowShutterKidsRoom.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1, 97), null),
 
+            new ShellPlate (white, lightGray, lighterLightGray, "PODSTREŠJE",
 
-                new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "OTROŠKA J",
+                new ShellDevice (DeviceDescriptions.ShellAttic.abbreviation, DeviceControlNodeId.Attic.name (), 5 * 1000, 5 * 1000), null),
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterKidsRoom.abbreviation, DeviceControlNodeDescriptions.Main.name (), 20, 97), null),
 
+            new ThermometerPlate (white, lightGray, lighterLightGray, "PODSTREŠJE",
 
-                new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "GALERIJA",
+                new ThermometerDevice (DeviceDescriptions.AtticThermometer.abbreviation, DeviceControlNodeId.Attic.name (), 5 * 1000), null),
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterGallery.abbreviation, DeviceControlNodeDescriptions.Main.name (), 20, 97), null),
 
+            new ThermometerPlate (white, lightGray, lighterLightGray, "ZUNAJ",
 
-                new WindowShutterPlate (white, lightGray, lighterLightGray, "SPALNICA",
+                new ThermometerDevice (DeviceDescriptions.OutsideThermometer.abbreviation, DeviceControlNodeId.Attic.name (), 0), null),
 
-                    new WindowShutterDevice (DeviceDescriptions.WindowShutterBedroom.abbreviation, DeviceControlNodeDescriptions.Main.name (), -1, 97), null),
 
+            new ThermometerPlate (white, lightGray, lighterLightGray, "PREZRAČEVANJE",
 
-                new ShellPlate (white, lightGray, lighterLightGray, "KURILNICA",
+                new ThermometerDevice (DeviceDescriptions.RecouperatorOutputThermometer.abbreviation, DeviceControlNodeId.Attic.name (), 0), null),
 
-                    new ShellDevice (DeviceDescriptions.ShellMain.abbreviation, DeviceControlNodeDescriptions.Main.name (), 0, -1), null),
 
+            new PhotoResistorPlate (white, lightGray, lighterLightGray, "SVETLOBA",
 
-                new ShellPlate (white, lightGray, lighterLightGray, "PODSTREŠJE",
+                new PhotoResistorDevice (DeviceDescriptions.PhotoResistor.abbreviation, DeviceControlNodeId.Attic.name (), 5 * 1000), null),
 
-                    new ShellDevice (DeviceDescriptions.ShellAttic.abbreviation, DeviceControlNodeDescriptions.Attic.name (), 5 * 1000, 5 * 1000), null),
 
+            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "VENTILATOR", R.drawable.fan, false,
 
-                new ThermometerPlate (white, lightGray, lighterLightGray, "PODSTREŠJE",
+                new TimedRelayDevice (DeviceDescriptions.AtticVentilator.abbreviation, DeviceControlNodeId.Attic.name (), (3 * 60 + 10) * 60 * 1000), null),
 
-                    new ThermometerDevice (DeviceDescriptions.AtticThermometer.abbreviation, DeviceControlNodeDescriptions.Attic.name (), 5 * 1000), null),
 
+            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "RAZVLAŽEVALEC", R.drawable.humidifier, false,
 
-                new ThermometerPlate (white, lightGray, lighterLightGray, "ZUNAJ",
+                new TimedRelayDevice (DeviceDescriptions.AtticDehumidifier.abbreviation, DeviceControlNodeId.Attic.name (), 3 * 60 * 60 * 1000), null),
 
-                    new ThermometerDevice (DeviceDescriptions.OutsideThermometer.abbreviation, DeviceControlNodeDescriptions.Attic.name (), 0), null),
 
+            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "PREZRAČEVANJE", R.drawable.ventilation, false,
 
-                new ThermometerPlate (white, lightGray, lighterLightGray, "PREZRAČEVANJE",
+                new TimedRelayDevice (DeviceDescriptions.RecouperatorX151.abbreviation, DeviceControlNodeId.Attic.name (), 3 * 60 * 1000), null),
 
-                    new ThermometerDevice (DeviceDescriptions.RecouperatorOutputThermometer.abbreviation, DeviceControlNodeDescriptions.Attic.name (), 0), null),
 
+            new ShellPlate (white, lightGray, lighterLightGray, "LUDVIK",
 
-                new PhotoResistorPlate (white, lightGray, lighterLightGray, "SVETLOBA",
+                new ShellDevice (DeviceDescriptions.ShellLudvikPhone.abbreviation, DeviceControlNodeId.LudvikPhone.name (), 0, 60 * 1000), null),
 
-                    new PhotoResistorDevice (DeviceDescriptions.PhotoResistor.abbreviation, DeviceControlNodeDescriptions.Attic.name (), 5 * 1000), null),
+            new AuthorizerPlate (white, darkOrange, lighterDarkOrange, "LUDVIK",
 
+                new AuthorizerDevice (DeviceDescriptions.LudvikPhoneAutorizer.abbreviation, DeviceControlNodeId.LudvikPhone.name (), 0), null),
 
-                new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "VENTILATOR", R.drawable.fan, false,
 
-                    new TimedRelayDevice (DeviceDescriptions.AtticVentilator.abbreviation, DeviceControlNodeDescriptions.Attic.name (), (3 * 60 + 10) * 60 * 1000), null),
+        };
 
 
-                new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "RAZVLAŽEVALEC", R.drawable.humidifier, false,
-
-                    new TimedRelayDevice (DeviceDescriptions.AtticDehumidifier.abbreviation, DeviceControlNodeDescriptions.Attic.name (), 3 * 60 * 60 * 1000), null),
-
-
-                new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "PREZRAČEVANJE", R.drawable.ventilation, false,
-
-                    new TimedRelayDevice (DeviceDescriptions.RecouperatorX151.abbreviation, DeviceControlNodeDescriptions.Attic.name (), -1), null)
-            }, platePositions);
+    @Getter private PlatesAndPages platesAndPages;
 
 
     public Configuration (Context context, Activity activity)
     {
+        // prologue
         logger.info ("Construct");
-
         this.context = context;
         this.activity = activity;
+
+
+        // determine number of columns
+        DisplayMetrics displayMetrics = context.getResources ().getDisplayMetrics ();
+        float widthInDp = displayMetrics.widthPixels / displayMetrics.density;
+        int columns = (int) widthInDp / 175;
+        logger.fine ("Screen: widthPixels ", displayMetrics.widthPixels, ", density ", displayMetrics.density, ", columns ", columns);
+
+        int plateBoxHorizontalSizeInPixels = displayMetrics.widthPixels / columns;
+        int plateBoxVerticalSizeInPixels = (plateBoxHorizontalSizeInPixels * 8) / 7;
+
+
+        // Validate.isTrue (columns > 0, "Missing configuration for ", columns, " columns");
+        columns = (columns < platePositions.length ? columns : platePositions.length);
+        platesAndPages = new PlatesAndPages (platePages, plates, platePositions[columns - 1], plateBoxHorizontalSizeInPixels/2, plateBoxVerticalSizeInPixels/2);
+
 
         runtimeSharedPreferences = context.getSharedPreferences ("si.krulik.homino.runtimeSharedPreferences", Context.MODE_PRIVATE);
         configurationSharedPreferences = context.getSharedPreferences ("si.krulik.homino.configurationSharedPreferences", Context.MODE_PRIVATE);
@@ -474,11 +595,11 @@ public class Configuration
             for (Message message : multiMessage.getMessages ())
             {
                 logger.fine ("Flushing ", message);
-                DeviceControlNode controlNode = devices.getDeviceControlNodesById ().get (message.getPeerId ());
-                Validate.notNull (controlNode, "Control node ", message.getPeerId (), " not found");
+                DeviceControlNode deviceControlNode = devices.getDeviceControlNodesById ().get (message.getDeviceControlNodeId ());
+                Validate.notNull (deviceControlNode, "Device control node ", message.getDeviceControlNodeId (), " not found");
                 Validate.notNull (hominoNetworkService, "Missing communication service");
 
-                hominoNetworkService.write (new HominoNetworkMessage (controlNode.getIp (), message.toString (), false));
+                hominoNetworkService.write (new HominoNetworkMessage (deviceControlNode.getId (), deviceControlNode.getNetworkAddress (), message.toString (), false));
             }
         }
     }
@@ -486,50 +607,89 @@ public class Configuration
 
     public void error (String deviceControlNodeId, String message)
     {
-        Toast toast = Toast.makeText (context, "ERROR[" + (deviceControlNodeId != null ? deviceControlNodeId : "") + "]: " + System.lineSeparator () + message, Toast.LENGTH_LONG);
-        toast.show ();
+        Error error = new Error (message, new Date (), deviceControlNodeId);
+        logger.fine ("ERROR: ", message);
+
+        errors.add (error);
+        while (errors.size () > 100)
+        {
+            errors.remove (errors.size () - 1);
+        }
     }
 
 
     public void log (Date now)
     {
-        String state = Environment.getExternalStorageState ();
-        if (!Environment.MEDIA_MOUNTED.equals (state))
-        {
-            return;
-        }
-
-
-        // collect logs
-        String logEntries = "";
-        for (Device device : getDevices ().getDevices ())
-        {
-            String logEntry = device.log (now);
-            if (logEntry != null)
-            {
-                logEntries += logEntry + System.lineSeparator ();
-            }
-        }
-
-
-        if (!logEntries.isEmpty ())
-        {
-
-            File file = new File (Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOCUMENTS), String.format ("HOMINO_%d%02d%02d.CSV", now.getYear (), now.getMonth (), now.getDay ()));
-
-            FileOutputStream outputStream = null;
-            try
-            {
-                file.createNewFile ();
-                outputStream = new FileOutputStream (file, true);
-                outputStream.write (logEntries.getBytes ());
-                outputStream.close ();
-            }
-            catch (Exception e)
-            {
-                error ("configuration", e.getMessage ());
-            }
-        }
+        //        String state = Environment.getExternalStorageState ();
+        //        if (!Environment.MEDIA_MOUNTED.equals (state))
+        //        {
+        //            return;
+        //        }
+        //
+        //
+        //        try
+        //        {
+        //            Method checkSelfPermissionMethod = Context.class.getMethod ("checkSelfPermission", String.class);
+        //            if ((int) checkSelfPermissionMethod.invoke (context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+        //            {
+        //                Method requestPermissionsMethod = Activity.class.getMethod ("requestPermissions", String.class);
+        //                requestPermissionsMethod.invoke (activity, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 112);
+        //            }
+        //
+        //
+        //            return;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            logger.severe (e, "fucked up");
+        //        }
+        ////            Activity.requestPermissions (new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 112);
+        //
+        //
+        //        //    @Override
+        //        //    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+        //        //        int[] grantResults) {
+        //        //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //        //        // The result of the popup opened with the requestPermissions() method
+        //        //        // is in that method, you need to check that your application comes here
+        //        //        if (requestCode == 112) {
+        //        //            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        //        //                // write
+        //        //            }
+        //        //        }
+        //        //    }
+        //
+        //
+        //        // collect logs
+        //        String logEntries = "";
+        //        for (Device device : getDevices ().getDevices ())
+        //        {
+        //            String logEntry = device.log (now);
+        //            if (logEntry != null)
+        //            {
+        //                logEntries += logEntry + System.lineSeparator ();
+        //            }
+        //        }
+        //
+        //
+        //        if (!logEntries.isEmpty ())
+        //        {
+        //
+        //            File file = new File (Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOCUMENTS), String.format ("HOMINO_%d%02d%02d.CSV", now.getYear (), now.getMonth (), now.getDay ()));
+        //
+        //            FileOutputStream outputStream = null;
+        //            try
+        //            {
+        //                file.createNewFile ();
+        //                outputStream = new FileOutputStream (file, true);
+        //                outputStream.write (logEntries.getBytes ());
+        //                outputStream.close ();
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                error ("configuration", e.getMessage ());
+        //            }
+        //        }
     }
 
 
@@ -553,6 +713,10 @@ public class Configuration
 
     // context
     Context context;
+
+
+    // errors
+    List<Error> errors = new LinkedList ();
 
 
     // logger
