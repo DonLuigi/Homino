@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="8dp"
+    app:layout_constraintBaseline_toBaselineOf="@id/mainActivityTextViewDeviceControlNodeId"
+    tools:context="si.krulik.homino.authorizer.MainActivity">
+
+
+    <TextView
+        android:id="@+id/mainActivityTextViewAuthorizations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:text="Authorizations"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/mainActivityListViewAuthorizations"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mainActivityListViewAuthorizations" />
+
+    <ListView
+        android:id="@+id/mainActivityListViewAuthorizations"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityEditTextDeviceControlNodeId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/mainActivityTextViewDeviceControlNodeId"
+        app:layout_constraintStart_toEndOf="@+id/mainActivityTextViewAuthorizations"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/mainActivityTextViewDeviceControlNodeId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:text="Device contron node id"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mainActivityEditTextDeviceControlNodeId"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/mainActivityEditTextDeviceControlNodeId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="text"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityEditTextAuthorizerDeviceId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mainActivityTextViewDeviceControlNodeId" />
+
+
+    <TextView
+        android:id="@+id/mainActivityTextViewAuthorizerDeviceId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:text="Authorizer device id"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/mainActivityEditTextAuthorizerDeviceId"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/mainActivityEditTextAuthorizerDeviceId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="text"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityEditTextDeliverySec"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mainActivityTextViewAuthorizerDeviceId" />
+
+
+    <TextView
+        android:id="@+id/mainActivityTextViewDeliverySec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:text="Delivery [sec]"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/mainActivityEditTextDeliverySec"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/mainActivityEditTextDeliverySec"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="number"
+        android:text="120"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityEditTextValiditySec"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mainActivityTextViewDeliverySec" />
+
+    <TextView
+        android:id="@+id/mainActivityTextViewValiditySec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:text="Validity [sec]"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/mainActivityEditTextValiditySec"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/mainActivityEditTextValiditySec"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="number"
+        android:text="240"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mainActivityTextViewValiditySec" />
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:text="+"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/button2"
+        app:layout_constraintStart_toEndOf="@+id/switch1" />
+
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="false"
+        android:splitTrack="false"
+
+        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:checked="false" />
+
+
+
+
+
+    <!--<Button-->
+    <!--android:id="@+id/addAuthorizationButton"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:text="Add authorization"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/saveButton"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:text="Save"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/addAuthorizationButton"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/addAuthorizationButton" />-->
+
+
+    <!--<GridLayout-->
+    <!--android:id="@+id/gridLayout2"-->
+    <!--android:layout_width="360dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:columnCount="2"-->
+    <!--app:layout_constraintBottom_toTopOf="@+id/addAuthorizationButton"-->
+    <!--tools:layout_editor_absoluteX="8dp">-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/textViewControlNodeId"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:text="DEVICE CONTROL NODE ID"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:textStyle="bold"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/ipToAdd"-->
+    <!--app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editTextControlNodeId"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="4dp"-->
+    <!--android:ems="10"-->
+    <!--android:inputType="text"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/ipToAdd" />-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/textViewAuthorizerDeviceId"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:text="AUTHORIZER DEVICE ID"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:textStyle="bold"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/ipToAdd"-->
+    <!--app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editTextAuthorizerDeviceId"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="4dp"-->
+    <!--android:ems="10"-->
+    <!--android:inputType="text"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/ipToAdd" />-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/textViewDeliveryInterval"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:text="DELIVERY INTERVAL"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:textStyle="bold"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/ipToAdd"-->
+    <!--app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editTextDeliveryInterval"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="4dp"-->
+    <!--android:ems="10"-->
+    <!--android:inputType="number"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/ipToAdd" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/textViewValidity"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:text="VALIDITY"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:textStyle="bold"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/ipToAdd"-->
+    <!--app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editTextValidity"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="4dp"-->
+    <!--android:ems="10"-->
+    <!--android:inputType="number"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/ipToAdd" />-->
+    <!--</GridLayout>-->
+
+    <!--<Switch-->
+    <!--android:id="@+id/switch1"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="16dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:text="Running"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent" />-->
+
+</android.support.constraint.ConstraintLayout>
