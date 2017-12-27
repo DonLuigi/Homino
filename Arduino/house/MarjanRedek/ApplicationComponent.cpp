@@ -15,8 +15,8 @@ ApplicationComponent::ApplicationComponent (DallasTemperatureComponent* tZalogov
     DallasTemperatureComponent* tBojler, PinComponent* rOljniGorilec, PinComponent* rPecAliZalogovnik, PinComponent* rDrvaAliOlje, PinComponent* rCrpalkaZalogovnik, PinComponent* rCrpalkaBojler,
     EEPROMValueComponent* pCrpanjeZalogovnika, EEPROMValueComponent* pRazlikaZaVklopZalogovnika, EEPROMValueComponent* pVklopBojlerja, EEPROMValueComponent* pIzklopBojlerja,
     EEPROMValueComponent* pRazlikaZaVklopCrpalkeBojlerja, EEPROMValueComponent* pTemperaturnaHistereza, LiquidCrystalI2CComponent* lcd, KeypadComponent* keypad, PinComponent* buzzerconst,
-    const char* name, uint32_t reportMillis) :
-    Component (name, reportMillis)
+    const char* name) :
+    Component (name)
 {
     thermometers[0] = this->tZalogovnikZgoraj = tZalogovnikZgoraj;
     thermometers[1] = this->tZalogovnikSpodaj = tZalogovnikSpodaj;

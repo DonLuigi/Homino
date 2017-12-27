@@ -9,13 +9,12 @@
 class Shell: public Component
 {
     public:
-        Shell (Component** components, Component** commandComponents, Message* inboundMessage, Message* outboundMessage, long loopMillis, const char* name = NULL, bool report = false);
+        Shell (Component** components, Component** commandComponents, Message* inboundMessage, Message* outboundMessage, long loopMillis, const char* name);
         void setup ();
         void loop ();
 
         // Component
         void writeToComponent (Command* command, Message* message, int subcomponent);
-
 
     private:
         Component** components;

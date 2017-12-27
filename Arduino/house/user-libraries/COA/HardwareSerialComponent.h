@@ -3,11 +3,10 @@
 
 #include <Component.h>
 
-
 class HardwareSerialComponent: public Component
 {
     public:
-        HardwareSerialComponent (HardwareSerial* serial, const char* name = NULL);
+        HardwareSerialComponent (HardwareSerial* serial, const char* name);
         int readFromComponent (Message* message);
         void writeToComponent (Command* command, Message* message, int subcomponent);
 

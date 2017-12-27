@@ -39,7 +39,9 @@ int EthernetW5100Component::readFromComponent (Message* message)
     if (!activeTcpClient)
     {
         return (-1);
-    } COA_DEBUG (F ("ETH[%s]:CLIENT,SOCK=%d"), name, activeTcpClient.getSocketNumber ());
+    }
+
+    COA_DEBUG (F ("ETH[%s]:CLIENT,SOCK=%d"), name, activeTcpClient.getSocketNumber ());
 
     int availableSpot = -1;
     int clientIndex = -1;
@@ -85,7 +87,7 @@ int EthernetW5100Component::readFromComponent (Message* message)
                 message->append (Command::COMMAND_ERROR, "name", "ETH_MAGIC");
                 return (-1);
             }
-        } COA_DEBUG (F ("ETH[%s]:MAGIC_OK"), name);
+        }COA_DEBUG (F ("ETH[%s]:MAGIC_OK"), name);
 
         // size
         uint16_t size = activeTcpClient.read () & 0xFF;
@@ -125,6 +127,7 @@ void EthernetW5100Component::writeToComponent (Command* command, Message* messag
         COA_DEBUG (F ("ETH[%s]:WRITE:EMPTY"), name);
         return;
     }
+
     COA_DEBUG (F ("ETH[%s]:SIZE:%d,:%s"), name, bufferSize, message->getBuffer());
 
     // common loop for sending to all clients or to one specified in subcomponent

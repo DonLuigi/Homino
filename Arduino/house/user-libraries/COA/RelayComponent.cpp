@@ -5,8 +5,8 @@
 // Component
 //
 ///////////////////
-RelayComponent::RelayComponent (uint8_t pin, uint8_t initialState, bool inverted, const char* name, uint32_t reportMillis) :
-    PinComponent (pin, OUTPUT, (inverted ? (initialState == HIGH ? LOW : HIGH) : initialState), name, reportMillis)
+RelayComponent::RelayComponent (uint8_t pin, uint8_t initialState, bool inverted, const char* name) :
+    PinComponent (pin, OUTPUT, (inverted ? (initialState == HIGH ? LOW : HIGH) : initialState), name)
 {
     this->inverted = inverted;
 }

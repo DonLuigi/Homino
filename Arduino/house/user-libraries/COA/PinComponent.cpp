@@ -6,8 +6,8 @@
 // Component
 //
 ///////////////////
-PinComponent::PinComponent (uint8_t pin, uint8_t mode, uint8_t initialState, const char* name, uint32_t reportMillis) :
-    Component (name, reportMillis)
+PinComponent::PinComponent (uint8_t pin, uint8_t mode, uint8_t initialState, const char* name) :
+    Component (name)
 {
     this->pin = pin;
     this->mode = mode;

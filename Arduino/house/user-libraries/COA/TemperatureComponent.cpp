@@ -6,23 +6,6 @@
 #include <string.h>
 #include <TemperatureComponent.h>
 
-
-int TemperatureComponent::readFromComponent (Message* message)
-{
-    uint32_t nowMillis = millis ();
-
-    if (!shouldReport (nowMillis))
-    {
-        return (Component::ALL_SUBCOMPONENTS);
-    }
-
-    reportTemperature (message);
-
-    setReported (nowMillis);
-
-    return (Component::ALL_SUBCOMPONENTS);
-}
-
 void TemperatureComponent::writeToComponent (Command* command, Message* message, int subcomponent)
 {
     char** parts = command->getParts ();
@@ -35,7 +18,7 @@ void TemperatureComponent::writeToComponent (Command* command, Message* message,
 
     if (strcasecmp (parts[0], Command::STATUS) == 0)
     {
-        reportTemperature (message);
+        reportStatus (message);
     }
 
     else
@@ -44,13 +27,7 @@ void TemperatureComponent::writeToComponent (Command* command, Message* message,
     }
 }
 
-///////////////////
-//
-// private
-//
-///////////////////
-
-void TemperatureComponent::reportTemperature (Message* message)
+void TemperatureComponent::reportStatus (Message* message)
 {
     float temperature;
     float humidity;

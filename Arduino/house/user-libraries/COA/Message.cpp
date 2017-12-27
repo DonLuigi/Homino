@@ -11,7 +11,7 @@ bool Message::append (const char* format, ...)
 {
     // append
     va_list argPtr;
-    va_start (argPtr, format);
+    va_start(argPtr, format);
     int remainingCapacity = getCapacity () - size;
     size += vsnprintf (buffer + size, remainingCapacity, format, argPtr);
     return (true);
@@ -49,7 +49,7 @@ uint16_t Message::getSize ()
 
 void Message::setSize (uint16_t size)
 {
-    this->size = min (size, getCapacity ());
+    this->size = min(size, getCapacity ());
     buffer[size] = '\0';
 }
 

@@ -12,7 +12,7 @@
 ///////////////////
 #define ENABLE_ETHERNET 1
 #define ENABLE_SERIAL 1
-const unsigned long reportMillis = 500;
+const unsigned long whenRunningReportEveryMillis = 500; // report every millis when shutter is running
 const unsigned long windowLouvreShutterRotationMillis = 1500;
 
 ///////////////////
@@ -29,7 +29,7 @@ RelayComponent kitchenEastDownRelay (A12, LOW, true, "KEDR");
 MotionRangeComponent kitchenEastHeightMotion (15500, 100, &kitchenEastUpRelay, &kitchenEastDownRelay, NULL, "KEHH");
 
 // shutter
-ShutterComponent kitchenEast (&kitchenEastHeightMotion, NULL, NULL, NULL, "WrsKitchE", reportMillis);
+ShutterComponent kitchenEast (&kitchenEastHeightMotion, NULL, NULL, NULL, whenRunningReportEveryMillis, "WrsKitchE");
 
 ///////////////////
 //
@@ -45,7 +45,7 @@ RelayComponent kitchenSouthDownRelay (A14, LOW, true, "KSDR");
 MotionRangeComponent kitchenSouthHeightMotion (15500, 100, &kitchenSouthUpRelay, &kitchenSouthDownRelay, NULL, "KSHM");
 
 // shutter
-ShutterComponent kitchenSouth (&kitchenSouthHeightMotion, NULL, NULL, NULL, "WrsKitchS", reportMillis);
+ShutterComponent kitchenSouth (&kitchenSouthHeightMotion, NULL, NULL, NULL, whenRunningReportEveryMillis, "WrsKitchS");
 
 ///////////////////
 //
@@ -61,7 +61,7 @@ RelayComponent livingroomWestDownRelay (A13, LOW, true, "LRWDR");
 MotionRangeComponent livingroomWestHeightMotion (22500, 100, &livingroomWestUpRelay, &livingroomWestDownRelay, NULL, "LRWHM");
 
 // shutter
-ShutterComponent livingroomWest (&livingroomWestHeightMotion, NULL, NULL, NULL, "WrsLivingW", reportMillis);
+ShutterComponent livingroomWest (&livingroomWestHeightMotion, NULL, NULL, NULL, whenRunningReportEveryMillis, "WrsLivingW");
 
 ///////////////////
 //
@@ -79,7 +79,7 @@ MotionRangeComponent livingroomSouthHeightMotion (60000, 100, &livingroomSouthUp
 MotionRangeComponent livingroomSouthRotationMotion (windowLouvreShutterRotationMillis, 100, &livingroomSouthUpRelay, &livingroomSouthDownRelay, NULL, "LRSRM");
 
 // shutter
-ShutterComponent livingroomSouth (&livingroomSouthHeightMotion, &livingroomSouthRotationMotion, NULL, NULL, "WlsLivingS", reportMillis);
+ShutterComponent livingroomSouth (&livingroomSouthHeightMotion, &livingroomSouthRotationMotion, NULL, NULL, whenRunningReportEveryMillis, "WlsLivingS");
 
 ///////////////////
 //
@@ -97,7 +97,7 @@ MotionRangeComponent diningRoomHeightMotion (60000, 100, &diningRoomUpRelay, &di
 MotionRangeComponent diningRoomRotationMotion (windowLouvreShutterRotationMillis, 100, &diningRoomUpRelay, &diningRoomDownRelay, NULL, "DRRM");
 
 // shutter
-ShutterComponent diningRoom (&diningRoomHeightMotion, &diningRoomRotationMotion, NULL, NULL, "WlsDiningS", reportMillis);
+ShutterComponent diningRoom (&diningRoomHeightMotion, &diningRoomRotationMotion, NULL, NULL, whenRunningReportEveryMillis, "WlsDiningS");
 
 ///////////////////
 //
@@ -113,7 +113,7 @@ RelayComponent bathroom0DownRelay (A10, LOW, true, "BR0DR");
 MotionRangeComponent bathroom0HeightMotion (18500, 100, &bathroom0UpRelay, &bathroom0DownRelay, NULL, "BR0HM"); // TODO: remove
 
 // shutter
-ShutterComponent bathroom0 (&bathroom0HeightMotion, NULL, NULL, NULL, "WrsBath0", reportMillis);
+ShutterComponent bathroom0 (&bathroom0HeightMotion, NULL, NULL, NULL, whenRunningReportEveryMillis, "WrsBath0");
 
 ///////////////////
 //
@@ -129,7 +129,7 @@ RelayComponent staircaseDownRelay (16, LOW, true, "sCDR");
 MotionRangeComponent staircaseHeightMotion (15000, 100, &staircaseUpRelay, &staircaseDownRelay, NULL, "ScHM"); // TODO: remove
 
 // shutter
-ShutterComponent staircase (&staircaseHeightMotion, NULL, NULL, NULL, "WrsStairs", reportMillis);
+ShutterComponent staircase (&staircaseHeightMotion, NULL, NULL, NULL, whenRunningReportEveryMillis, "WrsStairs");
 
 ///////////////////
 //
@@ -148,7 +148,7 @@ RelayComponent bathroom1DownRelay (36, LOW, true, "BR1DR");
 MotionRangeComponent bathroom1HeightMotion (12500, 100, &bathroom1UpRelay, &bathroom1DownRelay, NULL, "BR1HM");
 
 // shutter
-ShutterComponent bathroom1 (&bathroom1HeightMotion, NULL, &bathroom1UpButton, &bathroom1DownButton, "WrsBathroom1", reportMillis);
+ShutterComponent bathroom1 (&bathroom1HeightMotion, NULL, &bathroom1UpButton, &bathroom1DownButton, whenRunningReportEveryMillis, "WrsBathroom1");
 
 ///////////////////
 //
@@ -167,7 +167,7 @@ RelayComponent bedroomDownRelay (30, LOW, true, "BdrDR");
 MotionRangeComponent bedroomHeightMotion (22500, 100, &bedroomUpRelay, &bedroomDownRelay, NULL, "BdrHM");
 
 // shutter
-ShutterComponent bedroom (&bedroomHeightMotion, NULL, &bedroomUpButton, &bedroomDownButton, "WrsBedroom", reportMillis);
+ShutterComponent bedroom (&bedroomHeightMotion, NULL, &bedroomUpButton, &bedroomDownButton, whenRunningReportEveryMillis, "WrsBedroom");
 
 ///////////////////
 //
@@ -186,7 +186,7 @@ RelayComponent kidsRoomEastDownRelay (35, LOW, true, "KREDR");
 MotionRangeComponent kidsRoomEastHeightMotion (22500, 100, &kidsRoomEastUpRelay, &kidsRoomEastDownRelay, NULL, "KREHM");
 
 // shutter
-ShutterComponent kidsRoomEast (&kidsRoomEastHeightMotion, NULL, &kidsRoomEastUpButton, &kidsRoomEastDownButton, "WrsKids", reportMillis);
+ShutterComponent kidsRoomEast (&kidsRoomEastHeightMotion, NULL, &kidsRoomEastUpButton, &kidsRoomEastDownButton, whenRunningReportEveryMillis, "WrsKids");
 
 ///////////////////
 //
@@ -208,7 +208,7 @@ MotionRangeComponent kidsRoomSouthHeightMotion (46000, 100, &kidsRoomSouthUpRela
 MotionRangeComponent kidsRoomSouthRotationMotion (windowLouvreShutterRotationMillis, 100, &kidsRoomSouthUpRelay, &kidsRoomSouthDownRelay, NULL, "KRSRM");
 
 // shutter
-ShutterComponent kidsRoomSouth (&kidsRoomSouthHeightMotion, &kidsRoomSouthRotationMotion, &kidsRoomSouthUpButton, &kidsRoomSouthDownButton, "WlsKids", reportMillis);
+ShutterComponent kidsRoomSouth (&kidsRoomSouthHeightMotion, &kidsRoomSouthRotationMotion, &kidsRoomSouthUpButton, &kidsRoomSouthDownButton, whenRunningReportEveryMillis, "WlsKids");
 
 ///////////////////
 //
@@ -230,7 +230,7 @@ MotionRangeComponent galleryHeightMotion (46000, 100, &galleryUpRelay, &galleryD
 MotionRangeComponent galleryRotationMotion (windowLouvreShutterRotationMillis, 100, &galleryUpRelay, &galleryDownRelay, NULL, "GalRM");
 
 // shutter
-ShutterComponent gallery (&galleryHeightMotion, &galleryRotationMotion, &galleryUpButton, &galleryDownButton, "WlsGallery", reportMillis);
+ShutterComponent gallery (&galleryHeightMotion, &galleryRotationMotion, &galleryUpButton, &galleryDownButton, whenRunningReportEveryMillis, "WlsGallery");
 
 ///////////////////
 //
@@ -240,7 +240,7 @@ ShutterComponent gallery (&galleryHeightMotion, &galleryRotationMotion, &gallery
 // button
 ButtonComponent hotWaterPumpButton (46, 50, "HWPB");
 
-TimedRelayComponent hotWaterRecirculationPump (21, LOW, true, 60 * 1000L, 0L, &hotWaterPumpButton, NULL, TIMED_RELAY_COMPONENT_OPTION_START_STOP, "HWPump", reportMillis);
+TimedRelayComponent hotWaterRecirculationPump (21, LOW, true, 60 * 1000L, 0L, &hotWaterPumpButton, NULL, whenRunningReportEveryMillis, TIMED_RELAY_COMPONENT_OPTION_START_STOP, "HWPump");
 
 ///////////////////
 //
@@ -249,7 +249,7 @@ TimedRelayComponent hotWaterRecirculationPump (21, LOW, true, 60 * 1000L, 0L, &h
 ///////////////////
 // button
 ButtonComponent towelHeaterButton (49, 50, "THPB");
-TimedRelayComponent towelHeater (A4, LOW, true, 20 * 60 * 1000L, 0L, &towelHeaterButton, NULL, TIMED_RELAY_COMPONENT_OPTION_START_STOP, "TowelHeater", reportMillis);
+TimedRelayComponent towelHeater (A4, LOW, true, 20 * 60 * 1000L, 0L, &towelHeaterButton, NULL, whenRunningReportEveryMillis, TIMED_RELAY_COMPONENT_OPTION_START_STOP, "TowelHeater");
 
 ///////////////////
 //
@@ -258,8 +258,8 @@ TimedRelayComponent towelHeater (A4, LOW, true, 20 * 60 * 1000L, 0L, &towelHeate
 ///////////////////
 ButtonComponent frontDoorProximityButton (A5, 50, "FDPB");
 ButtonComponent frontDoorUnlockButton (A3, 50, "FDEB");
-TimedRelayComponent frontDoor (23, LOW, true, 2 * 1000L, 3 * 1000L, &frontDoorProximityButton, &frontDoorUnlockButton,
-/*TIMED_RELAY_COMPONENT_OPTION_DOUBLE_TRIGGER_LOCK | TIMED_RELAY_COMPONENT_OPTION_UNLOCK_BUTTON_INHIBITS*/TIMED_RELAY_COMPONENT_OPTION_NONE, "FrontDoor", -1);
+TimedRelayComponent frontDoor (23, LOW, true, 2 * 1000L, 3 * 1000L, &frontDoorProximityButton, &frontDoorUnlockButton, whenRunningReportEveryMillis,
+/*TIMED_RELAY_COMPONENT_OPTION_DOUBLE_TRIGGER_LOCK | TIMED_RELAY_COMPONENT_OPTION_UNLOCK_BUTTON_INHIBITS*/TIMED_RELAY_COMPONENT_OPTION_NONE, "FrontDoor");
 
 ///////////////////
 //

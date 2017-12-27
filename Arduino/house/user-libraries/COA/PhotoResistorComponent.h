@@ -7,10 +7,11 @@ class PhotoResistorComponent: public virtual Component
 {
     public:
         // component
-        PhotoResistorComponent (uint8_t pin, uint32_t sampleEveryMillis, uint32_t sampleDurationMillis, const char* name = NULL, uint32_t reportMillis = 0);
+        PhotoResistorComponent (uint8_t pin, uint32_t sampleEveryMillis, uint32_t sampleDurationMillis, const char* name);
         void setup ();
         void writeToComponent (Command* command, Message* message, int subcomponent);
         int readFromComponent (Message* message);
+        void reportStatus (Message* message);
 
         // api
         uint16_t read ();

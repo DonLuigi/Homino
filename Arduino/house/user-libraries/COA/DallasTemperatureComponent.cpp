@@ -3,8 +3,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-DallasTemperatureComponent::DallasTemperatureComponent (uint8_t pin, const char* name, uint32_t reportMillis) :
-    Component (name, reportMillis), oneWire (pin), dallasTemperature (&oneWire)
+DallasTemperatureComponent::DallasTemperatureComponent (uint8_t pin, const char* name) :
+    Component (name), oneWire (pin), dallasTemperature (&oneWire)
 {
 }
 

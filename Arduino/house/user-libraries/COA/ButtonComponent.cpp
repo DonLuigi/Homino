@@ -6,8 +6,8 @@
 // Component
 //
 ///////////////////
-ButtonComponent::ButtonComponent (uint8_t pin, uint16_t intervalMillis, const char* name, uint32_t reportMillis) :
-    Component (name, reportMillis)
+ButtonComponent::ButtonComponent (uint8_t pin, uint16_t intervalMillis, const char* name) :
+    Component (name)
 {
     pinMode (pin, INPUT_PULLUP);
     bounce.attach (pin);

@@ -16,7 +16,7 @@ class ApplicationComponent: public Component
             PinComponent* rOljniGorilec, PinComponent* rPecAliZalogovnik, PinComponent* rDrvaAliOlje, PinComponent* rCrpalkaZalogovnik, PinComponent* rCrpalkaBojler,
             EEPROMValueComponent* pCrpanjeZalogovnika, EEPROMValueComponent* pRazlikaZaVklopZalogovnika, EEPROMValueComponent* pVklopBojlerja, EEPROMValueComponent* pIzklopBojlerja,
             EEPROMValueComponent* pRazlikaZaVklopCrpalkeBojlerja, EEPROMValueComponent* pTemperaturnaHistereza, LiquidCrystalI2CComponent* lcd, KeypadComponent* keypad, PinComponent* buzzer,
-            const char* name = NULL, uint32_t reportMillis = 0);
+            const char* name);
         int readFromComponent (Message* message);
 
     private:

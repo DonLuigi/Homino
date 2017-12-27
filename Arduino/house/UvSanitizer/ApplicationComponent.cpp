@@ -14,8 +14,8 @@
 #include <stdint.h>
 #include <string.h>
 
-ApplicationComponent::ApplicationComponent (TimedRelayComponent* lightTimedRelayComponent, LiquidCrystalI2CComponent* lcd, const char* name, uint32_t reportMillis) :
-    Component (name, reportMillis)
+ApplicationComponent::ApplicationComponent (TimedRelayComponent* lightTimedRelayComponent, LiquidCrystalI2CComponent* lcd, const char* name) :
+    Component (name)
 {
     this->lightTimedRelayComponent = lightTimedRelayComponent;
     this->lcd = lcd;

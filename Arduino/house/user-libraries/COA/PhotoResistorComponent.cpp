@@ -5,8 +5,8 @@
 #include <stdint.h>
 #include <string.h>
 
-PhotoResistorComponent::PhotoResistorComponent (uint8_t pin, uint32_t sampleEveryMillis, uint32_t sampleDurationMillis, const char* name, uint32_t reportMillis) :
-    Component (name, reportMillis)
+PhotoResistorComponent::PhotoResistorComponent (uint8_t pin, uint32_t sampleEveryMillis, uint32_t sampleDurationMillis, const char* name) :
+    Component (name)
 {
     this->pin = pin;
     this->sampleEveryMillis = sampleEveryMillis;
@@ -51,15 +51,6 @@ int PhotoResistorComponent::readFromComponent (Message* message)
         numberOfSamples = 0;
     }
 
-    if (!shouldReport (nowMillis))
-    {
-        return (Component::ALL_SUBCOMPONENTS);
-    }
-
-    report (message, nowMillis);
-
-    setReported (nowMillis);
-
     return (Component::ALL_SUBCOMPONENTS);
 }
 
@@ -75,7 +66,7 @@ void PhotoResistorComponent::writeToComponent (Command* command, Message* messag
 
     if (strcasecmp (parts[0], Command::STATUS) == 0)
     {
-        report (message, millis ());
+        reportStatus (message);
     }
 
     else
@@ -84,14 +75,7 @@ void PhotoResistorComponent::writeToComponent (Command* command, Message* messag
     }
 }
 
-///////////////////
-//
-// private
-//
-///////////////////
-
-void PhotoResistorComponent::report (Message* message, uint32_t nowMillis)
+void PhotoResistorComponent::reportStatus (Message* message)
 {
     message->append ("%s,STATUS,%d;", name, lastAverageSamples);
-    setReported (nowMillis);
 }

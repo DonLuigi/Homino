@@ -8,7 +8,7 @@ class RelayComponent: public PinComponent
 {
     public:
         // component
-        RelayComponent (uint8_t pin, uint8_t initialState, bool inverted, const char* name = NULL, uint32_t reportMillis = 0);
+        RelayComponent (uint8_t pin, uint8_t initialState, bool inverted, const char* name);
         void writeToComponent (Command* command, Message* message, int subcomponent);
 
         // api

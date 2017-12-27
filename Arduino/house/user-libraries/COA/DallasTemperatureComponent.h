@@ -10,7 +10,7 @@ class DallasTemperatureComponent: public TemperatureComponent
 {
     public:
         // component
-        DallasTemperatureComponent (uint8_t pin, const char* name = NULL, uint32_t reportMillis = 0);
+        DallasTemperatureComponent (uint8_t pin, const char* name);
 
         // api
         bool read (float* temperature, float *humidity);

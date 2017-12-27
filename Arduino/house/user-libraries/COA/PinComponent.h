@@ -7,7 +7,7 @@ class PinComponent: public Component
 {
     public:
         // component
-        PinComponent (uint8_t pin, uint8_t mode, uint8_t initialState, const char* name = NULL, uint32_t reportMillis = 0);
+        PinComponent (uint8_t pin, uint8_t mode, uint8_t initialState, const char* name);
         void setup ();
 
         // api

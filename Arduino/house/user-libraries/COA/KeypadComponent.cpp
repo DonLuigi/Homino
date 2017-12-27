@@ -1,7 +1,7 @@
 #include "KeypadComponent.h"
 
-KeypadComponent::KeypadComponent (char* userKeymap, byte* row, byte* col, byte numRows, byte numCols, int32_t repeatTimeout, const char* name, bool report) :
-    Keypad (userKeymap, row, col, numRows, numCols), Component (name, report)
+KeypadComponent::KeypadComponent (char* userKeymap, byte* row, byte* col, byte numRows, byte numCols, int32_t repeatTimeout, const char* name) :
+    Keypad (userKeymap, row, col, numRows, numCols), Component (name)
 {
     this->repeatTimeoutMillis = repeatTimeout;
     lastKeyMillis = 0;

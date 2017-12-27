@@ -8,12 +8,12 @@ class ButtonComponent: public Component
 {
     public:
         // component
-        ButtonComponent (uint8_t pin, uint16_t intervalMillis, const char* name = NULL, uint32_t reportMillis = 0);
+        ButtonComponent (uint8_t pin, uint16_t intervalMillis, const char* name);
         virtual int readFromComponent (Message* message);
 
         // api
-        bool isPressed ();
-        bool onPress ();
+        bool isPressed (); //
+        bool onPress (); //
         uint32_t onRelease ();
 
     private:

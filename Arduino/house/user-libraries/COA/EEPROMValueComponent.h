@@ -7,7 +7,7 @@
 class EEPROMValueComponent: public Component
 {
     public:
-        EEPROMValueComponent (uint8_t address, uint8_t size, const char* name = NULL, bool report = false);
+        EEPROMValueComponent (uint8_t address, uint8_t size, const char* name);
         void write (void* value);
         uint8_t readAsUInt8 ();
         uint32_t readAsUInt32 ();

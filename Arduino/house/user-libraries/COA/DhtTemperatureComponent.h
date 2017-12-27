@@ -8,7 +8,7 @@ class DhtTemperatureComponent: public TemperatureComponent
 {
     public:
         // component
-        DhtTemperatureComponent (uint8_t pin, const char* name = NULL, uint32_t reportMillis = 0);
+        DhtTemperatureComponent (uint8_t pin, const char* name);
         void setup ();
 
         // api

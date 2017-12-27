@@ -1,10 +1,8 @@
 #include "Component.h"
 
-Component::Component (const char* name, uint32_t reportMillis)
+Component::Component (const char* name)
 {
     this->name = (name != NULL ? name : "");
-    this->reportEveryMillis = reportMillis;
-    this->lastReportMillis = 0;
 }
 
 void Component::setup ()
@@ -20,29 +18,8 @@ void Component::writeToComponent (Command* command, Message *replyMessage, int s
 {
 }
 
-uint8_t Component::toString (char* buffer, uint8_t size, uint8_t customFontOffset)
+void Component::reportStatus (Message* message)
 {
-    return (0);
-}
-
-uint8_t Component::toString (char* buffer, uint8_t size)
-{
-    return (0);
-}
-
-boolean Component::shouldReport (uint32_t timeMillis)
-{
-    return (reportEveryMillis > 0 ? timeMillis - lastReportMillis > reportEveryMillis || lastReportMillis == 0 : false);
-}
-
-boolean Component::shouldReport (uint32_t timeMillis, uint32_t reportEveryMillisArg)
-{
-    return (reportEveryMillisArg > 0 ? timeMillis - lastReportMillis > reportEveryMillisArg || lastReportMillis == 0 : false);
-}
-
-void Component::setReported (uint32_t timeMillis)
-{
-    lastReportMillis = timeMillis;
 }
 
 #if COA_DEBUG_ENABLED

@@ -8,7 +8,7 @@
 class EthernetW5100Component: public Component
 {
     public:
-        EthernetW5100Component (byte* mac, IPAddress* ipAddress, uint16_t serverPort, const char* name = NULL);
+        EthernetW5100Component (byte* mac, IPAddress* ipAddress, uint16_t serverPort, const char* name);
         void setup ();
         int readFromComponent (Message* message);
         void writeToComponent (Command* command, Message* message, int subcomponent);

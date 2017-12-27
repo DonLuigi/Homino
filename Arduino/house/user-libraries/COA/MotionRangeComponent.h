@@ -13,8 +13,7 @@ class MotionRangeComponent: public Component
         // Component
         //
         ///////////////////
-        MotionRangeComponent (int32_t maximumPositionMillis, int32_t minMaxExtensionMillis, RelayComponent* upRelay, RelayComponent* downRelay, EEPROMValueComponent* positionEeprom, const char* name =
-            NULL);
+        MotionRangeComponent (int32_t maximumPositionMillis, int32_t minMaxExtensionMillis, RelayComponent* upRelay, RelayComponent* downRelay, EEPROMValueComponent* positionEeprom, const char* name);
         void setup ();
 
         ///////////////////
@@ -24,7 +23,7 @@ class MotionRangeComponent: public Component
         ///////////////////
         int8_t move (int8_t percentOfMaximum);
         void stop ();
-        void pulse (unsigned long nowMillis, bool forceStop);
+        void pulse (unsigned long nowMillis, bool forceStop); //
         bool isMoving ();
         void getStatus (int8_t* direction, int8_t* currentPositionPercent);
         void overrideCurrentPosition (int8_t currentPositionPercent);

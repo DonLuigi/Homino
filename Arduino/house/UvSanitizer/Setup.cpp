@@ -10,7 +10,7 @@
 ButtonComponent triggerButton (4, 50, "triggerButton");
 
 // relays
-TimedRelayComponent lightTimedRelayComponent (2, LOW, true, 20L * 60 * 1000, 0, &triggerButton, NULL, "relay");
+TimedRelayComponent lightTimedRelayComponent (2, LOW, true, 20L * 60 * 1000, 0, &triggerButton, NULL, 0, TIMED_RELAY_COMPONENT_OPTION_NONE, "relay");
 
 // lcd
 LiquidCrystalI2CComponent lcd (0x27, 16, 2, 20 * 1000L, 500L, 100, "lcd");

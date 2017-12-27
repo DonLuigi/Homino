@@ -8,7 +8,7 @@
 class KeypadComponent: public Keypad, public Component
 {
     public:
-        KeypadComponent (char* userKeymap, byte* row, byte* col, byte numRows, byte numCols, int32_t repeatTimeoutMillis, const char* name = NULL, bool report = false);
+        KeypadComponent (char* userKeymap, byte* row, byte* col, byte numRows, byte numCols, int32_t repeatTimeoutMillis, const char* name);
         int8_t press (char key, int32_t nowMillis);
 
     private:

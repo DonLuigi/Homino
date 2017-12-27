@@ -14,34 +14,34 @@
 ///////////////////
 #define ENABLE_ETHERNET 1
 #define ENABLE_SERIAL 1
+const unsigned long whenRunningReportEveryMillis = 500; // report every millis when shutter is running
 
-#define DEFAULT_REPORT 60 * 1000L
 
 ///////////////////
 //
 // thermometers
 //
 ///////////////////
-DallasTemperatureComponent recouperatorOutsideThermometer (33, "RecOutTemp", DEFAULT_REPORT);
-DhtTemperatureComponent atticThermometer (31, "AtticTemp", DEFAULT_REPORT);
-DhtTemperatureComponent outsideThermometer (43, "OutTemp", DEFAULT_REPORT);
+DallasTemperatureComponent recouperatorOutsideThermometer (33, "RecOutTemp");
+DhtTemperatureComponent atticThermometer (31, "AtticTemp");
+DhtTemperatureComponent outsideThermometer (43, "OutTemp");
 
 ///////////////////
 //
 // photo resistor
 //
 ///////////////////
-PhotoResistorComponent photoResistorComponent (A15, 10, 60 * 1000L, "PhotoRes", DEFAULT_REPORT);
+PhotoResistorComponent photoResistorComponent (A15, 10, 60 * 1000L, "PhotoRes");
 
 ///////////////////
 //
 // timed relays
 //
 ///////////////////
-TimedRelayComponent ventilator (41, LOW, true, 60 * 1000L, 0L, NULL, NULL, "Vent", DEFAULT_REPORT);
-TimedRelayComponent dehumidifier (39, LOW, true, 60 * 1000L, 0L, NULL, NULL, "Dehum", DEFAULT_REPORT);
-TimedRelayComponent recouperatorX151 (35, LOW, true, 60 * 1000L, 0L, NULL, NULL, "RecoupX151", DEFAULT_REPORT);
-TimedRelayComponent spareRelay (37, LOW, true, 60 * 1000L, 0L, NULL, NULL, "spare");
+TimedRelayComponent ventilator (41, LOW, true, 60 * 1000L, 0L, NULL, NULL, whenRunningReportEveryMillis, TIMED_RELAY_COMPONENT_OPTION_NONE, "Vent");
+TimedRelayComponent dehumidifier (39, LOW, true, 60 * 1000L, 0L, NULL, NULL, whenRunningReportEveryMillis, TIMED_RELAY_COMPONENT_OPTION_NONE, "Dehum");
+TimedRelayComponent recouperatorX151 (35, LOW, true, 60 * 1000L, 0L, NULL, NULL, whenRunningReportEveryMillis, TIMED_RELAY_COMPONENT_OPTION_NONE, "RecoupX151");
+TimedRelayComponent spareRelay (37, LOW, true, 60 * 1000L, 0L, NULL, NULL, whenRunningReportEveryMillis, TIMED_RELAY_COMPONENT_OPTION_NONE, "spare");
 
 ///////////////////
 //

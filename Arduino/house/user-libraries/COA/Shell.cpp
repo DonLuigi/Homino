@@ -2,8 +2,8 @@
 #include <Message.h>
 #include "Shell.h"
 
-Shell::Shell (Component** components, Component** commandComponents, Message* inboundMessage, Message* outboundMessage, long loopMillis, const char* name, bool report) :
-    Component (name, report)
+Shell::Shell (Component** components, Component** commandComponents, Message* inboundMessage, Message* outboundMessage, long loopMillis, const char* name) :
+    Component (name)
 {
     this->components = components;
     this->commandComponents = commandComponents;
@@ -23,7 +23,7 @@ void Shell::writeToComponent (Command* command, Message* message, int subcompone
         // trigger all components to report
         for (int j = 0; components[j] != NULL; j++)
         {
-            components[j]->setReported (0UL);
+            components[j]->reportStatus (message);
         }
     }
 }

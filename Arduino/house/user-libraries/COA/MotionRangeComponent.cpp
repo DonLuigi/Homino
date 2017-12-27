@@ -16,7 +16,7 @@ MotionRangeComponent::MotionRangeComponent (int32_t maximumPositionMillis, int32
     this->positionEeprom = positionEeprom;
 
     currentPositionMillis = (positionEeprom != NULL ? positionEeprom->readAsUInt32 () : 0);
-    TRIM_TO_RANGE (currentPositionMillis, 0, maximumPositionMillis);
+    TRIM_TO_RANGE(currentPositionMillis, 0, maximumPositionMillis);
 
     direction = 0;
     pulse (-1, false);
@@ -51,7 +51,7 @@ int8_t MotionRangeComponent::move (int8_t percentOfMaximum)
     pulse (nowMillis, false);
 
     int8_t deltaInPercentOfMaximum = percentOfMaximum - currentPositionPercentOfMaximum;
-    unsigned long deltaInPercentOfMaximumInMillis = abs (maximumPositionMillis * deltaInPercentOfMaximum / 100);
+    unsigned long deltaInPercentOfMaximumInMillis = abs(maximumPositionMillis * deltaInPercentOfMaximum / 100);
 
     if (deltaInPercentOfMaximum != 0)
     {
@@ -91,14 +91,14 @@ void MotionRangeComponent::stop ()
 void MotionRangeComponent::pulse (unsigned long nowMillis, bool forceStop)
 {
     currentPositionPercentOfMaximum = (currentPositionMillis * 100) / maximumPositionMillis;
-    TRIM_TO_RANGE (currentPositionPercentOfMaximum, 0, 100);
+    TRIM_TO_RANGE(currentPositionPercentOfMaximum, 0, 100);
 
     if (direction != 0)
     {
         uint32_t durationMillis = nowMillis - motionStartMillis;
 
         currentPositionMillis = currentPositionMillisAtMotionStart + direction * durationMillis;
-        TRIM_TO_RANGE (currentPositionMillis, 0, maximumPositionMillis);
+        TRIM_TO_RANGE(currentPositionMillis, 0, maximumPositionMillis);
 
         //COA_DEBUG("MR:%s:MOTION:%ldms->%ldms,D%d", name, durationMillis, motionStopDeltaMillis, direction);
 
@@ -138,5 +138,5 @@ void MotionRangeComponent::getStatus (int8_t* direction, int8_t* currentPosition
 void MotionRangeComponent::overrideCurrentPosition (int8_t currentPositionPercent)
 {
     currentPositionMillis = maximumPositionMillis * 100 / currentPositionPercent;
-    TRIM_TO_RANGE (currentPositionMillis, 0, maximumPositionMillis);
+    TRIM_TO_RANGE(currentPositionMillis, 0, maximumPositionMillis);
 }

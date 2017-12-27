@@ -8,8 +8,8 @@
 // Component
 //
 ///////////////////
-DhtTemperatureComponent::DhtTemperatureComponent (uint8_t pin, const char* name, uint32_t reportMillis) :
-    Component (name, reportMillis)
+DhtTemperatureComponent::DhtTemperatureComponent (uint8_t pin, const char* name) :
+    Component (name)
 {
     this->pin = pin;
 }

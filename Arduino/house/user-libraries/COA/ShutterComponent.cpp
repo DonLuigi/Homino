@@ -5,14 +5,15 @@
 // Component
 //
 ///////////////////
-ShutterComponent::ShutterComponent (MotionRangeComponent* heightMotionRange, MotionRangeComponent* rotationMotionRange, ButtonComponent* upButton, ButtonComponent* downButton, const char* name,
-    uint32_t reportMillis) :
-    Component (name, reportMillis)
+ShutterComponent::ShutterComponent (MotionRangeComponent* heightMotionRange, MotionRangeComponent* rotationMotionRange, ButtonComponent* upButton, ButtonComponent* downButton,
+    uint32_t whenRunningReportEveryMillis, const char* name) :
+    Component (name)
 {
     this->heightMotionRange = heightMotionRange;
     this->rotationMotionRange = rotationMotionRange;
     this->upButton = upButton;
     this->downButton = downButton;
+    this->whenRunningReportEveryMillis = whenRunningReportEveryMillis;
     rotationMotionRangePercentQueue = -1;
     lastReportMillis = 0;
     initial = true;
@@ -116,8 +117,11 @@ int ShutterComponent::readFromComponent (Message* message)
         }
     }
 
-    // reporting
-    appendStatus (message, now);
+    // report
+    if (message != NULL)
+    {
+        reportStatusEvery (message, now);
+    }
 
     return (Component::ALL_SUBCOMPONENTS);
 }
@@ -146,7 +150,7 @@ void ShutterComponent::writeToComponent (Command* command, Message* message, int
 
     if (!strcasecmp (parts[0], "STATUS"))
     {
-        appendStatus (message, 0);
+        reportStatus (message);
     }
 
     if (!strcasecmp (parts[0], "STOP"))
@@ -155,19 +159,22 @@ void ShutterComponent::writeToComponent (Command* command, Message* message, int
     }
 }
 
-uint8_t ShutterComponent::toString (char* buffer, uint8_t size, uint8_t customFontOffset)
+void ShutterComponent::reportStatus (Message* message)
 {
-    if (size > 0)
+    message->append ("%s,STATUS", name);
+    if (heightMotionRange != NULL)
     {
-        int8_t percent;
-        heightMotionRange->getStatus (NULL, &percent);
-        buffer[0] = customFontOffset + percent / 21;
-        return (1);
+        int8_t direction, positionPercent;
+        heightMotionRange->getStatus (&direction, &positionPercent);
+        message->append (",%s,%d", direction == -1 ? "UP" : (direction == 1 ? "DOWN" : "STOP"), positionPercent);
     }
-    else
+    if (rotationMotionRange != NULL)
     {
-        return (0);
+        int8_t direction, positionPercent;
+        rotationMotionRange->getStatus (&direction, &positionPercent);
+        message->append (",%d", positionPercent);
     }
+    message->append (";");
 }
 
 ///////////////////
@@ -203,7 +210,7 @@ void ShutterComponent::move (int8_t heightPercent, int8_t rotationPercent)
 
             // TODO
 
-// stop rotation, if any
+            // stop rotation, if any
             rotationMotionRange->stop ();
 
             // direction of vertical travel determines starting point of rotation, once vertical travel stops, so override current position accordingly
@@ -263,41 +270,27 @@ void ShutterComponent::stop ()
     }
 }
 
-void ShutterComponent::appendStatus (Message* message, uint32_t now)
+void ShutterComponent::reportStatusEvery (Message* message, uint32_t now)
 {
-// reporting
-    bool isMoving = (heightMotionRange != NULL && heightMotionRange->isMoving ()) || (rotationMotionRange != NULL && rotationMotionRange->isMoving ());
-    if (isMoving /* is moving */|| lastReportMillis > 0 /* was moving */|| now == 0 /* force immediate report */)
+    bool doReportStatus = false;
+
+    // is moving
+    if (isMoving () && now - lastReportMillis > whenRunningReportEveryMillis)
     {
-        if (now == 0 /* report immediately */|| (!isMoving && lastReportMillis > 0) /* was moving -> report immediately */
-        || shouldReport(now) /* is moving -> report once in a while */)
-        {
-            // compose message
-            message->append ("%s,STATUS", name);
-            if (heightMotionRange != NULL)
-            {
-                int8_t direction, positionPercent;
-                heightMotionRange->getStatus (&direction, &positionPercent);
-                message->append (",%s,%d", direction == -1 ? "UP" : (direction == 1 ? "DOWN" : "STOP"), positionPercent);
-            }
-            if (rotationMotionRange != NULL)
-            {
-                int8_t direction, positionPercent;
-                rotationMotionRange->getStatus (&direction, &positionPercent);
-                message->append (",%d", positionPercent);
-            }
-            message->append (";");
+        doReportStatus = true;
+        lastReportMillis = now;
+    }
 
-            // mark last report time
-            if (now > 0)
-            {
-                setReported (now);
-            }
-        }
+    // was moving
+    if (!isMoving () && lastReportMillis > 0)
+    {
+        doReportStatus = true;
+        lastReportMillis = 0;
+    }
 
-        if (!isMoving)
-        {
-            lastReportMillis = 0;
-        }
+    // report
+    if (doReportStatus)
+    {
+        reportStatus (message);
     }
 }

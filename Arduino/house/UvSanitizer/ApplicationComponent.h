@@ -9,7 +9,7 @@
 class ApplicationComponent: public Component
 {
     public:
-        ApplicationComponent (TimedRelayComponent *lightTimedRelayComponent, LiquidCrystalI2CComponent* lcd, const char* name = NULL, uint32_t reportMillis = 0);
+        ApplicationComponent (TimedRelayComponent *lightTimedRelayComponent, LiquidCrystalI2CComponent* lcd, const char* name);
         int readFromComponent (Message* message);
 
     private:

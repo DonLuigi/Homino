@@ -14,11 +14,12 @@ class ShutterComponent: public Component
         // Component
         //
         ///////////////////
-        ShutterComponent (MotionRangeComponent* heightMotionRange, MotionRangeComponent* rotationMotionRange, ButtonComponent* upButton, ButtonComponent* downButton, const char* name = NULL,
-            uint32_t reportMillis = 0);
+        ShutterComponent (MotionRangeComponent* heightMotionRange, MotionRangeComponent* rotationMotionRange, ButtonComponent* upButton, ButtonComponent* downButton,
+            uint32_t whenRunningReportEveryMillis, const char* name);
         void setup ();
         int readFromComponent (Message* message);
         void writeToComponent (Command* command, Message* message, int subcomponent);
+        void reportStatus (Message* message);
         uint8_t toString (char* buffer, uint8_t size, uint8_t customFontOffset);
 
         ///////////////////
@@ -26,7 +27,7 @@ class ShutterComponent: public Component
         // API
         //
         ///////////////////
-        void move (int8_t heightPercent, int8_t rotationPercent);
+        void move (int8_t heightPercent, int8_t rotationPercent); //
         bool isMoving ();
         void stop ();
 
@@ -36,8 +37,11 @@ class ShutterComponent: public Component
         ButtonComponent* upButton;
         ButtonComponent* downButton;
         int8_t rotationMotionRangePercentQueue;
-        uint32_t lastReportMillis = millis ();
-        void appendStatus (Message* message, uint32_t now);
+
+        // reporting
+        uint32_t whenRunningReportEveryMillis;
+        uint32_t lastReportMillis;
+        void reportStatusEvery (Message* message, uint32_t now); //
         bool initial;
 
 };
