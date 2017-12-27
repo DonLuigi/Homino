@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import lombok.ToString;
 import si.krulik.homino.R;
+import si.krulik.homino.common.validate.Validate;
 import si.krulik.homino.configuration.device.WindowShutterDevice;
 import si.krulik.homino.configuration.device.common.Device;
 import si.krulik.homino.configuration.plate.common.IPlateActionHandler;
@@ -42,6 +43,7 @@ import si.krulik.homino.configuration.plate.common.Plate;
             if (rotationPercent >= 0)
             {
                 SeekBar seekBarView = (SeekBar) view.findViewById (R.id.seekBar);
+                Validate.notNull (seekBarView, "Missing seekBar in view for ", WindowShutterPlate.class, " ", getId ());
                 seekBarView.setProgress (rotationPercent / 10);
             }
         }

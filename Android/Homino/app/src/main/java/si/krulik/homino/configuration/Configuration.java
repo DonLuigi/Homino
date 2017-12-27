@@ -56,16 +56,6 @@ import si.krulik.homino.network.HominoNetworkService;
 
 public class Configuration
 {
-    // build
-    enum Build
-    {
-        TabGroundFloor, TabFirstFloor, Phone
-    }
-
-
-    Build build = Build.Phone;
-
-
     // device control node ids
     enum DeviceControlNodeId
     {
@@ -118,6 +108,8 @@ public class Configuration
             new DeviceControlNode (DeviceControlNodeId.BarbiPhone.name (), "localhost:5555"),
         });
 
+
+    int venetialBlindDefaultRotationPercent = 20;
 
     // grid layout colors
     String white = "white";
@@ -176,6 +168,7 @@ public class Configuration
                     new PlatePosition ("1", DeviceDescriptions.WindowShutterKitchenS.abbreviation, 0, 4, 2, 2),
 
                     new PlatePosition ("1", ActionPlateDescriptions.WindowShuttersKitchen.name (), 2, 4, 2, 2),
+
 
                     new PlatePosition ("1", DeviceDescriptions.WindowLouvreShutterLivingRoomS.abbreviation, 0, 6, 2, 2),
 
@@ -248,7 +241,8 @@ public class Configuration
 
                     new PlatePosition ("1", DeviceDescriptions.WindowShutterKitchenS.abbreviation, 2, 2, 2, 2),
 
-                    new PlatePosition ("1", ActionPlateDescriptions.WindowShuttersKitchen.name (), 4, 2, 2, 2),
+                    // new PlatePosition ("1", ActionPlateDescriptions.WindowShuttersKitchen.name (), 4, 2, 2, 2),
+                    new PlatePosition ("1", DeviceDescriptions.OutsideThermometer.abbreviation, 4, 2, 2, 2),
 
                     new PlatePosition ("1", DeviceDescriptions.WindowLouvreShutterLivingRoomS.abbreviation, 0, 4, 2, 2),
 
@@ -267,6 +261,8 @@ public class Configuration
                     new PlatePosition ("2", DeviceDescriptions.HotWaterRecirculationPump.abbreviation, 0, 0, 2, 2),
 
                     new PlatePosition ("2", DeviceDescriptions.TowelHeater.abbreviation, 2, 0, 2, 2),
+
+                    new PlatePosition ("2", DeviceDescriptions.OutsideThermometer.abbreviation, 4, 0, 2, 2),
 
                     new PlatePosition ("2", DeviceDescriptions.WindowShutterBathroom1.abbreviation, 0, 2, 2, 2),
 
@@ -358,7 +354,7 @@ public class Configuration
                     new ActionPlateRowButton (Action.Down, null, R.drawable.ic_action_arrow_bottom, null))),
 
 
-            new TimedRelayPlate (white, orange, lighterOrange, "VRATA", R.drawable.doorknob, true,
+            new TimedRelayPlate (white, orange, lighterOrange, "VRATA", R.drawable.doorknob, null, true,
 
                 new TimedRelayDevice (DeviceDescriptions.FrontDoor.abbreviation, DeviceControlNodeId.Main.name (), -1), null),
 
@@ -396,7 +392,7 @@ public class Configuration
 
             new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "DNEVNA J",
 
-                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterLivingRoomS.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
+                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterLivingRoomS.abbreviation, DeviceControlNodeId.Main.name (), venetialBlindDefaultRotationPercent, 97), null),
 
             new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "DNEVNA Z",
 
@@ -428,7 +424,7 @@ public class Configuration
 
             new WindowShutterPlate (white, lightGray, lighterLightGray, "JEDILNICA",
 
-                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterDiningRoomS.abbreviation, DeviceControlNodeId.Main.name (), 20, 97), null),
+                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterDiningRoomS.abbreviation, DeviceControlNodeId.Main.name (), venetialBlindDefaultRotationPercent, 97), null),
 
 
             new WindowShutterPlate (white, lightGray, lighterLightGray, "STOPNIŠČE",
@@ -441,12 +437,12 @@ public class Configuration
                 new WindowShutterDevice (DeviceDescriptions.WindowShutterBathroom0.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
 
 
-            new TimedRelayPlate (white, orange, lighterOrange, "VODA", R.drawable.faucet, false,
+            new TimedRelayPlate (white, orange, lighterOrange, "VODA", R.drawable.faucet, R.drawable.animate, false,
 
                 new TimedRelayDevice (DeviceDescriptions.HotWaterRecirculationPump.abbreviation, DeviceControlNodeId.Main.name (), 60 * 1000), null),
 
 
-            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "BRISAČE", R.drawable.towel, false,
+            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "BRISAČE", R.drawable.towel, null, false,
 
                 new TimedRelayDevice (DeviceDescriptions.TowelHeater.abbreviation, DeviceControlNodeId.Main.name (), -1), null),
 
@@ -462,12 +458,12 @@ public class Configuration
 
             new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "OTROŠKA J",
 
-                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterKidsRoom.abbreviation, DeviceControlNodeId.Main.name (), 20, 97), null),
+                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterKidsRoom.abbreviation, DeviceControlNodeId.Main.name (), venetialBlindDefaultRotationPercent, 97), null),
 
 
             new WindowShutterPlate (white, darkOrange, lighterDarkOrange, "GALERIJA",
 
-                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterGallery.abbreviation, DeviceControlNodeId.Main.name (), 20, 97), null),
+                new WindowShutterDevice (DeviceDescriptions.WindowLouvreShutterGallery.abbreviation, DeviceControlNodeId.Main.name (), venetialBlindDefaultRotationPercent, 97), null),
 
 
             new WindowShutterPlate (white, lightGray, lighterLightGray, "SPALNICA",
@@ -477,7 +473,7 @@ public class Configuration
 
             new ShellPlate (white, lightGray, lighterLightGray, "KURILNICA",
 
-                new ShellDevice (DeviceDescriptions.ShellMain.abbreviation, DeviceControlNodeId.Main.name (), 0, -1), null),
+                new ShellDevice (DeviceDescriptions.ShellMain.abbreviation, DeviceControlNodeId.Main.name (), 5 * 1000, 5 * 1000), null),
 
 
             new ShellPlate (white, lightGray, lighterLightGray, "PODSTREŠJE",
@@ -505,17 +501,17 @@ public class Configuration
                 new PhotoResistorDevice (DeviceDescriptions.PhotoResistor.abbreviation, DeviceControlNodeId.Attic.name (), 5 * 1000), null),
 
 
-            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "VENTILATOR", R.drawable.fan, false,
+            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "VENTILATOR", R.drawable.fan, null, false,
 
                 new TimedRelayDevice (DeviceDescriptions.AtticVentilator.abbreviation, DeviceControlNodeId.Attic.name (), (3 * 60 + 10) * 60 * 1000), null),
 
 
-            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "RAZVLAŽEVALEC", R.drawable.humidifier, false,
+            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "RAZVLAŽEVALEC", R.drawable.humidifier, null, false,
 
                 new TimedRelayDevice (DeviceDescriptions.AtticDehumidifier.abbreviation, DeviceControlNodeId.Attic.name (), 3 * 60 * 60 * 1000), null),
 
 
-            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "PREZRAČEVANJE", R.drawable.ventilation, false,
+            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "PREZRAČEVANJE", R.drawable.ventilation, null, false,
 
                 new TimedRelayDevice (DeviceDescriptions.RecouperatorX151.abbreviation, DeviceControlNodeId.Attic.name (), 3 * 60 * 1000), null),
 
@@ -555,7 +551,7 @@ public class Configuration
 
         // Validate.isTrue (columns > 0, "Missing configuration for ", columns, " columns");
         columns = (columns < platePositions.length ? columns : platePositions.length);
-        platesAndPages = new PlatesAndPages (platePages, plates, platePositions[columns - 1], plateBoxHorizontalSizeInPixels/2, plateBoxVerticalSizeInPixels/2);
+        platesAndPages = new PlatesAndPages (platePages, plates, platePositions[columns - 1], plateBoxHorizontalSizeInPixels / 2, plateBoxVerticalSizeInPixels / 2);
 
 
         runtimeSharedPreferences = context.getSharedPreferences ("si.krulik.homino.runtimeSharedPreferences", Context.MODE_PRIVATE);
