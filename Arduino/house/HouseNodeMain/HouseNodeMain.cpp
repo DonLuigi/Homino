@@ -333,7 +333,7 @@ Component* commandComponents[] =
 // Shell
 //
 ///////////////////
-Shell shell (components, commandComponents, &inboundMessage, &outboundMessage, 10, "shell");
+Shell shell (components, commandComponents, &inboundMessage, &outboundMessage, 10, "ShellMain");
 
 ///////////////////
 //

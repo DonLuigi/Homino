@@ -48,14 +48,14 @@ void Shell::setup ()
 
 void Shell::loop ()
 {
-// mark start
+    // mark start
     long startMillis = millis ();
 
-// update uptime
+    // update uptime
     uptimeMillis += (startMillis - uptimeLastUpdateMillis);
     uptimeLastUpdateMillis = startMillis;
 
-// process inbound commands
+    // process inbound commands
     for (int commandComponentsIdx = 0; commandComponents != NULL && inboundMessage != NULL && commandComponents[commandComponentsIdx] != NULL; commandComponentsIdx++)
     {
         // clear inbound message prior to reading
@@ -124,14 +124,14 @@ void Shell::loop ()
         }
     }
 
-// ping components for any outbound commands
+    // ping components for any outbound commands
     for (int i = 0; components != NULL && components[i] != NULL; i++)
     {
         // COA_DEBUG("SH:PULSE %s", components[i]->name);
         components[i]->readFromComponent (outboundMessage);
     }
 
-// final reply
+    // final reply
     if (outboundMessage != NULL && outboundMessage->getSize () > 0)
     {
         for (int j = 0; commandComponents[j] != NULL; j++)
@@ -141,7 +141,7 @@ void Shell::loop ()
         outboundMessage->clear ();
     }
 
-// delay
+    // delay
     long consumedMillis = millis () - startMillis;
     long remainingMillis = loopMillis - consumedMillis;
     remainingMillis = (remainingMillis > 0 ? remainingMillis : 0);
