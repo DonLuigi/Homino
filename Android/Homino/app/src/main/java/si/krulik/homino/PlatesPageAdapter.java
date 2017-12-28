@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import si.krulik.homino.common.logger.CustomLogger;
@@ -27,6 +28,7 @@ import si.krulik.homino.configuration.device.WindowShutterDevice;
 import si.krulik.homino.configuration.plate.ActionPlate;
 import si.krulik.homino.configuration.plate.ActionPlateRow;
 import si.krulik.homino.configuration.plate.ActionPlateRowButton;
+import si.krulik.homino.configuration.plate.ClockPlate;
 import si.krulik.homino.configuration.plate.common.Plate;
 import si.krulik.homino.configuration.plate.common.PlatePage;
 import si.krulik.homino.configuration.plate.common.PlatePosition;
@@ -260,6 +262,14 @@ public class PlatesPageAdapter extends PagerAdapter
             {
                 logger.info ("Inflate ", plate);
                 View view = layoutInflater.inflate (R.layout.authorizer_plate, null);
+                plate.getViewByPlatePageId ().put (platesPage.getId (), view);
+            }
+
+
+            if (plate instanceof ClockPlate)
+            {
+                logger.info ("Inflate ", plate);
+                View view = layoutInflater.inflate (R.layout.clock_plate, null);
                 plate.getViewByPlatePageId ().put (platesPage.getId (), view);
             }
 

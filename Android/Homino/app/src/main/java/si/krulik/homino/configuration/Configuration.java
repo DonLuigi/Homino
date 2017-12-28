@@ -1,17 +1,10 @@
 package si.krulik.homino.configuration;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -35,6 +28,7 @@ import si.krulik.homino.configuration.device.common.Devices;
 import si.krulik.homino.configuration.plate.ActionPlate;
 import si.krulik.homino.configuration.plate.ActionPlateRow;
 import si.krulik.homino.configuration.plate.ActionPlateRowButton;
+import si.krulik.homino.configuration.plate.ClockPlate;
 import si.krulik.homino.configuration.plate.IPulseHandler;
 import si.krulik.homino.configuration.plate.common.IPlateActionHandler;
 import si.krulik.homino.configuration.plate.common.Plate;
@@ -83,7 +77,9 @@ public class Configuration
 
         PhotoResistor ("PhotoRes"), AtticVentilator ("Vent"), AtticDehumidifier ("Dehum"), RecouperatorX151 ("RecoupX151"),
 
-        LudvikPhoneAutorizer ("LudvikPhoneAutorizer"), BarbiPhoneAutorizer ("BarbiPhoneAutorizer");
+        LudvikPhoneAutorizer ("LudvikPhoneAutorizer"), BarbiPhoneAutorizer ("BarbiPhoneAutorizer"),
+
+        Clock("Clock");
 
 
         DeviceDescriptions (String abbreviation)
@@ -231,9 +227,11 @@ public class Configuration
 
                 {
                     // page 1
-                    new PlatePosition ("1", ActionPlateDescriptions.WindowShuttersLowerFloor.name (), 0, 0, 2, 2),
+                    new PlatePosition ("1", DeviceDescriptions.FrontDoor.abbreviation, 0, 0, 2, 2),
 
-                    new PlatePosition ("1", DeviceDescriptions.FrontDoor.abbreviation, 2, 0, 2, 2),
+                    // new PlatePosition ("1", ActionPlateDescriptions.WindowShuttersLowerFloor.name (), 2, 0, 2, 2),
+                    new PlatePosition ("1", DeviceDescriptions.Clock.abbreviation, 2, 0, 2, 1),
+
 
                     new PlatePosition ("1", DeviceDescriptions.HotWaterRecirculationPump.abbreviation, 4, 0, 2, 2),
 
@@ -260,7 +258,7 @@ public class Configuration
                     // page 2
                     new PlatePosition ("2", DeviceDescriptions.HotWaterRecirculationPump.abbreviation, 0, 0, 2, 2),
 
-                    new PlatePosition ("2", DeviceDescriptions.TowelHeater.abbreviation, 2, 0, 2, 2),
+                    new PlatePosition ("2", DeviceDescriptions.Clock.abbreviation, 2, 0, 2, 1),
 
                     new PlatePosition ("2", DeviceDescriptions.OutsideThermometer.abbreviation, 4, 0, 2, 2),
 
@@ -273,6 +271,11 @@ public class Configuration
                     new PlatePosition ("2", DeviceDescriptions.WindowLouvreShutterGallery.abbreviation, 0, 4, 2, 2),
 
                     new PlatePosition ("2", DeviceDescriptions.WindowShutterBedroom.abbreviation, 2, 4, 2, 2),
+
+                    new PlatePosition ("2", DeviceDescriptions.RecouperatorX151.abbreviation, 4, 4, 2, 2),
+
+                    new PlatePosition ("2", DeviceDescriptions.TowelHeater.abbreviation, 0, 6, 2, 2),
+
 
 
                     // page 3
@@ -291,8 +294,6 @@ public class Configuration
                     new PlatePosition ("3", DeviceDescriptions.AtticDehumidifier.abbreviation, 0, 4, 2, 2),
 
                     new PlatePosition ("3", DeviceDescriptions.AtticVentilator.abbreviation, 2, 4, 2, 2),
-
-                    new PlatePosition ("3", DeviceDescriptions.RecouperatorX151.abbreviation, 4, 4, 2, 2),
 
                     new PlatePosition ("3", DeviceDescriptions.ShellLudvikPhone.abbreviation, 0, 6, 2, 2),
 
@@ -437,7 +438,7 @@ public class Configuration
                 new WindowShutterDevice (DeviceDescriptions.WindowShutterBathroom0.abbreviation, DeviceControlNodeId.Main.name (), -1, 97), null),
 
 
-            new TimedRelayPlate (white, orange, lighterOrange, "VODA", R.drawable.faucet, R.drawable.animate, false,
+            new TimedRelayPlate (white, orange, lighterOrange, "VODA", R.drawable.faucet, R.drawable.animate_hot_water_pump, false,
 
                 new TimedRelayDevice (DeviceDescriptions.HotWaterRecirculationPump.abbreviation, DeviceControlNodeId.Main.name (), 60 * 1000), null),
 
@@ -511,7 +512,7 @@ public class Configuration
                 new TimedRelayDevice (DeviceDescriptions.AtticDehumidifier.abbreviation, DeviceControlNodeId.Attic.name (), 3 * 60 * 60 * 1000), null),
 
 
-            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "PREZRAČEVANJE", R.drawable.ventilation, null, false,
+            new TimedRelayPlate (white, darkOrange, lighterDarkOrange, "PREZRAČEVANJE", R.drawable.ventilation_0, R.drawable.animate_ventilation, false,
 
                 new TimedRelayDevice (DeviceDescriptions.RecouperatorX151.abbreviation, DeviceControlNodeId.Attic.name (), 3 * 60 * 1000), null),
 
@@ -524,6 +525,7 @@ public class Configuration
 
                 new AuthorizerDevice (DeviceDescriptions.LudvikPhoneAutorizer.abbreviation, DeviceControlNodeId.LudvikPhone.name (), 0), null),
 
+            new ClockPlate (DeviceDescriptions.Clock.abbreviation, white, blue)
 
         };
 
