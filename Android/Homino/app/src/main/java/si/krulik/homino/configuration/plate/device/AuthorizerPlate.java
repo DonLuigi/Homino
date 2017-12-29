@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import lombok.ToString;
 import si.krulik.homino.R;
+import si.krulik.homino.configuration.Configuration;
 import si.krulik.homino.configuration.device.AuthorizerDevice;
 import si.krulik.homino.configuration.device.common.Device;
 import si.krulik.homino.configuration.plate.common.IPlateActionHandler;
@@ -13,9 +14,9 @@ import si.krulik.homino.configuration.plate.common.Plate;
 
 @ToString (includeFieldNames = true, callSuper = true) public class AuthorizerPlate extends Plate
 {
-    public AuthorizerPlate (String foregroundColor, String backgroundColor, String buttonBackgroundColor, String title, AuthorizerDevice device, IPlateActionHandler messageHandler)
+    public AuthorizerPlate (String foregroundColor, String backgroundColor, String buttonBackgroundColor, String title, int layoutId, Configuration configuration, AuthorizerDevice device, IPlateActionHandler messageHandler)
     {
-        super (device.getId (), title, foregroundColor, backgroundColor, buttonBackgroundColor, messageHandler);
+        super (device.getId (), title, foregroundColor, backgroundColor, buttonBackgroundColor, layoutId, configuration, messageHandler);
         this.device = device;
     }
 

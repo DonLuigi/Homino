@@ -1,5 +1,6 @@
 package si.krulik.homino.configuration.plate.common;
 
+import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.ToString;
+import si.krulik.homino.R;
 import si.krulik.homino.common.logger.CustomLogger;
 import si.krulik.homino.configuration.Configuration;
 import si.krulik.homino.configuration.command.Action;
@@ -17,12 +19,14 @@ import si.krulik.homino.message.MultiMessage;
 
 @ToString (includeFieldNames = true, of = {"id", "title"}) abstract public class Plate
 {
-    public Plate (String id, String title, String foregroundColor, String backgroundColor, String buttonBackgroundColor, IPlateActionHandler actionHandler)
+    public Plate (String id, String title, String foregroundColor, String backgroundColor, String buttonBackgroundColor, int layoutId, Configuration configuration, IPlateActionHandler actionHandler)
     {
         this.id = id;
         this.title = title;
         this.foregroundColor = foregroundColor;
         this.backgroundColor = backgroundColor;
+        this.layoutId = layoutId;
+        this.configuration = configuration;
         this.buttonBackgroundColor = buttonBackgroundColor;
         this.actionHandler = actionHandler;
     }
@@ -37,7 +41,7 @@ import si.krulik.homino.message.MultiMessage;
     }
 
 
-    public MultiMessage handleAction (Action action, Configuration configuration)
+    public MultiMessage handleAction (Action action)
     {
         logger.fine ("Handle action ", action);
         MultiMessage multiMessage = null;
@@ -60,6 +64,14 @@ import si.krulik.homino.message.MultiMessage;
     }
 
 
+    public View inflate (String pageId, LayoutInflater layoutInflater)
+    {
+        View view = layoutInflater.inflate (layoutId, null);
+        viewByPlatePageId.put (pageId, view);
+        return (view);
+    }
+
+
     @Getter protected String id;
 
 
@@ -75,7 +87,13 @@ import si.krulik.homino.message.MultiMessage;
     @Getter protected IPlateActionHandler actionHandler;
 
 
-    @Getter private Map<String, View> viewByPlatePageId = new HashMap ();
+    @Getter protected int layoutId;
+
+
+    @Getter protected Map<String, View> viewByPlatePageId = new HashMap ();
+
+
+    @Getter protected Configuration configuration;
 
 
     private static final CustomLogger logger = CustomLogger.getLogger ("PLATE");
