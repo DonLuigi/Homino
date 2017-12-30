@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import lombok.ToString;
 import si.krulik.homino.R;
+import si.krulik.homino.configuration.Configuration;
 import si.krulik.homino.configuration.device.ShellDevice;
 import si.krulik.homino.configuration.device.common.Device;
 import si.krulik.homino.configuration.plate.common.IPlateActionHandler;
@@ -14,9 +15,9 @@ import si.krulik.homino.configuration.plate.common.PlatePage;
 
 @ToString (includeFieldNames = true, callSuper = true) public class ShellPlate extends Plate
 {
-    public ShellPlate (String foregroundColor, String backgroundColor, String buttonBackgroundColor, String title, ShellDevice device, IPlateActionHandler messageHandler)
+    public ShellPlate (String foregroundColor, String backgroundColor, String buttonBackgroundColor, String title, int layoutId, Configuration configuration, ShellDevice device, IPlateActionHandler messageHandler)
     {
-        super (device.getId (), title, foregroundColor, backgroundColor, buttonBackgroundColor, messageHandler);
+        super (device.getId (), title, foregroundColor, backgroundColor, buttonBackgroundColor, layoutId, configuration, messageHandler);
         this.device = device;
     }
 

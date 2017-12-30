@@ -1,0 +1,10 @@
+<animation-list android:id="@+id/animatedPump"
+    android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/faucet_0" android:duration="100" />
+    <item android:drawable="@drawable/faucet_1" android:duration="100" />
+    <item android:drawable="@drawable/faucet_2" android:duration="100" />
+    <item android:drawable="@drawable/faucet_3" android:duration="100" />
+    <item android:drawable="@drawable/faucet_4" android:duration="100" />
+    <item android:drawable="@drawable/faucet_5" android:duration="100" />
+ </animation-list>

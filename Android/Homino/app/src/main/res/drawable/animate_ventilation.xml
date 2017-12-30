@@ -1,0 +1,10 @@
+<animation-list android:id="@+id/animatedPump"
+    android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ventilation_0" android:duration="100" />
+    <item android:drawable="@drawable/ventilation_1" android:duration="100" />
+    <item android:drawable="@drawable/ventilation_2" android:duration="100" />
+    <item android:drawable="@drawable/ventilation_3" android:duration="100" />
+    <item android:drawable="@drawable/ventilation_4" android:duration="100" />
+    <item android:drawable="@drawable/ventilation_5" android:duration="100" />
+ </animation-list>

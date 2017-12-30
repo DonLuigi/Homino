@@ -8,6 +8,7 @@ import java.util.List;
 import lombok.ToString;
 import si.krulik.homino.R;
 import si.krulik.homino.common.validate.Validate;
+import si.krulik.homino.configuration.Configuration;
 import si.krulik.homino.configuration.device.PhotoResistorDevice;
 import si.krulik.homino.configuration.device.common.Device;
 import si.krulik.homino.configuration.plate.common.IPlateActionHandler;
@@ -19,9 +20,9 @@ import si.krulik.homino.message.MultiMessage;
 
 @ToString (includeFieldNames = true, callSuper = true) public class PhotoResistorPlate extends Plate
 {
-    public PhotoResistorPlate (String foregroundColor, String backgroundColor, String buttonBackgroundColor, String title, PhotoResistorDevice device, IPlateActionHandler messageHandler)
+    public PhotoResistorPlate (String foregroundColor, String backgroundColor, String buttonBackgroundColor, String title, int layoutId, Configuration configuration, PhotoResistorDevice device, IPlateActionHandler messageHandler)
     {
-        super (device.getId (), title, foregroundColor, backgroundColor, buttonBackgroundColor, messageHandler);
+        super (device.getId (), title, foregroundColor, backgroundColor, buttonBackgroundColor, layoutId, configuration, messageHandler);
         this.device = device;
     }
 

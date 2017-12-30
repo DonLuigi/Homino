@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import si.krulik.homino.common.logger.CustomLogger;
@@ -27,6 +28,8 @@ import si.krulik.homino.configuration.device.WindowShutterDevice;
 import si.krulik.homino.configuration.plate.ActionPlate;
 import si.krulik.homino.configuration.plate.ActionPlateRow;
 import si.krulik.homino.configuration.plate.ActionPlateRowButton;
+import si.krulik.homino.configuration.plate.ClockPlate;
+import si.krulik.homino.configuration.plate.RtspPlate;
 import si.krulik.homino.configuration.plate.common.Plate;
 import si.krulik.homino.configuration.plate.common.PlatePage;
 import si.krulik.homino.configuration.plate.common.PlatePosition;
@@ -64,16 +67,6 @@ public class PlatesPageAdapter extends PagerAdapter
         LinearLayout rootLayout = new LinearLayout (container.getContext ());
         rootLayout.setOrientation (LinearLayout.VERTICAL);
         rootLayout.setBackgroundColor (Color.BLACK);
-
-
-        // title
-        //        TextView titleTextView = new TextView (container.getContext ());
-        //        rootLayout.addView (titleTextView);
-        //
-        //        titleTextView.setText (platesPage.getTitle ());
-        //        LinearLayout.LayoutParams titleTextViewLayoutParams = new LinearLayout.LayoutParams (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //        titleTextViewLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-        //        titleTextView.setLayoutParams (titleTextViewLayoutParams);
 
 
         // calculate number of rows and columns and box size
@@ -122,155 +115,17 @@ public class PlatesPageAdapter extends PagerAdapter
             {
                 continue;
             }
-            logger.info ("New plate: " + plate);
 
 
-            // window rolling shutter plate
-            if (plate instanceof WindowShutterPlate)
-            {
-                logger.info ("New window shutter plate: " + plate);
-                WindowShutterPlate windowShutterPlate = (WindowShutterPlate) plate;
-                String id = plate.getId ();
-                WindowShutterDevice windowShutterDevice = windowShutterPlate.getWindowShutterDevice ();
+            // inflate
+            View view = plate.inflate (platePosition.getPlatePageId (), layoutInflater);
 
 
-                // inflate
-                View view;
-                if (windowShutterDevice.getRotationStepPercent () < 0)
-                {
-                    // no rotation => rolling shutter
-                    view = layoutInflater.inflate (R.layout.window_rolling_shutter_layout, null);
-                    // button events
-                    ((ImageButton) view.findViewById (R.id.upButton)).setOnClickListener (new ButtonOnClickListener (Action.Up, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.downButton)).setOnClickListener (new ButtonOnClickListener (Action.Down, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (Action.Stop, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.gridButton)).setOnClickListener (new ButtonOnClickListener (Action.Grid, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.halfButton)).setOnClickListener (new ButtonOnClickListener (Action.Half, plate, configuration, context));
-                    //                    ((ImageButton) view.findViewById (R.id.quarterButton)).setOnClickListener (new ButtonOnClickListener (Action.Quarter, plate, configuration, context));
-                }
-                else
-                {
-                    // rotation => louvre shutter
-                    view = layoutInflater.inflate (R.layout.window_venetian_blind_layout, null);
-                    ((ImageButton) view.findViewById (R.id.upButton)).setOnClickListener (new ButtonOnClickListener (Action.Up, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.downButton)).setOnClickListener (new ButtonOnClickListener (Action.Down, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.stopButton)).setOnClickListener (new ButtonOnClickListener (Action.Stop, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.rotateUpButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateUp, plate, configuration, context));
-                    ((ImageButton) view.findViewById (R.id.rotateDownButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateDown, plate, configuration, context));
-                    //                    ((ImageButton) view.findViewById (R.id.rotateMiddleButton)).setOnClickListener (new ButtonOnClickListener (Action.RotateMidddle, plate, configuration, context));
-                }
-                windowShutterPlate.getViewByPlatePageId ().put (platesPage.getId (), view);
-            }
-
-
-            if (plate instanceof ActionPlate)
-            {
-                ActionPlate actionPlate = (ActionPlate) plate;
-                logger.info ("New action plate: " + actionPlate);
-
-                View view = layoutInflater.inflate (R.layout.action_plate_layout, null);
-                actionPlate.getViewByPlatePageId ().put (platesPage.getId (), view);
-                TableLayout tableLayout = (TableLayout) view.findViewById (R.id.actionPlateLayoutTableView);
-
-
-                for (ActionPlateRow actionPlateRow : actionPlate.getRows ())
-                {
-                    TableRow tableRow = new TableRow (container.getContext ());
-                    tableLayout.addView (tableRow);
-
-                    for (ActionPlateRowButton actionPlateRowButton : actionPlateRow.buttons)
-                    {
-                        if (actionPlateRowButton.getTitle () != null)
-                        {
-                            View buttonView = layoutInflater.inflate (R.layout.action_plate_layout_text_button, null);
-                            TextView rowTextView = (TextView) buttonView.findViewById (R.id.actionPlateLayoutTextButton);
-                            rowTextView.setText (actionPlateRowButton.getTitle ());
-
-                            if (actionPlateRowButton.getWidthMultiplier () != null)
-                            {
-                                rowTextView.getLayoutParams ().width *= actionPlateRowButton.getWidthMultiplier ();
-                            }
-
-                            rowTextView.setOnClickListener (new ButtonOnClickListener (actionPlateRowButton.getAction (), plate, configuration, context));
-
-                            tableRow.addView (buttonView);
-                        }
-                        else if (actionPlateRowButton.getImageSource () != null)
-                        {
-                            View buttonView = layoutInflater.inflate (R.layout.action_plate_layout_image_button, null);
-                            ImageButton imageButton = (ImageButton) buttonView.findViewById (R.id.actionPlateLayoutImageButton);
-                            imageButton.setImageResource (actionPlateRowButton.getImageSource ());
-
-                            if (actionPlateRowButton.getWidthMultiplier () != null)
-                            {
-                                imageButton.getLayoutParams ().width *= actionPlateRowButton.getWidthMultiplier ();
-                            }
-
-                            imageButton.setOnClickListener (new ButtonOnClickListener (actionPlateRowButton.getAction (), plate, configuration, context));
-
-                            tableRow.addView (buttonView);
-                        }
-                    }
-                }
-            }
-
-
-            if (plate instanceof TimedRelayPlate)
-            {
-                TimedRelayPlate timedRelayPlate = (TimedRelayPlate) plate;
-                logger.info ("New timed relay plate: " + timedRelayPlate);
-
-
-                // inflate shutter view
-                View view = layoutInflater.inflate (R.layout.timed_relay_plate, null);
-                timedRelayPlate.getViewByPlatePageId ().put (platesPage.getId (), view);
-
-
-                // button events
-                ((ImageButton) view.findViewById (R.id.startStopButton)).setOnClickListener (new ButtonOnClickListener (Action.StartStop, plate, configuration, context));
-                ((ImageButton) view.findViewById (R.id.lockUnlockButton)).setOnClickListener (new ButtonOnClickListener (Action.LockUnlock, plate, configuration, context));
-            }
-
-
-            if (plate instanceof ThermometerPlate)
-            {
-                logger.info ("Inflate ", plate);
-                View view = layoutInflater.inflate (R.layout.thermometer_plate, null);
-                plate.getViewByPlatePageId ().put (platesPage.getId (), view);
-            }
-
-
-            if (plate instanceof PhotoResistorPlate)
-            {
-                logger.info ("Inflate ", plate);
-                View view = layoutInflater.inflate (R.layout.photo_resistor_plate, null);
-                plate.getViewByPlatePageId ().put (platesPage.getId (), view);
-            }
-
-
-            if (plate instanceof ShellPlate)
-            {
-                logger.info ("Inflate ", plate);
-                View view = layoutInflater.inflate (R.layout.shell_plate, null);
-                plate.getViewByPlatePageId ().put (platesPage.getId (), view);
-            }
-
-
-            if (plate instanceof AuthorizerPlate)
-            {
-                logger.info ("Inflate ", plate);
-                View view = layoutInflater.inflate (R.layout.authorizer_plate, null);
-                plate.getViewByPlatePageId ().put (platesPage.getId (), view);
-            }
-
-            // refresh plate content
+            // refresh
             plate.refresh ();
 
 
             // adjust colors and add plate to grid layout
-            View view = plate.getViewByPlatePageId ().get (platesPage.getId ());
-
-
             GridLayout.LayoutParams params = adjustColorsAndLayout ((ViewGroup) view, platesPage, plate, configuration.getPlatesAndPages ().getPlateBoxHorizontalSizeInPixels (), configuration.getPlatesAndPages ().getPlateBoxVerticalSizeInPixels ());
             gridLayout.addView (view, params);
         }
@@ -364,36 +219,3 @@ public class PlatesPageAdapter extends PagerAdapter
 }
 
 
-class ButtonOnClickListener implements View.OnClickListener
-{
-    public ButtonOnClickListener (Action action, Plate plate, Configuration configuration, Context context)
-    {
-        this.action = action;
-        this.plate = plate;
-        this.configuration = configuration;
-        this.context = context;
-    }
-
-
-    public void onClick (View v)
-    {
-        try
-        {
-            logger.fine ("On click: ", action);
-            MultiMessage multiMessage = plate.handleAction (action, configuration);
-            configuration.flushMessages (multiMessage);
-        }
-        catch (Throwable t)
-        {
-            logger.severe (t, "Exception occured while handling plate action ", action);
-            configuration.error (null, t.getMessage ());
-        }
-    }
-
-
-    private Action action;
-    private Plate plate;
-    private Configuration configuration;
-    private Context context;
-    private static final CustomLogger logger = CustomLogger.getLogger ("BUTTON_ON_CLICK");
-}
