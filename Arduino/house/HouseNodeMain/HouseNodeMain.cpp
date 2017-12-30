@@ -267,9 +267,10 @@ TimedRelayComponent frontDoor (23, LOW, true, 2 * 1000L, 3 * 1000L, &frontDoorPr
 //
 ///////////////////
 //RelayComponent spareRelay1 (23, LOW, true, "spare1");
-RelayComponent eatingRoomLightsRelay (A8, LOW, true, "spare2");
-RelayComponent relayOutsideLights (31, LOW, true, "spare5");
-RelayComponent entryRoomLightsRelay (33, LOW, true, "spare6");
+TimedRelayComponent eatingRoomLightsRelay (A8, LOW, true, 60 * 1000L, 0L, NULL, NULL, whenRunningReportEveryMillis, TIMED_RELAY_COMPONENT_OPTION_NONE, "ERL");
+
+TimedRelayComponent relayOutsideLights (31, LOW, true, 60 * 1000L, 0L, NULL, NULL, whenRunningReportEveryMillis, TIMED_RELAY_COMPONENT_OPTION_NONE, "OutL");
+TimedRelayComponent entryRoomLightsRelay (33, LOW, true, 60 * 1000L, 0L, NULL, NULL, whenRunningReportEveryMillis, TIMED_RELAY_COMPONENT_OPTION_NONE, "EntRL");
 
 RelayComponent spareRelay3 (27, LOW, true, "spare3");
 RelayComponent spareRelay4 (29, LOW, true, "spare4");

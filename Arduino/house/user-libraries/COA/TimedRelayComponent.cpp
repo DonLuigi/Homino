@@ -175,6 +175,8 @@ int TimedRelayComponent::readFromComponent (Message* message)
     {
         reportStatus (message);
     }
+
+    return (ALL_SUBCOMPONENTS);
 }
 
 void TimedRelayComponent::reportStatus (Message* message)
