@@ -1,11 +1,14 @@
 package si.krulik.homino.message;
 
+import java.io.Serializable;
+
 import lombok.Getter;
+import si.krulik.homino.devices.base.DeviceControlNode;
 
 
-public class Message
+public class Message implements Serializable
 {
-    @Getter private String deviceControlNodeId;
+    @Getter private DeviceControlNode deviceControlNode;
 
 
     @Getter private String deviceId;
@@ -14,23 +17,23 @@ public class Message
     @Getter private String[] parts;
 
 
-    public Message (String deviceControlNodeId, String messageAsString)
+    public Message (DeviceControlNode deviceControlNode, String messageAsString)
     {
-        this.deviceControlNodeId = deviceControlNodeId;
+        this.deviceControlNode = deviceControlNode;
         parts = messageAsString.split (fieldDelimiter);
         deviceId = (parts.length > 0 ? parts[0] : null);
     }
 
 
-    public Message (String deviceControlNodeId, String... part)
+    public Message (DeviceControlNode deviceControlNode, String... parts)
     {
-        this.deviceControlNodeId = deviceControlNodeId;
-        parts = part;
-        deviceId = (parts.length > 0 ? parts[0] : null);
+        this.deviceControlNode = deviceControlNode;
+        this.parts = parts;
+        deviceId = (this.parts.length > 0 ? this.parts[0] : null);
     }
 
 
-    @Override public String toString ()
+    public String getContentsAsString ()
     {
         String string = "";
 

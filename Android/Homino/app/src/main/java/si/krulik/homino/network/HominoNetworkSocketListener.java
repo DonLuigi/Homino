@@ -36,7 +36,7 @@ import si.krulik.homino.common.logger.CustomLogger;
                         String peerIpPort = socket.getRemoteSocketAddress ().toString ();
 
                         // create new reader writer, that will put itself into hominoNetworkService.workersByDeviceControlNodeId as soon as it received indentification
-                        new HominoNetworkSocketReaderWriter (null /* needs identification */, peerIpPort, socket, hominoNetworkService);
+                        new HominoNetworkSocketReaderWriter (null /* needs identification */, socket, hominoNetworkService.getCallback ());
                     }
                     catch (Exception e)
                     {
@@ -44,7 +44,7 @@ import si.krulik.homino.common.logger.CustomLogger;
 
                         if (!requestTermination)
                         {
-                            hominoNetworkService.broadcast (new HominoNetworkMessage (null, "localhost:" + port, e.getMessage () + " during listen ", true));
+                            hominoNetworkService.getCallback ().error (null, e, "Exception on port " + port + " during listen");
                             try
                             {
                                 Thread.sleep (500);

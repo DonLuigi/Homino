@@ -7,11 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import si.krulik.homino.common.time.DateInfo;
-import si.krulik.homino.configuration.Configuration;
+import si.krulik.homino.runtime.Runtime;
+
 
 public class TestDateInfo
 {
-    Configuration configuration;
+    Runtime runtime;
 
 
     @Before

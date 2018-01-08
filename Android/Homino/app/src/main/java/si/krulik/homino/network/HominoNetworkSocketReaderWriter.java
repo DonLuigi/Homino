@@ -1,12 +1,11 @@
 package si.krulik.homino.network;
 
-import static si.krulik.homino.Constants.*;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -15,29 +14,26 @@ import lombok.Setter;
 import lombok.ToString;
 import si.krulik.homino.common.logger.CustomLogger;
 import si.krulik.homino.common.validate.Validate;
+import si.krulik.homino.devices.base.DeviceControlNode;
 import si.krulik.homino.message.Message;
 import si.krulik.homino.message.MultiMessage;
 
+import static si.krulik.homino.Constants.*;
+import static si.krulik.homino.runtime.Runtime.*;
 
-@ToString (includeFieldNames = true, of = {"deviceControlNodeIdArg", "deviceControlNodeNetworkAddressArg", "doConnect", "requestTermination"}) public class HominoNetworkSocketReaderWriter
+
+@ToString (includeFieldNames = true, of = {"doConnect", "requestTermination"}) public class HominoNetworkSocketReaderWriter
 {
     // constructor, reader and writer
-    public HominoNetworkSocketReaderWriter (String deviceControlNodeIdArg, String deviceControlNodeNetworkAddressArg, Socket socketArg, HominoNetworkService hominoNetworkServiceArg)
+    public HominoNetworkSocketReaderWriter (final DeviceControlNode deviceControlNode, final Socket socket, IHominoNetworkSocketReaderWriterCallback callback)
     {
-        logger = CustomLogger.getLogger ("HOMINO_SOCKET_RW[" + deviceControlNodeNetworkAddress + "]");
-
-        deviceControlNodeNetworkAddress = deviceControlNodeNetworkAddressArg;
-        deviceControlNodeId = deviceControlNodeIdArg;
-        socket = socketArg;
-        hominoNetworkService = hominoNetworkServiceArg;
+        logger = CustomLogger.getLogger ("HOMINO_SOCKET_RW[" + deviceControlNode.getNetworkAddress () + "]");
+        this.deviceControlNode = deviceControlNode;
+        this.socket = socket;
+        this.callback = callback;
 
 
-        String[] split = deviceControlNodeNetworkAddress.split (":");
-        Validate.isTrue (split.length == 2, "Invalid internet address format ", deviceControlNodeNetworkAddress);
-        deviceControlNodeNetworkHost = split[0];
-        deviceControlNodePort = Integer.parseInt (split[1]);
-
-        doConnect = (socketArg == null);
+        doConnect = (socket == null);
         logger.fine ("Set up ", this);
 
 
@@ -54,27 +50,31 @@ import si.krulik.homino.message.MultiMessage;
                     {
                         if (connect (forceConnect, READER))
                         {
-                            String received = readInternal ();
+                            MultiMessage received = readInternal ();
                             logger.fine ("Read internal returned");
                             forceConnect = false;
-                            if (deviceControlNodeId == null)
+                            if (deviceControlNode == null)
                             {
-                                String[] parts = new MultiMessage (null, received).getMessages ().get (0).getParts ();
-                                if (parts.length == 2 && parts[0].equals (IDENT))
+                                for (Iterator<Message> iterator = received.getMessages ().iterator (); iterator.hasNext (); )
                                 {
-                                    deviceControlNodeId = parts[1];
-                                    logger.fine (deviceControlNodeNetworkAddress, " identified as ", deviceControlNodeId);
+                                    Message message = iterator.next ();
+                                    String[] parts = message.getParts ();
+                                    if (parts.length == 2 && parts[0].equals (CONNECT))
+                                    {
+                                        String deviceControlNodeId = parts[1];
 
-                                    hominoNetworkService.putHominoNetworkSocketReaderWriter (deviceControlNodeId, HominoNetworkSocketReaderWriter.this);
+                                        HominoNetworkSocketReaderWriter.this.deviceControlNode = devices.getDeviceControlNodesById ().get (deviceControlNodeId);
+                                        HominoNetworkSocketReaderWriter.this.callback.registerHominoNetworkSocketReaderWriter (HominoNetworkSocketReaderWriter.this.deviceControlNode, HominoNetworkSocketReaderWriter.this);
+                                        logger.fine ("Connection identified as ", deviceControlNodeId);
+                                    }
                                 }
-                                else
-                                {
-                                    Validate.fail ("Missing identification for device control node ", deviceControlNodeNetworkAddress);
-                                }
+
+                                Validate.notNull (HominoNetworkSocketReaderWriter.this.deviceControlNode, "Missing connection identification");
                             }
                             else
                             {
-                                HominoNetworkSocketReaderWriter.this.hominoNetworkService.broadcast (new HominoNetworkMessage (deviceControlNodeId, deviceControlNodeNetworkAddress, received, false));
+                                logger.fine ("Received: ", received);
+                                HominoNetworkSocketReaderWriter.this.callback.receive (received);
                             }
                         }
                     }
@@ -88,7 +88,7 @@ import si.krulik.homino.message.MultiMessage;
                             forceConnect = true;
                             if (!requestTermination)
                             {
-                                HominoNetworkSocketReaderWriter.this.hominoNetworkService.broadcast (new HominoNetworkMessage (deviceControlNodeId, deviceControlNodeNetworkAddress, e.getMessage () + " during read ", true));
+                                HominoNetworkSocketReaderWriter.this.callback.error (HominoNetworkSocketReaderWriter.this.deviceControlNode, e, "Exception during read");
                             }
                         }
                         else
@@ -114,15 +114,15 @@ import si.krulik.homino.message.MultiMessage;
                 {
                     try
                     {
-                        String message = writerMessageQueue.poll (1000, TimeUnit.MILLISECONDS);
-                        if (message == null)
+                        MultiMessage multiMessage = writerMessageQueue.poll (1000, TimeUnit.MILLISECONDS);
+                        if (multiMessage == null)
                         {
                             continue;
                         }
 
                         if (connect (forceConnect, "WRITER"))
                         {
-                            writeInternal (message);
+                            writeInternal (multiMessage);
                         }
                     }
                     catch (Exception e)
@@ -130,7 +130,7 @@ import si.krulik.homino.message.MultiMessage;
                         logger.severe (e, "Writer exception");
 
                         forceConnect = true;
-                        HominoNetworkSocketReaderWriter.this.hominoNetworkService.broadcast (new HominoNetworkMessage (deviceControlNodeId, deviceControlNodeNetworkAddress, e.getMessage () + " during write ", true));
+                        HominoNetworkSocketReaderWriter.this.callback.error (HominoNetworkSocketReaderWriter.this.deviceControlNode, e, "Exception during write");
                     }
                 }
                 logger.info ("Write thread terminated");
@@ -140,16 +140,16 @@ import si.krulik.homino.message.MultiMessage;
     }
 
 
-    public void write (String message)
+    public void write (MultiMessage multiMessage)
     {
         try
         {
-            writerMessageQueue.put (message);
+            writerMessageQueue.put (multiMessage);
         }
         catch (InterruptedException e)
         {
             logger.severe (e, "Write queue overflow");
-            HominoNetworkSocketReaderWriter.this.hominoNetworkService.broadcast (new HominoNetworkMessage (deviceControlNodeId, deviceControlNodeNetworkAddress, "Write queue overflow", true));
+            HominoNetworkSocketReaderWriter.this.callback.error (HominoNetworkSocketReaderWriter.this.deviceControlNode, e, "Write queue overflow");
         }
     }
 
@@ -169,7 +169,7 @@ import si.krulik.homino.message.MultiMessage;
     }
 
 
-    private BlockingQueue<String> writerMessageQueue = new ArrayBlockingQueue (5);
+    private BlockingQueue<MultiMessage> writerMessageQueue = new ArrayBlockingQueue (5);
 
 
     synchronized private boolean connect (boolean force, String threadName)
@@ -184,7 +184,7 @@ import si.krulik.homino.message.MultiMessage;
             }
             catch (Exception e)
             {
-                hominoNetworkService.broadcast (new HominoNetworkMessage (deviceControlNodeId, deviceControlNodeNetworkAddress, "Failed to create data streams on provided socket", true));
+                HominoNetworkSocketReaderWriter.this.callback.error (HominoNetworkSocketReaderWriter.this.deviceControlNode, e, "Failed to create data streams on provided socket");
                 return (false);
             }
         }
@@ -210,7 +210,7 @@ import si.krulik.homino.message.MultiMessage;
             if (socket == null)
             {
                 logger.fine ("Connecting on thread ", threadName);
-                socket = new Socket (deviceControlNodeNetworkHost, deviceControlNodePort);
+                socket = new Socket (deviceControlNode.getNetworkHost (), deviceControlNode.getNetworkPort ());
                 // TODO: socket.setSoTimeout ();
                 logger.fine ("Connected");
                 socketDataInputStream = new DataInputStream (socket.getInputStream ());
@@ -225,7 +225,7 @@ import si.krulik.homino.message.MultiMessage;
                 // close socket
                 close ();
                 logger.fine ("Re-connecting");
-                socket = new Socket (deviceControlNodeNetworkHost, deviceControlNodePort);
+                socket = new Socket (deviceControlNode.getNetworkHost (), deviceControlNode.getNetworkPort ());
                 logger.fine ("Connected");
                 socketDataInputStream = new DataInputStream (socket.getInputStream ());
                 socketDataOutputStream = new DataOutputStream (socket.getOutputStream ());
@@ -254,13 +254,13 @@ import si.krulik.homino.message.MultiMessage;
             logger.severe (e, "Failed to connect on thread ", threadName);
             socket = null;
             logger.fine ("Connect returning false");
-            hominoNetworkService.broadcast (new HominoNetworkMessage (deviceControlNodeId, deviceControlNodeNetworkAddress, "Failed to connect to control node ", true));
+            HominoNetworkSocketReaderWriter.this.callback.error (HominoNetworkSocketReaderWriter.this.deviceControlNode, e, "Failed to connect to control node");
             return (false);
         }
     }
 
 
-    private String readInternal () throws IOException
+    private MultiMessage readInternal () throws IOException
     {
         // magic cookie
         logger.fine ("Reading");
@@ -272,7 +272,7 @@ import si.krulik.homino.message.MultiMessage;
         {
             if (receivedMagicCookie[i] != messageMagicCookie[i])
             {
-                throw new IOException ("Invalid message cookie from " + deviceControlNodeNetworkAddress);
+                throw new IOException ("Invalid message cookie from " + deviceControlNode.getId ());
             }
         }
 
@@ -287,16 +287,18 @@ import si.krulik.homino.message.MultiMessage;
 
         String payloadAsString = new String (payload);
         logger.fine ("Received payload: '", payloadAsString, "'");
-        return (payloadAsString);
+
+        return (new MultiMessage (HominoNetworkSocketReaderWriter.this.deviceControlNode, payloadAsString));
     }
 
 
-    private void writeInternal (String messagePayload) throws IOException
+    private void writeInternal (MultiMessage multiMessage) throws IOException
     {
-        logger.fine ("Write: '", messagePayload, "'");
+        logger.fine ("Write: '", multiMessage, "'");
 
 
-        byte[] buffer = composeRawMessage (messagePayload);
+
+        byte[] buffer = composeRawMessage (multiMessage.getContentsAsString ());
 
 
         logger.fine ("Buffer length ", buffer.length);
@@ -335,10 +337,7 @@ import si.krulik.homino.message.MultiMessage;
     @Setter private boolean requestTermination = false;
 
 
-    private String deviceControlNodeId;
-    private String deviceControlNodeNetworkAddress;
-    private String deviceControlNodeNetworkHost;
-    private int deviceControlNodePort;
+    private DeviceControlNode deviceControlNode;
 
     private boolean doConnect;
     private Socket socket;
@@ -346,8 +345,9 @@ import si.krulik.homino.message.MultiMessage;
     private DataOutputStream socketDataOutputStream;
 
     private CustomLogger logger;
-    private HominoNetworkService hominoNetworkService;
+    private IHominoNetworkSocketReaderWriterCallback callback;
     private long lastSocketConnectMillis = 0;
+
 
     final byte[] messageMagicCookie = {'M', 'G', 'C', 'K'};
 }

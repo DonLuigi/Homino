@@ -1,13 +1,13 @@
 package si.krulik.homino.common.validate;
 
-import static si.krulik.homino.common.string.StringUtil.vaToString;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import static si.krulik.homino.common.string.StringUtil.*;
 
 
 public class Validate
