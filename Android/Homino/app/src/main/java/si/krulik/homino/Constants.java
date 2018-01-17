@@ -4,6 +4,8 @@ public class Constants
 {
     static final public String LOCALHOST = "localhost";
     static final public String CONNECT = "CONNECT";
+    static final public String DISCONNECT = "DISCONNECT";
+    static final public String NETWORK = "NETWORK";
     static final public String READER = "READER";
     static final public String NONE = "NONE";
     static final public String FULL = "FULL";

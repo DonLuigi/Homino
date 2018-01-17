@@ -10,7 +10,7 @@ import si.krulik.homino.common.validate.Validate;
 import static si.krulik.homino.Constants.*;
 
 
-@ToString (includeFieldNames = true) public class DeviceControlNode implements Serializable
+@ToString (includeFieldNames = true, of = {"id", "networkAddress", "ssid"}) public class DeviceControlNode implements Serializable
 {
     public DeviceControlNode (String id, String networkAddress, String ssid)
     {

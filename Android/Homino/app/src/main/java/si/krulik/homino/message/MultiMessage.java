@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.Getter;
+import lombok.ToString;
 import si.krulik.homino.devices.base.DeviceControlNode;
 
-
+@ToString (includeFieldNames = true, of = {"messages"})
 public class MultiMessage implements Serializable
 {
     @Getter private List<Message> messages = new ArrayList ();

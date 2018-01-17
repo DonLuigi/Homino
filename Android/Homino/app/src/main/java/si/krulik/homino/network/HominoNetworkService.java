@@ -28,9 +28,6 @@ public class HominoNetworkService extends Service
 {
     public void write (MultiMessage multiMessage)
     {
-        logger.fine ("Write: ", multiMessage);
-
-
         // locate reader/writer
         for (Map.Entry<DeviceControlNode, MultiMessage> entry : multiMessage.getMessagesPerDeviceControlNodeId ().entrySet ())
         {
@@ -41,9 +38,11 @@ public class HominoNetworkService extends Service
             if (hominoNetworkSocketReaderWriter == null)
             {
                 // ignore messages to non connected control nodes
+                logger.fine ("Write ignoring: ", multiMessagePerDeviceControlId);
                 continue;
             }
 
+            logger.fine ("Write: ", multiMessagePerDeviceControlId);
             hominoNetworkSocketReaderWriter.write (multiMessagePerDeviceControlId);
         }
     }
@@ -55,7 +54,7 @@ public class HominoNetworkService extends Service
         HominoNetworkSocketReaderWriter hominoNetworkSocketReaderWriter = hominoNetworkSocketReaderWritersByDeviceControlNodeId.get (deviceControlNode.getId ());
         if (hominoNetworkSocketReaderWriter != null)
         {
-            logger.info ("Existing ", hominoNetworkSocketReaderWriter);
+            // logger.info ("Existing ", hominoNetworkSocketReaderWriter);
             return (hominoNetworkSocketReaderWriter);
         }
 
@@ -68,11 +67,10 @@ public class HominoNetworkService extends Service
             {
                 hominoNetworkSocketListener = new HominoNetworkSocketListener (deviceControlNode.getNetworkPort (), this);
                 hominoNetworkSocketListenerByPort.put (deviceControlNode.getNetworkPort (), hominoNetworkSocketListener);
-                logger.fine ("New ", hominoNetworkSocketListener);
             }
             else
             {
-                logger.fine ("Existig ", hominoNetworkSocketListener, ", waiting for connection");
+                // logger.fine ("Existig ", hominoNetworkSocketListener, ", waiting for connection");
             }
 
             return (null);
@@ -84,7 +82,6 @@ public class HominoNetworkService extends Service
         {
             hominoNetworkSocketReaderWriter = new HominoNetworkSocketReaderWriter (deviceControlNode, null, callback);
             hominoNetworkSocketReaderWritersByDeviceControlNodeId.put (deviceControlNode.getId (), hominoNetworkSocketReaderWriter);
-            logger.info ("New ", hominoNetworkSocketReaderWriter);
             return (hominoNetworkSocketReaderWriter);
         }
     }

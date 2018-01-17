@@ -23,6 +23,9 @@ import lombok.ToString;
     @Getter @Setter private boolean automationEnabled;
 
 
+    @Getter @Setter private int defaultPlatePage;
+
+
     public Settings (Context context)
     {
         sharedPreferences = context.getSharedPreferences ("si.krulik.homino.sharedPreferences.settings", Context.MODE_PRIVATE);
@@ -35,6 +38,9 @@ import lombok.ToString;
 
 
         automationEnabled = sharedPreferences.getBoolean (AUTOMATION_ENABLED, false);
+
+
+        defaultPlatePage = sharedPreferences.getInt (DEFAULT_PLATE_PAGE, -1);
     }
 
 
@@ -52,6 +58,9 @@ import lombok.ToString;
         editor.putBoolean (AUTOMATION_ENABLED, automationEnabled);
 
 
+        editor.putInt (DEFAULT_PLATE_PAGE, defaultPlatePage);
+
+
         editor.commit ();
     }
 
@@ -60,5 +69,6 @@ import lombok.ToString;
     static private final String KEEP_CONNECTION_TO_DEVICE_CONTROL_NODE_IDS = "KEEP_CONNECTION_TO_DEVICE_CONTROL_NODE_IDS";
     static private final String KEEP_CONNECTION_AS_DEVICE_CONTROL_NODE_ID = "KEEP_CONNECTION_AS_DEVICE_CONTROL_NODE_ID";
     static private final String AUTOMATION_ENABLED = "AUTOMATION_ENABLED";
+    static private final String DEFAULT_PLATE_PAGE = "DEFAULT_PLATE_PAGE";
     private static Set<String> empty = new HashSet ();
 }

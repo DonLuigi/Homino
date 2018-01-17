@@ -53,9 +53,11 @@ public class Runtime
 
     static public DeviceControlNode atticArduinoDeviceControlNode = new DeviceControlNode ("AtticArduino", "192.168.1.51:5555", ssid);
 
+    // static public DeviceControlNode groundFloorAndroidDeviceControlNode = new DeviceControlNode ("GroundFloorAndroid", "192.168.1.150:5555", ssid);
     static public DeviceControlNode groundFloorAndroidDeviceControlNode = new DeviceControlNode ("GroundFloorAndroid", "192.168.1.152:5555", ssid);
 
-    static public DeviceControlNode firstFloorAndroidDeviceControlNode = new DeviceControlNode ("FirstFloorAndroid", "192.168.1.153:5555", ssid);
+
+    static public DeviceControlNode firstFloorAndroidDeviceControlNode = new DeviceControlNode ("FirstFloorAndroid", "192.168.1.151:5555", ssid);
 
     static public DeviceControlNode ludvikPhoneDeviceControlNode = new DeviceControlNode ("LudvikPhone", "localhost:5555", null);
 
@@ -537,6 +539,10 @@ public class Runtime
     static public int keepConnectionToDeviceControlNodesEverySec = 120;
 
 
+    // default plates page
+    static public long switchToDefaultPlatesPageTimeoutSeconds = 120;
+
+
     // preferences
     static public SharedPreferences runtimeSharedPreferences;
 
@@ -551,12 +557,16 @@ public class Runtime
 
     static public void flushMessages (MultiMessage multiMessage)
     {
-        hominoNetworkService.write (multiMessage);
+        if (!multiMessage.getMessages ().isEmpty ())
+        {
+            hominoNetworkService.write (multiMessage);
+        }
     }
 
 
     // errors
     static public List<Error> errors = new LinkedList ();
+    static private int maxNumberOfErrors = 100;
 
 
     static public void logError (Error error)
@@ -564,7 +574,7 @@ public class Runtime
         logger.fine ("ERROR: ", error);
 
         errors.add (error);
-        while (errors.size () > 100)
+        while (errors.size () > maxNumberOfErrors)
         {
             errors.remove (errors.size () - 1);
         }

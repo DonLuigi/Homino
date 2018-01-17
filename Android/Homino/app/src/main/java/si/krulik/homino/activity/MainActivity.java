@@ -3,7 +3,6 @@ package si.krulik.homino.activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.widget.LinearLayout;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Logger;
 
 import si.krulik.homino.common.logger.CustomLogger;
 import si.krulik.homino.runtime.Runtime;
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         root.setLayoutParams (new LinearLayout.LayoutParams (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
 
-        ViewPager viewPager = new ViewPager (this);
+        viewPager = new ViewPager (this);
         viewPager.setLayoutParams (new ViewPager.LayoutParams ());
 
         viewPager.setAdapter (new PlatesPageAdapter ());
@@ -125,6 +123,12 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override public void onUserInteraction ()
+    {
+        lastUserInteractionSeconds = System.currentTimeMillis () / 1000;
+    }
+
+
     private void pulse ()
     {
         logger.fine ("Pulsing...");
@@ -142,6 +146,18 @@ public class MainActivity extends AppCompatActivity
 
         // pulse
         Runtime.pulseHandler.pulse (now);
+
+
+        // default plates page
+        if (lastUserInteractionSeconds > 0 && now.getTime () / 1000 - lastUserInteractionSeconds > switchToDefaultPlatesPageTimeoutSeconds)
+        {
+            int defaultPlatePage = settings.getDefaultPlatePage ();
+            if (defaultPlatePage >= 0)
+            {
+                viewPager.setCurrentItem (defaultPlatePage);
+            }
+            lastUserInteractionSeconds = 0;
+        }
 
         Runtime.log (now);
     }
@@ -198,4 +214,6 @@ public class MainActivity extends AppCompatActivity
 
     private final static CustomLogger logger = CustomLogger.getLogger (MainActivity.class.getName ());
     private Timer pulseTimer;
+    private long lastUserInteractionSeconds;
+    private ViewPager viewPager;
 }

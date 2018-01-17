@@ -9,13 +9,14 @@ import lombok.ToString;
 import si.krulik.homino.common.logger.CustomLogger;
 
 
-@ToString (includeFieldNames = true, of = {"port"}) public class HominoNetworkSocketListener
+@ToString (includeFieldNames = true, of = {"port", "requestTermination"}) public class HominoNetworkSocketListener
 {
     public HominoNetworkSocketListener (final int port, final HominoNetworkService hominoNetworkService)
     {
         logger = CustomLogger.getLogger ("HOMINO_SOCKET_LISTENER[" + port + "]");
         this.port = port;
         this.hominoNetworkService = hominoNetworkService;
+        logger.fine ("Setup ", this);
 
 
         // listen thread

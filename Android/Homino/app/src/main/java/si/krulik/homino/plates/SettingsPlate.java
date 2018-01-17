@@ -26,7 +26,7 @@ import si.krulik.homino.plates.base.Plate;
 import si.krulik.homino.settings.Settings;
 
 import static si.krulik.homino.runtime.Runtime.*;
-
+import static si.krulik.homino.Constants.*;
 
 
 @ToString (includeFieldNames = true, callSuper = true) public class SettingsPlate extends Plate
@@ -73,6 +73,10 @@ import static si.krulik.homino.runtime.Runtime.*;
 
                                 newSettings.setKeepConnectionAsDeviceControlNodeId (((Spinner) alertDialog.findViewById (R.id.keepConnectionAsSpinner)).getSelectedItem ().toString ());
                                 newSettings.setKeepConnectionToDeviceControlNodeIds (new HashSet (((MultiSelectionSpinner) alertDialog.findViewById (R.id.keepConnectionWithSpinner)).getSelectedStrings ()));
+
+                                int selectedItemPosition = ((Spinner) alertDialog.findViewById (R.id.defaultPlatePageSpinner)).getSelectedItemPosition ();
+                                newSettings.setDefaultPlatePage (selectedItemPosition > 0 ? selectedItemPosition - 1 : -1);
+
                                 newSettings.setAutomationEnabled (((Switch) alertDialog.findViewById (R.id.automationEnabledSwitch)).isChecked ());
 
                                 newSettings.saveToSharedPreferences ();
@@ -127,6 +131,24 @@ import static si.krulik.homino.runtime.Runtime.*;
                         {
                             controlDeviceNodeIdSpinner.setSelection (position);
                         }
+
+
+                        // default plate
+                        ArrayList<String> platePages = new ArrayList ();
+                        platePages.add (NONE);
+                        for (int i = 1; i <= platesAndPages.getPlatePages ().size (); i++)
+                        {
+                            platePages.add (Integer.toString (i));
+                        }
+
+                        Spinner defaultPlatePageSpinner = (Spinner) dialogView.findViewById (R.id.defaultPlatePageSpinner);
+                        defaultPlatePageSpinner.setAdapter ( //
+                            new ArrayAdapter<String> ( //
+                                Runtime.context, //
+                                android.R.layout.simple_spinner_item, //
+                                platePages));
+
+                        defaultPlatePageSpinner.setSelection (newSettings.getDefaultPlatePage () >= 0 ? newSettings.getDefaultPlatePage () + 1 : 0);
 
 
                         // automation
