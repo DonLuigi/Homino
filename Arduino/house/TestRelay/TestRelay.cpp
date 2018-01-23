@@ -1,8 +1,8 @@
 #include <arduino.h>
 #include <limits.h>
 
-int minPin = 35;
-int maxPin = minPin + 4 * 2;
+int minPin = 2;
+int maxPin = minPin + 4;
 
 void setup ()
 {
@@ -18,7 +18,7 @@ void setup ()
 
 void loop ()
 {
-    if (1)
+    if (0)
     {
         for (int pin = minPin; pin <= maxPin; pin++)
         {
@@ -33,7 +33,7 @@ void loop ()
         delay (2500);
     }
 
-    if (0)
+    if (1)
     {
         for (int pin = minPin; pin <= maxPin; pin++)
         {

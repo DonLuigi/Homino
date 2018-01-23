@@ -3,9 +3,9 @@
 #include <DallasTemperatureComponent.h>
 #include <DhtTemperatureComponent.h>
 #include <TimedRelayComponent.h>
-#include <PhotoResistorComponent.h>
 #include <HardwareSerialComponent.h>
 #include <EthernetW5100Component.h>
+#include <PhotoSensorComponent.h>
 
 ///////////////////
 //
@@ -15,7 +15,6 @@
 #define ENABLE_ETHERNET 1
 #define ENABLE_SERIAL 1
 const unsigned long whenRunningReportEveryMillis = 500; // report every millis when shutter is running
-
 
 ///////////////////
 //
@@ -28,10 +27,10 @@ DhtTemperatureComponent outsideThermometer (43, "OutTemp");
 
 ///////////////////
 //
-// photo resistor
+// photo sensor
 //
 ///////////////////
-PhotoResistorComponent photoResistorComponent (A15, 10, 60 * 1000L, "PhotoRes");
+PhotoSensorComponent photoSensorComponent (A15, 10, 60 * 1000L, "PhotoRes");
 
 ///////////////////
 //
@@ -83,7 +82,7 @@ Message outboundMessage (outboundMessageBuffer, MESSAGE_BUFFER_SIZE);
 //
 ///////////////////
 Component* components[] =
-{ &atticThermometer, &outsideThermometer, &recouperatorOutsideThermometer, &photoResistorComponent, &ventilator, &dehumidifier, &recouperatorX151, &spareRelay, NULL };
+{ &atticThermometer, &outsideThermometer, &recouperatorOutsideThermometer, &photoSensorComponent, &ventilator, &dehumidifier, &recouperatorX151, &spareRelay, NULL };
 
 Component* commandComponents[] =
 {
@@ -115,6 +114,8 @@ void setup ()
     Serial.setTimeout (5000);
 #endif
     shell.setup ();
+
+    analogReference (INTERNAL1V1);
 }
 
 void loop ()

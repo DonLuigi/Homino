@@ -1,13 +1,13 @@
-#ifndef PHOTO_RESISTOR_COMPONENT_H
-#define PHOTO_RESISTOR_COMPONENT_H
+#ifndef PHOTO_SENSOR_COMPONENT_H
+#define PHOTO_SENSOR_COMPONENT_H
 
 #include <Component.h>
 
-class PhotoResistorComponent: public virtual Component
+class PhotoSensorComponent: public virtual Component
 {
     public:
         // component
-        PhotoResistorComponent (uint8_t pin, uint32_t sampleEveryMillis, uint32_t sampleDurationMillis, const char* name);
+        PhotoSensorComponent (uint8_t pin, uint32_t sampleEveryMillis, uint32_t sampleDurationMillis, const char* name);
         void setup ();
         void writeToComponent (Command* command, Message* message, int subcomponent);
         int readFromComponent (Message* message);

@@ -1,6 +1,6 @@
 #include "DallasTemperature.h"
 
-OneWire oneWire (33);
+OneWire oneWire (2);
 DallasTemperature dallasTemperature (&oneWire);
 int i = 0;
 
