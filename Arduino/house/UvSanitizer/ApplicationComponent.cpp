@@ -1,12 +1,3 @@
-/*
- P crpanje zalogovnika 35
- P razlika vklop zalogovnika 20
- P vklop bojlerja 45
- P izklop bojlerja 80
- P razlika vklop bojlerja 1
- P histereza 1
- */
-
 #include "ApplicationComponent.h"
 
 #include <Arduino.h>

@@ -7,20 +7,22 @@
 
 #define ENABLE_SERIAL 1
 
-ButtonComponent triggerButton (4, 50, "triggerButton");
+ButtonComponent triggerButton1 (4, 50, "triggerButton1");
+ButtonComponent triggerButton2 (4, 50, "triggerButton2");
 
 // relays
-TimedRelayComponent lightTimedRelayComponent (2, LOW, true, 20L * 60 * 1000, 0, &triggerButton, NULL, 0, TIMED_RELAY_COMPONENT_OPTION_NONE, "relay");
+TimedRelayComponent lightTimedRelay1Component (2, LOW, true, 20L * 60 * 1000, 0, &triggerButton1, NULL, 0, TIMED_RELAY_COMPONENT_OPTION_NONE, "relay1");
+TimedRelayComponent lightTimedRelay2Component (5, LOW, true, 20L * 60 * 1000, 0, &triggerButton2, NULL, 0, TIMED_RELAY_COMPONENT_OPTION_NONE, "relay2");
 
 // lcd
 LiquidCrystalI2CComponent lcd (0x27, 16, 2, 20 * 1000L, 500L, 100, "lcd");
 
 // application
-ApplicationComponent application (&lightTimedRelayComponent, &lcd, "application");
+ApplicationComponent application (&lightTimedRelay1Component, &lcd, "application");
 
 // shell
 Component* components[] =
-{ &lightTimedRelayComponent, &application, &lcd, NULL };
+{ &lightTimedRelay1Component, &lightTimedRelay2Component, &application, &lcd, NULL };
 Shell shell (components, NULL, NULL, NULL, 100, "shell");
 
 void setup ()

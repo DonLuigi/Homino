@@ -1,15 +1,15 @@
 #include <arduino.h>
 #include <limits.h>
 
-int minPin = 2;
-int maxPin = minPin + 4;
+int pins[]
+{ 2, 5 };
 
 void setup ()
 {
-    for (int i = minPin; i <= maxPin; i++)
+    for (uint8_t i = 0; i <= sizeof(pins) / sizeof(pins[0]); i++)
     {
-        pinMode (i, OUTPUT);
-        digitalWrite (i, HIGH);
+        pinMode (pins[i], OUTPUT);
+        digitalWrite (pins[i], HIGH);
     }
 
     Serial.begin (115200);
@@ -18,33 +18,33 @@ void setup ()
 
 void loop ()
 {
-    if (0)
+    if (1)
     {
-        for (int pin = minPin; pin <= maxPin; pin++)
+        for (uint8_t i = 0; i <= sizeof(pins) / sizeof(pins[0]); i++)
         {
-            digitalWrite (pin, LOW);
+            digitalWrite (pins[i], LOW);
         }
         delay (2500);
 
-        for (int pin = minPin; pin <= maxPin; pin++)
+        for (uint8_t i = 0; i <= sizeof(pins) / sizeof(pins[0]); i++)
         {
-            digitalWrite (pin, HIGH);
+            digitalWrite (pins[i], HIGH);
         }
         delay (2500);
     }
 
-    if (1)
+    if (0)
     {
-        for (int pin = minPin; pin <= maxPin; pin++)
+        for (uint8_t i = 0; i <= sizeof(pins) / sizeof(pins[0]); i++)
         {
-            Serial.println (pin);
+            Serial.println (pins[i]);
 
-            digitalWrite (pin, LOW);
+            digitalWrite (pins[i], LOW);
 
             char buffer[1];
             Serial.readBytesUntil ('\r', buffer, 1);
 
-            digitalWrite (pin, HIGH);
+            digitalWrite (pins[i], HIGH);
         }
     }
 }
