@@ -36,7 +36,9 @@ void TemperatureComponent::reportStatus (Message* message)
     COA_DEBUG(F("TEMP[%s]:REPORT:OK=%d"), name, ok);
     if (ok)
     {
-        message->append ("%s,STATUS,%d.%01d", name, (int) temperature, ((int) (temperature * 100)) % 100);
+        char buffer[8];
+        dtostrf (temperature, 0, 1, buffer);
+        message->append ("%s,STATUS,%s", name, buffer);
         if (humidity >= 0 && humidity <= 100)
         {
             message->append (",%d", (int) humidity);

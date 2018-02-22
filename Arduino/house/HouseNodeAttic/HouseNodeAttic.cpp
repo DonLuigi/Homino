@@ -50,7 +50,7 @@ TimedRelayComponent spareRelay (37, LOW, true, 60 * 1000L, 0L, NULL, NULL, whenR
 #if ENABLE_ETHERNET
 byte mac[] =
 { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE };
-IPAddress ip (192, 168, 1, 51);
+IPAddress ip (192, 168, 0, 51);
 EthernetW5100Component ethernetServer (mac, &ip, 5555, "eth");
 #endif
 
